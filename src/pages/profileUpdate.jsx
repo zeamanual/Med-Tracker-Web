@@ -2,7 +2,7 @@ import { ArrowBack, Expand, Visibility, VisibilityOff } from '@mui/icons-materia
 import { Alert, Box, Button, CircularProgress, IconButton, InputAdornment, MenuItem, Modal, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { resetLoginFormStatus, userLogin } from '../state/slices/user'
+import { resetLoginFormStatus, resetProfileUpdateFormStatus, userLogin, userProfileUpdate } from '../state/slices/user'
 
 function ProfileUpdate() {
 
@@ -332,10 +332,6 @@ function ProfileUpdate() {
     }
 
 
-    // /////////////////////////////////////////////////////////////////////////////////////
-
-
-
     let [fieldsValue, setFieldsValue] = React.useState({
         firstName: { value: '', msg: '', changeHandler: handleFirstNameChange },
         lastName: { value: '', msg: '', changeHandler: handleLastNameChange },
@@ -376,7 +372,12 @@ function ProfileUpdate() {
             }
         }
         if (isFormValid) {
-            console.log('form submitted')
+            let profileInformation = {}
+            Object.keys(fieldsValue).forEach((fieldName)=>{
+                profileInformation[fieldName]=fieldsValue[fieldName].value
+            })
+            console.log('form submitted',profileInformation)
+            dispatch(userProfileUpdate(profileInformation))
         } else {
             console.log('form not submitted')
         }
@@ -384,7 +385,7 @@ function ProfileUpdate() {
 
 
     let handleModalClose = () => {
-        dispatch(resetLoginFormStatus())
+        dispatch(resetProfileUpdateFormStatus())
     }
 
 
@@ -393,9 +394,9 @@ function ProfileUpdate() {
 
             {/* log in state UI */}
             <Modal
-                open={userState.userLogIn.loading ||
-                    userState.userLogIn.errorMsg ||
-                    userState.userLogIn.successMsg
+                open={userState.profileUpdate.loading ||
+                    userState.profileUpdate.errorMsg ||
+                    userState.profileUpdate.successMsg
                 }
                 onClose={handleModalClose}
             >
@@ -408,8 +409,8 @@ function ProfileUpdate() {
                     alignItems='center'
                     sx={{ transform: 'translate(-50%,-50%)' }}
                 >
-                    {userState.userLogIn.errorMsg && <Alert severity='error'>{userState.userLogIn.errorMsg}</Alert>}
-                    {userState.userLogIn.loading && <CircularProgress color='primary' />}
+                    {userState.profileUpdate.errorMsg && <Alert severity='error'>{userState.profileUpdate.errorMsg}</Alert>}
+                    {userState.profileUpdate.loading && <CircularProgress color='primary' />}
                 </Box>
             </Modal>
 

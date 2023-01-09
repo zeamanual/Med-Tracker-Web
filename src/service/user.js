@@ -12,3 +12,11 @@ export let loginAPI = async (username,password)=>{
         }
     })
 }
+
+export let profileUpdateAPI = async (profileInformation)=>{
+    return axios({
+        url:`${BASE_URL}/user`,
+        method:'put',
+        data:profileInformation
+    })
+}
