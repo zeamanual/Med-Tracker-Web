@@ -49,7 +49,7 @@ let userSlice = createSlice({
         builder.addCase(userLogin.fulfilled, (state,action)=>{
             state.userLogIn.loading=false
             state.userLogIn.errorMsg=''
-            state.userLogIn.successMsg="User Loggedin Successfully"
+            state.userLogIn.successMsg="User Logged in Successfully"
         })
 
         builder.addCase(userLogin.rejected, (state,action)=>{
