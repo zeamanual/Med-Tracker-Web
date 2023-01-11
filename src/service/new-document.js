@@ -7,7 +7,7 @@ let BASE_URL ;
 
     formData.append("file", file, file.name);
 
-    return axios.post(`http://localhost:8080/upload`,
+    return axios.post({BASE_URL},
         {
             formData, documentTitle, documentType, Description
         }
