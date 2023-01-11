@@ -3,12 +3,12 @@ import MainPage from './pages/Main-page';
 import React from "react";
 import { padding } from '@mui/system';
 import { ImportantDevices } from '@mui/icons-material';
-
+// "#f7f7f7
 function App() {
   return (
-      <Box disableGutters sx={{backgroundColor:"#f7f7f7"}} >
+      <Container fixed sx={{backgroundColor:" #f8f8f8"}}>
           <MainPage />
-      </Box>
+      </Container>
   );
 }
 
