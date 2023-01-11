@@ -1,11 +1,14 @@
-import './App.css';
-import Visibility from '@mui/icons-material/Visibility';
+import { Box, Container } from '@mui/material';
+import MainPage from './pages/Main-page';
+import React from "react";
+import { padding } from '@mui/system';
+import { ImportantDevices } from '@mui/icons-material';
 
 function App() {
   return (
-    <div>
-      <h2 >Med Tracker Web App</h2>
-    </div>
+      <Box disableGutters sx={{backgroundColor:"#f7f7f7"}} >
+          <MainPage />
+      </Box>
   );
 }
 
