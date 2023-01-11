@@ -79,8 +79,8 @@ function Login() {
         dispatch(resetLoginFormStatus())
     }
     return (
-        <Box bgcolor='#e6e3e3' height={'100vh'} display='flex' justifyContent='center' >
-          
+        <Box bgcolor='#f8f8f8' height={'100vh'} display='flex' justifyContent='center' >
+
             {/* log in state UI */}
             <Modal
                 open={userState.userLogIn.loading ||
@@ -108,30 +108,35 @@ function Login() {
                     <ArrowBack></ArrowBack>
                 </Box>
                 <Box display={'flex'} flexDirection='column' p={2}>
-                    <Typography variant='h4'>Login to World Medical Card </Typography>
+                    <Typography sx={{ fontWeight: '800' }} variant='h6'>Login to World Medical Card </Typography>
                     <Typography variant='body1' color='gray' >How would you like to sign-in?</Typography>
                 </Box>
-                <Box m={2} display='flex' justifyContent={'center'} padding={1} bgcolor='white' borderRadius={3}  >
-                    <Typography variant='h6'>Sign-in with Google</Typography>
+                <Box m={1} display='flex' justifyContent={'center'} padding={1} bgcolor='white' borderRadius={3}  >
+                    <Typography variant='body1'>Sign-in with Google</Typography>
                 </Box>
-                <Box display={'flex'} justifyContent='center'>
-                    <Typography>------------------ <Box px={2} component={'span'} >or</Box> ---------------</Typography>
+                <Box mt={5} display={'flex'} justifyContent='center'>
+                    <Typography color={'gray'} >------------------ <Typography px={2} sx={{ display: 'inline', fontWeight: '600' }} color='gray'>OR</Typography> ---------------</Typography>
                 </Box>
 
                 <Box justifyContent={'space-between'} display={'flex'} flexDirection='column'>
 
                     <Box m={2}>
                         <Box my={2} bgcolor='white'>
-                            <TextField fullWidth={true} value={loginDetails.userName} onChange={usernameChangeHandler} size='small' label='Username' ></TextField>
+                            <TextField sx={{ mx: 2 }} variant="standard" InputProps={{ disableUnderline: true, }} fullWidth={true} size='large' value={loginDetails.userName}
+                                onChange={usernameChangeHandler} label='Username' ></TextField>
                             {errorDetails.userName.hasError ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{errorDetails.userName.msg}</Alert> : <></>}
                         </Box>
                         <Box my={2} bgcolor='white' >
                             <TextField
+                                sx={{ mx: 2 }}
+                                size='large'
                                 type={showPassword ? 'text' : 'password'}
                                 value={loginDetails.password}
                                 onChange={passwordChangeHandler}
-                                size='small' label='password'
+                                label='password'
+                                variant="standard"
                                 InputProps={{
+                                    disableUnderline: true,
                                     endAdornment: (
                                         <InputAdornment position='end'>
                                             <IconButton onClick={passwordvisibilityHandler}>
