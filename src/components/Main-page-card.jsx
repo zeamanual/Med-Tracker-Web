@@ -15,13 +15,14 @@ export default function MainPageCard() {
   return (
     <Box sx={{mb:3}}>
       <Box sx={{ backgroundColor: "white", borderRadius: "15px" }}>
+        <Box  sx={{borderRadius:'1em', overflow:'hidden', boxShadow: "0 0 0.5em gray",
+}}>
         <Accordion
           disableGutters
           sx={{
             backgroundColor: "transparent",
-            borderRadius: "0em",
-            boxShadow: "3",
-            borderColor: "grey.800",
+            borderRadius: "3em",
+            // borderColor: "grey.800",
           }}
         >
           <AccordionSummary
@@ -29,7 +30,7 @@ export default function MainPageCard() {
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panella-content"
             id="panella-header"
-          >
+            >
             <Box sx={{ display: "flex", alignItems: "start" }}>
               <LocalHospitalIcon
                 sx={{
@@ -39,21 +40,21 @@ export default function MainPageCard() {
                   pt: 1,
                   fontSize: "22px",
                 }}
-              />
+                />
               <Box
                 style={{
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   width: "12em",
                 }}
-              >
+                >
                 <Typography sx={{ fontWeight: 900, fontSize: "22px" }}>
                   Medicine
                 </Typography>
                 <Typography
                   noWrap
                   sx={{ fontSize: "16px", textOverflow: "ellipsis" }}
-                >
+                  >
                   consectetur adipiscing elitconsectetur adipiscing
                   elitconsectetur adipiscing elitconsectetur adipiscing elit
                 </Typography>
@@ -74,7 +75,7 @@ export default function MainPageCard() {
             <Box  sx={{ display: "flex",py:2, overflowX: "scroll"}}>
                 <Box sx={{ mr:3 }}>
                     <Button sx={{borderRadius:"20px",color:"black", borderColor:"gray"}} variant="outlined" startIcon={ <DeleteIcon />}>
-                    Delete
+                      Delete
                     </Button>
                 </Box>
                 <Box sx={{ mr:3 }}>
@@ -97,6 +98,7 @@ export default function MainPageCard() {
             </Box>
           </AccordionDetails>
         </Accordion>
+                  </Box>
       </Box>
     </Box>
   );
