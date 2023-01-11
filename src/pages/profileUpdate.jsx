@@ -390,7 +390,7 @@ function ProfileUpdate() {
 
 
     return (
-        <Box bgcolor='#e6e3e3' display='flex' justifyContent='center' >
+        <Box bgcolor='#f8f8f8' display='flex' justifyContent='center' >
 
             {/* log in state UI */}
             <Modal
@@ -446,7 +446,7 @@ function ProfileUpdate() {
                                 </Box>
                                 {fieldsValue.dob.msg ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{fieldsValue.dob.msg}</Alert> : <></>}
                             </Box>
-                            <Box mt={2} flexGrow={1}>
+                            <Box mt={2} flexGrow={2}>
                                 <Box bgcolor='white' flexGrow={1} ml={1}>
                                     <TextField fullWidth={true} select value={fieldsValue.gender.value} onChange={fieldsValue.gender.changeHandler} size='small' label='Gender' >
                                         <MenuItem value={'Male'}>
