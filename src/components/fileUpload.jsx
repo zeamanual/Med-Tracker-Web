@@ -3,7 +3,7 @@
 import React, { useState} from 'react';
 const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
  const FileUpload = ({updateFileCb,
-  maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES, isProvided}) => {
+  maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES, isProvided , name}) => {
   const [file, setFile] = useState();
   const [error, setError] = useState(false);
   const handleNewFileUpload = (e) => {
@@ -23,7 +23,7 @@ const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
 
     return (<>
       <div className={error || isProvided ? 'file-upload-container error-msg' : 'file-upload-container'}>
-        {file ? <span className = 'file-upload-name'>{file.name}</span>:
+        {name ? <span className = 'file-upload-name'>{name}</span> : file ? <span className = 'file-upload-name'>{file.name}</span>:
         <Button variant='contained' className = 'file-upload-button'> <DriveFolderUploadIcon /> Add</Button>}
         <input
           type="file"
