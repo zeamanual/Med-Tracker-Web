@@ -1,20 +1,17 @@
 import axios from "axios";
 let BASE_URL ;
-// class UploadNewDocumentService {
 
-  const upload = (file, documentTitle, documentType, Description) =>{
+  const upload = (file, documentTitle, documentType, description) =>{
     let formData = new FormData();
 
-    formData.append("file", file, file.name);
+    formData.append("file", file);
+    formData.append("title", documentTitle);
+    formData.append("type", documentType);
+    formData.append("description", description);
 
-    return axios.post({BASE_URL},
-        {
-            formData, documentTitle, documentType, Description
-        }
-    )
+    return axios.post(`${BASE_URL}/upload`,formData)
     
   }
 
-// }
+
 export default upload
-// export default new UploadNewDocumentService();
