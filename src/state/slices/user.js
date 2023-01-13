@@ -1,9 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { loginAPI, profileUpdateAPI } from "../../service/user"
+import { loginAPI, profileUpdateAPI, SignupAPI } from "../../service/user"
 
 let initialState = {
     loading: false,
     userLogIn: {
+        loading: false,
+        errorMsg: '',
+        successMsg: ''
+    },
+    userSignup: {
         loading: false,
         errorMsg: '',
         successMsg: ''
@@ -21,6 +26,21 @@ export let userLogin = createAsyncThunk(
     async ({ username, password }, thunkApi) => {
         try {
             let response = await loginAPI(username, password)
+            return response.data
+
+        } catch (error) {
+            let errorMsg = error.response.data?.message
+            return thunkApi.rejectWithValue(errorMsg ? errorMsg : error.message)
+        }
+    }
+)
+
+
+export let userSignup = createAsyncThunk(
+    'user/signup',
+    async ({ username, password }, thunkApi) => {
+        try {
+            let response = await SignupAPI(username, password)
             return response.data
 
         } catch (error) {
@@ -60,9 +80,35 @@ let userSlice = createSlice({
             state.profileUpdate.successMsg = ''
             state.profileUpdate.loading = false
         },
+        resetSignupFormStatus: (state) => {
+            state.userSignup.errorMsg = ''
+            state.userSignup.successMsg = ''
+            state.userSignup.loading = false
+        },
     },
 
     extraReducers: (builder) => {
+
+
+
+        // sign up reducer
+        builder.addCase(userSignup.pending, (state) => {
+            state.userSignup.loading = true
+            state.userSignup.errorMsg = ''
+            state.userSignup.successMsg = ''
+        })
+
+        builder.addCase(userSignup.fulfilled, (state, action) => {
+            state.userSignup.loading = false
+            state.userSignup.errorMsg = ''
+            state.userSignup.successMsg = "Sign up Successfully"
+        })
+
+        builder.addCase(userSignup.rejected, (state, action) => {
+            state.userSignup.loading = false
+            state.userSignup.errorMsg = action.payload
+            state.userSignup.successMsg = ''
+        })
 
         // log in reducer
         builder.addCase(userLogin.pending, (state) => {
@@ -105,6 +151,6 @@ let userSlice = createSlice({
 
 
 let userReducer = userSlice.reducer
-export let { resetLoginFormStatus,resetProfileUpdateFormStatus } = userSlice.actions
+export let { resetLoginFormStatus,resetSignupFormStatus, resetProfileUpdateFormStatus } = userSlice.actions
 
 export default userReducer
