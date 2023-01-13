@@ -2,8 +2,9 @@ import "../styles/add-document-page.css";
 import React, { useState } from "react";
 import FileUpload from "../components/fileUpload";
 import { TextField, MenuItem, Button, Box } from "@mui/material";
-import {resetState, uploadData} from '../state/slices/new-document'
+import {resetStatus, uploadData} from '../state/slices/new-document'
 import { useDispatch, useSelector } from 'react-redux';
+import { useSnackbar } from 'notistack';
 
 const DocumentType = [
   "Certificate",
@@ -19,15 +20,16 @@ const DocumentType = [
 
 const AddDocumentPage = () => {
   const [document, setDocument] = useState();
-  const [documentTitle, setDocumentTitle] = useState();
+  const [documentTitle, setDocumentTitle] = useState('');
   const [documentType, setDocumentType] = useState("Certificate");
-  const [description, setDescription] = useState();
+  const [description, setDescription] = useState('');
   const [documentError, setDocumentError] = useState({
     documentErrorMessage: false,
     documentTitleErrorMessage: false,
   });
   const dispatch = useDispatch();
-  const data = useSelector(state => state.addDocument)
+  const data = useSelector(state => state.addDocument);
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleDescription = (e) => {
     setDescription(e.target.value);
@@ -55,7 +57,7 @@ const AddDocumentPage = () => {
   };
   const handleAddNewDocument = (e) => {
     e.preventDefault();
-    if (documentTitle === undefined) {
+    if (documentTitle.length === 0) {
       documentError.documentTitleErrorMessage = true;
       setDocumentError({ ...documentError, documentTitleErrorMessage: true });
     }
@@ -67,7 +69,17 @@ const AddDocumentPage = () => {
       documentError.documentTitleErrorMessage === false
     ) {
       dispatch(uploadData(document, documentTitle, documentType, description));
-      console.log(data.uploadData);
+      if (data.uploadData.successUploads){
+        const variant = 'success';
+        enqueueSnackbar('Document Successfully Added!', {variant} );
+        dispatch(resetStatus());
+
+      }
+      else if (data.uploadData.errorMessage.length !== 0) {
+        const variant = 'error'
+        enqueueSnackbar('Failed to upload document !', {variant} );
+      }
+      
     }
   };
   return (
