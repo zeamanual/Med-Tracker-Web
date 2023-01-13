@@ -14,9 +14,14 @@ import ShareIcon from '@mui/icons-material/Share';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import StyleIcon from '@mui/icons-material/Style';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
+import { RemoveSnackBar } from "./snackbar-modal";
+import { useState } from 'react';
+
 
 export default function MainPageCard({ singleData }) {
-  console.log(singleData, "data for each apperaed");
+  // console.log(singleData, "data for each apperaed");
+
+  
 
   const style ={
     fontWeight: 900,
@@ -26,6 +31,14 @@ export default function MainPageCard({ singleData }) {
     fontSize: "22px",
   }
 
+  const buttonStyle = {
+    textTransform: "none",
+    borderRadius: "20px",
+    color: "black",
+    fontWeight:"800",
+    borderColor: "gray",
+  }
+
   const Icons ={
     'Medicine': <LocalHospitalIcon sx={style} />,
     'Allergies':<VaccinesIcon  sx={style}/>,
@@ -33,6 +46,14 @@ export default function MainPageCard({ singleData }) {
     "Vaccines": <StyleIcon sx={style} />
   }
  
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  
 
 
   return (
@@ -42,7 +63,7 @@ export default function MainPageCard({ singleData }) {
           sx={{
             borderRadius: "0.5em",
             overflow: "hidden",
-            boxShadow: "1px 1px 5px 0.1px gray",
+            boxShadow: "1px 1px 7px  gray",
           }}
         >
           <Accordion
@@ -72,7 +93,7 @@ export default function MainPageCard({ singleData }) {
                     width: "12em",
                   }}
                 >
-                  <Typography sx={{ fontWeight: 900, fontSize: "22px" }}>
+                  <Typography  sx={{ fontWeight: 900, fontSize: "22px" }}>
                     {singleData.name}
                   </Typography>
                   <Typography
@@ -88,12 +109,12 @@ export default function MainPageCard({ singleData }) {
             </AccordionSummary>
             <AccordionDetails>
               <Divider />
-              <Typography
+              <Box
                 sx={{ py: 2, maxHeight: "70vh", overflowY: "scroll" }}
               >
-                {singleData.addedList.map((each) => {
+                {singleData.addedList.map((each,index) => {
                   return (
-                    <Box>
+                    <Box key={index}>
                       <Typography>{each.title}</Typography>
                       <Typography sx={{ fontSize: "10px" }}>
                         {each.code}
@@ -101,17 +122,14 @@ export default function MainPageCard({ singleData }) {
                     </Box>
                   );
                 })}
-              </Typography>
+              </Box>
+                  {
+              open? < RemoveSnackBar open={open} handleClose = {handleClose}  />:<></>      
+            }
               <Box sx={{ display: "flex", py: 1, overflowX: "scroll" }}>
               {singleData.addedList.length > 0 ? <Box sx={{ mr: 2 }}>
                   <Button
-                    sx={{
-                      textTransform: "none",
-                      borderRadius: "20px",
-                      color: "black",
-                      fontWeight:"800",
-                      borderColor: "gray",
-                    }}
+                    sx={buttonStyle}
                     variant="outlined"
                     startIcon={<LanguageIcon sx={{color:"gray"}} />}
                   >
@@ -121,13 +139,7 @@ export default function MainPageCard({ singleData }) {
 
                 <Box sx={{ mr: 2 }}>
                   <Button
-                    sx={{
-                      textTransform: "none",
-                      borderRadius: "20px",
-                      color: "black",
-                      fontWeight:"800",
-                      borderColor: "gray",
-                    }}
+                    sx={buttonStyle}
                     variant="outlined"
                     startIcon={<AddIcon sx={{color:"gray"}} />}
                   >
@@ -136,15 +148,13 @@ export default function MainPageCard({ singleData }) {
                 </Box>
                 {singleData.addedList.length > 0 ? <Box sx={{ mr: 2 }}>
                   <Button
-                    sx={{
-                      textTransform: "none",
-                      borderRadius: "20px",
-                      color: "black",
-                      fontWeight:"800",
-                      borderColor: "gray",
-                    }}
+                    onClick={handleClickOpen}
+                    sx={buttonStyle}
                     variant="outlined"
-                    startIcon={<EditIcon sx={{color:"gray"}} />}
+                    startIcon={<EditIcon sx={{color:"gray"}} 
+                    
+                    
+                    />}
                   >
                     Edit
                   </Button>
@@ -152,13 +162,7 @@ export default function MainPageCard({ singleData }) {
                 {singleData.addedList.length > 0 ? <Box>
                   <Button
                   
-                    sx={{
-                      textTransform: "none",
-                      borderRadius: "20px",
-                      color: "black",
-                      fontWeight:"800",
-                      borderColor: "gray",
-                    }}
+                    sx={buttonStyle}
                     variant="outlined"
                     startIcon={<ShareIcon sx={{color:"gray"}} />}
                   >
