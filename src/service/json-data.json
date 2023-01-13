@@ -1,0 +1,62 @@
+[
+  {
+    "_id": "63bf0db7608bb6085e12e47c",
+    "name": "Allergies",
+    "addedList": [
+      {
+        "id": "63bf0db74dd7430b549976b3",
+        "title": "Miles Benjamin",
+        "code": "AUS"
+      }
+     
+    ]
+  },
+  {
+    "_id": "63bf0db7c9a3ae17f8ec31b4",
+    "name": "Medicine",
+    "addedList": [
+    ]
+  },
+  {
+    "_id": "63bf0db7782d87a5c693a739",
+    "name": "Diagnoses",
+    "addedList": [
+      {
+        "id": "63bf0db7b562b69d7e91806e",
+        "title": "Catalina Cole",
+        "code": "SHE"
+      },
+      {
+        "id": "63bf0db756024d4ab35f812b",
+        "title": "Kelly Deleon",
+        "code": "LEXIC"
+      },
+      {
+        "id": "63bf0db70c8f40bc68049a7b",
+        "title": "Tucker Joyce",
+        "code": "MARO"
+      }
+    ]
+  },
+  {
+    "_id": "63bf0db7bf0f78b1ae4159f1",
+    "name": "Vaccines",
+    "addedList": [
+      {
+        "id": "63bf0db7131a37ccabe4f6a2",
+        "title": "Lindsey Anthony",
+        "code": "EXTRA"
+      },
+      {
+        "id": "63bf0db7ab4a45e8027e913e",
+        "title": "Mathews Dunn",
+        "code": "PE"
+      },
+      {
+        "id": "63bf0db70bbd031251a90f4f",
+        "title": "Wendy Dickson",
+        "code": "VIAG"
+      }
+    ]
+  }
+]
