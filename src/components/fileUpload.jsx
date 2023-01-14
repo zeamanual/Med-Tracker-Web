@@ -1,4 +1,4 @@
- import { Button } from '@mui/material';
+ import { Button, Box , Input} from '@mui/material';
  import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import React, { useState} from 'react';
 const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
@@ -22,19 +22,47 @@ const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
   //
 
     return (<>
-      <div className={error || isProvided ? 'file-upload-container error-msg' : 'file-upload-container'}>
-        {name ? <span className = 'file-upload-name'>{name}</span> : file ? <span className = 'file-upload-name'>{file.name}</span>:
-        <Button variant='contained' className = 'file-upload-button'> <DriveFolderUploadIcon /> Add</Button>}
-        <input
+      <Box sx={{position: 'relative',
+  width: '100%',
+  height: '3em',
+  border: '2px solid lightgray',
+  borderRadius: '6px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  backgroundColor: 'white'}}
+       className={(error || isProvided) && 'error-msg'}>
+        { file ? <span style={{margin: 'auto auto'}}>{file.name}</span>: name ? <span style={{margin: 'auto auto'}}>{name}</span>:
+        <Button variant='contained' sx={{margin: '.2em !important'}}> <DriveFolderUploadIcon /> Add</Button>}
+        <Input
+        sx={{fontSize: '18px',
+  display: 'block',
+  width: '100%',
+  border: 'none',
+  textTransform: 'none',
+  position: 'absolute',
+  top: '0',
+  left: '0',
+  right: '0',
+  bottom: '0',
+  opacity: '0',':focus': {
+        outline: 'none',
+      }}}
           type="file"
           onChange={handleNewFileUpload}
           title=""
           value=""
           multiple={false}
         />
-      </div>
-      {error && <span className="error-message">File size should be less than {maxFileSizeInBytes/1000} KB</span>}
-            {isProvided && <span className="error-message">Please Upload some file</span>}
+      </Box>
+      {error && <span style={{color: '#d32f2f',
+    fontSize: '13px',
+    fontWeight: '400',
+    marginRight: '29em'}}>File size should be less than {maxFileSizeInBytes/1000} KB</span>}
+            {isProvided && <span style={{color: '#d32f2f',
+    fontSize: '14px',
+    fontWeight: '400',
+    marginRight: '28em'}}>Please Upload some file</span>}
       </>
     )
  }
