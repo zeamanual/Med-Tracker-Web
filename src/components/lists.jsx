@@ -8,18 +8,14 @@ import ListSubheader from "@mui/material/ListSubheader";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { styled, alpha } from "@mui/material/styles";
-import Menu from "@mui/material/Menu";
+import {Menu, Button} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
-import Divider from "@mui/material/Divider";
-import ArchiveIcon from "@mui/icons-material/Archive";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { deleteFileById } from "../state/slices/delete-document";
 import { useSnackbar } from 'notistack';
 import { fetchFilesSuccess } from "../state/slices/list-documents";
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -101,31 +97,34 @@ const Lists = (props) => {
       enqueueSnackbar(`${deleteError} Error! Please try again`, {variant} );
     }
   };
+
   useEffect(() => {
-    setFile(props.file);
+    setFile(props.data);
     setTitle(props.title);
-  }, [props.file, props.title]);
+  }, [props.data, props.title]);
 
   return (
+    <>
     <List
       sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
       subheader={<ListSubheader>{title}</ListSubheader>}
     >
-      {file.forEach((eachFile) => {
-        <ListItem>
+      {file ? file.map((eachFile) => { return (
+        <ListItem key={file.id}>
           <ListItemIcon>
             <FileCopyIcon />
           </ListItemIcon>
           <ListItemText id={eachFile.name} primary={eachFile.name} />
-          <MoreVertIcon
-            id="customized-button"
-            aria-controls={open ? "customized-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            variant="contained"
-            disableElevation
-            onClick={handleClick}
-          />
+          <Button
+        id="demo-customized-button"
+        aria-controls={open ? 'demo-customized-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        disableElevation
+        onClick={handleClick}
+      >
+        <MoreVertIcon />
+      </Button>
           <StyledMenu
             id="customized-menu"
             MenuListProps={{
@@ -135,18 +134,19 @@ const Lists = (props) => {
             open={open}
             onClose={handleClose}
           >
-            <MenuItem onClick={handleEdit(eachFile)} disableRipple>
+            <MenuItem onClick={() => handleEdit(eachFile)} >
               <EditIcon />
               Edit
             </MenuItem>
-            <MenuItem onClick={handleDelete(eachFile.id)} disableRipple>
+            <MenuItem onClick={() => handleDelete(eachFile.id)} >
               <DeleteForeverIcon />
               Delete
-            </MenuItem>
-          </StyledMenu>
-        </ListItem>;
-      })}
+            </MenuItem> 
+            </StyledMenu>
+        </ListItem>);
+      }) : null}
     </List>
+    </>
   );
 };
 

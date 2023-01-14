@@ -1,11 +1,10 @@
-import "../styles/add-document-page.css";
-import React, { useState , useEffect} from "react";
+import React, { useState , useEffect, useMemo} from "react";
 import FileUpload from "../components/fileUpload";
 import { TextField, MenuItem, Button, Box } from "@mui/material";
 import {resetStatus, uploadData} from '../state/slices/new-document'
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 const DocumentType = [
   "Certificate",
@@ -22,7 +21,11 @@ const DocumentType = [
 const EditDocumentPage = () => {
   const [document, setDocument] = useState();
   const [documentTitle, setDocumentTitle] = useState('');
-  const [documentType, setDocumentType] = useState("Certificate");
+  const { item } = useParams();
+  // const item = useMemo(() => ({file:'file.pdf', documentTitle:'health', name:'max.pdf', description: 'me on the moon', documentType: 'Discharge Summary'}), []);
+
+  const [formData, setFormData] = useState(item);
+  const [documentType, setDocumentType] = useState(formData.documentType);
   const [description, setDescription] = useState('');
   const [documentError, setDocumentError] = useState({
     documentErrorMessage: false,
@@ -31,9 +34,6 @@ const EditDocumentPage = () => {
   const dispatch = useDispatch();
   const data = useSelector(state => state.addDocument);
   const { enqueueSnackbar } = useSnackbar();
-  const { item } = useParams();
-
-  const [formData, setFormData] = useState(item);
 
   useEffect(() => {
     setFormData(item);
@@ -92,8 +92,19 @@ const EditDocumentPage = () => {
     }
   };
   return (
-    <Box component="form" onSubmit={handleAddNewDocument} className="container">
-      <div className="container-add-document">
+    <Box component="form" onSubmit={handleAddNewDocument} sx={{ maxWidth: '34em !important',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  height: '100vh',
+  margin: '0 auto'}}>
+      <Box sx={{display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  gap: '1em',
+  width: '100%'}}>
         <h2>Add New document</h2>
         <FileUpload name = {formData.name}
           updateFileCb={updateFileCb}
@@ -101,9 +112,10 @@ const EditDocumentPage = () => {
           isProvided={documentError.documentErrorMessage}
         />
         <TextField
+          value={formData.documentTitle}
           onChange={handleDocumentTitle}
           error={documentError.documentTitleErrorMessage}
-          className="document-field"
+          fullWidth
           variant="outlined"
           placeholder="Document Title"
           helperText={
@@ -112,10 +124,11 @@ const EditDocumentPage = () => {
           }
         />
         <TextField
-          className="document-field"
+        
+          fullWidth
           select
           label="Document Type"
-          defaultValue="Certificate"
+          defaultValue={formData.documentType}
           onChange={handleDocumentType}
         >
           {DocumentType.map((option) => (
@@ -126,15 +139,19 @@ const EditDocumentPage = () => {
         </TextField>
 
         <TextField
+        value={formData.description}
           onChange={(e) => handleDescription(e)}
           multiline
           maxRows={9}
-          className="document-field"
+          fullWidth
           variant="outlined"
           placeholder="Description(Optional)"
         />
-      </div>
-      <Button type="submit" variant="contained" className="btn-upload">
+      </Box>
+      <Button type="submit" variant="contained" sx={{ marginBottom: '2em !important',
+  width: '100%',
+  height: '4em',
+  borderRadius: '6px'}}>
         {" "}
         UPDATE DOCUMENT
       </Button>

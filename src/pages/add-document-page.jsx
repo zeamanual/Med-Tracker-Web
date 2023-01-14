@@ -1,4 +1,3 @@
-import "../styles/add-document-page.css";
 import React, { useState } from "react";
 import FileUpload from "../components/fileUpload";
 import { TextField, MenuItem, Button, Box } from "@mui/material";
@@ -83,8 +82,19 @@ const AddDocumentPage = () => {
     }
   };
   return (
-    <Box component="form" onSubmit={handleAddNewDocument} className="container">
-      <div className="container-add-document">
+    <Box component="form" onSubmit={handleAddNewDocument} sx={{ maxWidth: '34em !important',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  height: '100vh',
+  margin: '0 auto'}}>
+      <Box sx={{display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  gap: '1em',
+  width: '100%'}} >
         <h2>Add New document</h2>
         <FileUpload
           updateFileCb={updateFileCb}
@@ -94,7 +104,7 @@ const AddDocumentPage = () => {
         <TextField
           onChange={handleDocumentTitle}
           error={documentError.documentTitleErrorMessage}
-          className="document-field"
+          fullWidth
           variant="outlined"
           placeholder="Document Title"
           helperText={
@@ -103,7 +113,7 @@ const AddDocumentPage = () => {
           }
         />
         <TextField
-          className="document-field"
+          fullWidth
           select
           label="Document Type"
           defaultValue="Certificate"
@@ -120,12 +130,15 @@ const AddDocumentPage = () => {
           onChange={(e) => handleDescription(e)}
           multiline
           maxRows={9}
-          className="document-field"
+          fullWidth
           variant="outlined"
           placeholder="Description(Optional)"
         />
-      </div>
-      <Button type="submit" variant="contained" className="btn-upload">
+      </Box>
+      <Button type="submit" variant="contained" sx={{ marginBottom: '2em !important',
+  width: '100%',
+  height: '4em',
+  borderRadius: '6px'}}>
         {" "}
         UPLOAD NEW DOCUMENT
       </Button>
