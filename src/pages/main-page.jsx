@@ -9,10 +9,12 @@ import { useState } from 'react';
 import {SnackBarModal} from '../components/snackbar-modal';
 import Document_Lists from '../components/lists';
 import { Link } from 'react-router-dom';
+import { useSelect } from '@mui/base';
 // import  Lists  from '../components/lists';
 
 
 const MainPage = () => {
+    const user = useSelect((state) => state.user);
     const current_hour = new Date().getHours();
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => {
