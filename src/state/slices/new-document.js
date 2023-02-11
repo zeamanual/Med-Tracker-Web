@@ -15,11 +15,11 @@ export const uploadData = createAsyncThunk(
         try {
             let response = await upload(file, documentTitle, documentType, Description)
             console.log(response);
-            return response
+            return response.data;
 
         } catch (error) {
-            const errorMessage = error.response.data?.message
-            return thunkApi.rejectWithValue(errorMessage ? errorMessage : error.message)
+            const errorMessage = error.message
+            return thunkApi.rejectWithValue(errorMessage);
         }
     }
 )

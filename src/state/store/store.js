@@ -1,8 +1,16 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userReducer from '../slices/user'
+import addDocumentSlice from '../slices/new-document'
+import fetchFilesSlice from '../slices/list-documents';
+import editFileSlice from '../slices/edit-document';
+import deleteFileSlice from '../slices/delete-document';
 
 let rootReducer = combineReducers({
-    user:userReducer
+    user: userReducer,
+    addDocument: addDocumentSlice,
+    files: fetchFilesSlice,
+    editDocument: editFileSlice,
+    deleteDocument : deleteFileSlice
 })
 
 let store = configureStore({

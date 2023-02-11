@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState , useEffect, useMemo} from "react";
 import FileUpload from "../components/fileUpload";
 import { TextField, MenuItem, Button, Box } from "@mui/material";
 import {resetStatus, uploadData} from '../state/slices/new-document'
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
+import { useParams } from 'react-router-dom';
 
 const DocumentType = [
   "Certificate",
@@ -17,10 +18,14 @@ const DocumentType = [
   "Other",
 ];
 
-const AddDocumentPage = () => {
+const EditDocumentPage = () => {
   const [document, setDocument] = useState();
   const [documentTitle, setDocumentTitle] = useState('');
-  const [documentType, setDocumentType] = useState("Certificate");
+  const { item } = useParams();
+  // const item = useMemo(() => ({file:'file.pdf', documentTitle:'health', name:'max.pdf', description: 'me on the moon', documentType: 'Discharge Summary'}), []);
+
+  const [formData, setFormData] = useState(item);
+  const [documentType, setDocumentType] = useState(formData.documentType);
   const [description, setDescription] = useState('');
   const [documentError, setDocumentError] = useState({
     documentErrorMessage: false,
@@ -29,6 +34,11 @@ const AddDocumentPage = () => {
   const dispatch = useDispatch();
   const data = useSelector(state => state.addDocument);
   const { enqueueSnackbar } = useSnackbar();
+
+  useEffect(() => {
+    setFormData(item);
+  }, [item]);
+
 
   const handleDescription = (e) => {
     setDescription(e.target.value);
@@ -94,14 +104,15 @@ const AddDocumentPage = () => {
   alignItems: 'center',
   flexDirection: 'column',
   gap: '1em',
-  width: '100%'}} >
+  width: '100%'}}>
         <h2>Add New document</h2>
-        <FileUpload
+        <FileUpload name = {formData.name}
           updateFileCb={updateFileCb}
           maxFileSizeInBytes={9000000000}
           isProvided={documentError.documentErrorMessage}
         />
         <TextField
+          value={formData.documentTitle}
           onChange={handleDocumentTitle}
           error={documentError.documentTitleErrorMessage}
           fullWidth
@@ -113,10 +124,11 @@ const AddDocumentPage = () => {
           }
         />
         <TextField
+        
           fullWidth
           select
           label="Document Type"
-          defaultValue="Certificate"
+          defaultValue={formData.documentType}
           onChange={handleDocumentType}
         >
           {DocumentType.map((option) => (
@@ -127,6 +139,7 @@ const AddDocumentPage = () => {
         </TextField>
 
         <TextField
+        value={formData.description}
           onChange={(e) => handleDescription(e)}
           multiline
           maxRows={9}
@@ -140,10 +153,10 @@ const AddDocumentPage = () => {
   height: '4em',
   borderRadius: '6px'}}>
         {" "}
-        UPLOAD NEW DOCUMENT
+        UPDATE DOCUMENT
       </Button>
     </Box>
   );
 };
 
-export default AddDocumentPage;
+export default EditDocumentPage;
