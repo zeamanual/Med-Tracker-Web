@@ -28,7 +28,7 @@ export default function MainPageCard({ singleData }) {
     color: singleData.addedList.length === 0 ? "gray.600" : "#4298e1",
     pr: 2,
     pt: 1,
-    fontSize: "22px",
+    fontSize:"45px"
   }
 
   const buttonStyle = {
@@ -43,7 +43,8 @@ export default function MainPageCard({ singleData }) {
     'Medicine': <LocalHospitalIcon sx={style} />,
     'Allergies':<VaccinesIcon  sx={style}/>,
     "Diagnoses" : <InsertDriveFileIcon  sx={style}/>,
-    "Vaccines": <StyleIcon sx={style} />
+    "Vaccines": <StyleIcon sx={style} />,
+    "Documents": <StyleIcon sx={style} />
   }
  
   const [open, setOpen] = useState(false);
@@ -58,19 +59,22 @@ export default function MainPageCard({ singleData }) {
 
   return (
     <Box sx={{ mb: 4 }}>
-      <Box sx={{ backgroundColor: "white", borderRadius: "10px" }}>
-        <Box
+      <Box sx={{ backgroundColor: "white", borderRadius: "1.5em" }}>
+        <Box 
+        borderRadius={{xs:'0.5em',md:"1.5em"}}
+        boxShadow={{xs:"1px 1px 7px  #a3a3a3",md:"0px 1px 2px  lightGray"}}
+        
           sx={{
-            borderRadius: "0.5em",
             overflow: "hidden",
-            boxShadow: "1px 1px 7px  gray",
+            // boxShadow: "1px 1px 7px  gray",
           }}
         >
           <Accordion
             disableGutters
+            borderRadius={{xs:'0.5em',md:"1.5em"}}
             sx={{
               backgroundColor: "transparent",
-              borderRadius: "0.5em",
+              // borderRadius: "2em",
             }}
           >
             <AccordionSummary
@@ -82,9 +86,6 @@ export default function MainPageCard({ singleData }) {
               <Box sx={{ display: "flex", alignItems: "start" }}>
               { Icons[singleData.name]}
                                
-                {/* <LocalHospitalIcon
-
-                />  */}
 
                 <Box
                   style={{
@@ -93,10 +94,10 @@ export default function MainPageCard({ singleData }) {
                     width: "12em",
                   }}
                 >
-                  <Typography  sx={{ fontWeight: 900, fontSize: "22px" }}>
+                  <Typography pl={{xs:'0.0em',md:"24px"}}  sx={{ fontWeight: 600, fontSize: "22px" }}>
                     {singleData.name}
                   </Typography>
-                  <Typography
+                  <Typography pl={{xs:'0.0em',md:"24px"}}
                     noWrap
                     sx={{ fontSize: "16px", textOverflow: "ellipsis" }}
                   >
@@ -126,7 +127,7 @@ export default function MainPageCard({ singleData }) {
                   {
               open? < RemoveSnackBar open={open} handleClose = {handleClose}  />:<></>      
             }
-              <Box sx={{ display: "flex", py: 1, overflowX: "scroll" }}>
+              <Box  overflow={{xs:'scroll',md:"hidden"}}  sx={{ display: "flex", py: 1, }}>
               {singleData.addedList.length > 0 ? <Box sx={{ mr: 2 }}>
                   <Button
                     sx={buttonStyle}
@@ -152,8 +153,6 @@ export default function MainPageCard({ singleData }) {
                     sx={buttonStyle}
                     variant="outlined"
                     startIcon={<EditIcon sx={{color:"gray"}} 
-                    
-                    
                     />}
                   >
                     Edit

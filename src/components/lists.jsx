@@ -15,7 +15,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { deleteFileById } from "../state/slices/delete-document";
 import { useSnackbar } from 'notistack';
 import { fetchFilesSuccess } from "../state/slices/list-documents";
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -60,7 +60,7 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-const Lists = (props) => {
+const Document_Lists = (props) => {
   const [file, setFile] = useState([]);
   const [title, setTitle] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
@@ -70,7 +70,7 @@ const Lists = (props) => {
   const deleteError = useSelector( state => state.deleteDocument.errorMessage);
   const { enqueueSnackbar } = useSnackbar();
   const files = useSelector( state => state.files);
-  const history = useHistory();
+  const history = useNavigate();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -150,4 +150,4 @@ const Lists = (props) => {
   );
 };
 
-export default Lists;
+export default Document_Lists;
