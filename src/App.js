@@ -7,13 +7,9 @@ import Add from './pages/add';
 // "#f7f7f7
 function App() {
   return (
-    <Box>
-
-      <Add></Add>
-      <Container fixed sx={{ backgroundColor: " #f8f8f8" }}>
-        {/* <MainPage /> */}
+      <Container fixed sx={{backgroundColor:" #f8f8f8"}}>
+          <Add/>
       </Container>
-    </Box>
   );
 }
 
