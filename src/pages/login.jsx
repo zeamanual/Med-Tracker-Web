@@ -19,7 +19,7 @@ function Login() {
 
     let formSubmitHandler = (e) => {
         e.preventDefault();
-        if ((!errorDetails.userName.hasError && loginDetails.userName) && (!errorDetails.password.hasError && loginDetails.password)) {
+        if ((!errorDetails.userName.hasError && !loginDetails.userName) && (!errorDetails.password.hasError && loginDetails.password)) {
             dispatch(userLogin({ username: loginDetails.userName, password: loginDetails.password }))
 
         }
@@ -79,7 +79,7 @@ function Login() {
         dispatch(resetLoginFormStatus())
     }
     return (
-        <Box bgcolor='#f8f8f8' height={'100vh'} display='flex' justifyContent='center' >
+        <Box py={5} bgcolor='#f8f8f8' height={'100vh'} display='flex' justifyContent='center' >
 
             {/* log in state UI */}
             <Modal
@@ -103,32 +103,33 @@ function Login() {
                 </Box>
             </Modal>
 
-            <Box width={{ xs: '100vw', md: '60vw', lg: '50vw' }}>
-                <Box display='flex' justifycontent='start' >
-                    <ArrowBack></ArrowBack>
-                </Box>
-                <Box display={'flex'} flexDirection='column' p={2}>
-                    <Typography sx={{ fontWeight: '800' }} variant='h6'>Login to World Medical Card </Typography>
-                    <Typography variant='body1' color='gray' >How would you like to sign-in?</Typography>
-                </Box>
-                <Box m={1} display='flex' justifyContent={'center'} padding={1} bgcolor='white' borderRadius={3}  >
-                    <Typography variant='body1'>Sign-in with Google</Typography>
-                </Box>
-                <Box mt={5} display={'flex'} justifyContent='center'>
-                    <Typography color={'gray'} >------------------ <Typography px={2} sx={{ display: 'inline', fontWeight: '600' }} color='gray'>OR</Typography> ---------------</Typography>
-                </Box>
+            <Box display={'flex'} flexDirection={'column'} justifyContent='space-between' width={{ xs: '100vw', md: '60vw', lg: '50vw' }}>
+                <Box>
+                    <Box display='flex' justifycontent='start' >
+                        <ArrowBack></ArrowBack>
+                    </Box>
+                    <Box display={'flex'} flexDirection='column' p={2}>
+                        <Typography my={0} sx={{ fontWeight: '800' }} variant='h6'>Login to World Medical Card </Typography>
+                        <Typography my={2}  variant='body1' color='gray' >How would you like to sign-in?</Typography>
+                    </Box>
+                    <Box m={1} display='flex' justifyContent={'center'} padding={1} bgcolor='white' borderRadius={3}  >
+                        <Typography  p={1} variant='body1'>Sign-in with Google</Typography>
+                    </Box>
+                    <Box mt={6} display={'flex'} justifyContent='center'>
+                        <Typography color={'lightGray'} > _______________ <Typography px={2} sx={{ display: 'inline', fontWeight: '600' }} color='gray'>OR</Typography> _______________</Typography>
+                    </Box>
 
-                <Box justifyContent={'space-between'} display={'flex'} flexDirection='column'>
+                    <Box justifyContent={'space-between'} display={'flex'} flexDirection='column'>
 
                     <Box m={2}>
-                        <Box my={2} bgcolor='white'>
-                            <TextField sx={{ mx: 2 }} variant="standard" InputProps={{ disableUnderline: true, }} fullWidth={true} size='large' value={loginDetails.userName}
+                        <Box my={3} bgcolor='white'>
+                            <TextField sx={{ m: 1 }} variant="standard" InputProps={{ disableUnderline: true, }} fullWidth={true} size='large' value={loginDetails.userName}
                                 onChange={usernameChangeHandler} label='Username' ></TextField>
                             {errorDetails.userName.hasError ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{errorDetails.userName.msg}</Alert> : <></>}
                         </Box>
                         <Box my={2} bgcolor='white' >
                             <TextField
-                                sx={{ mx: 2 }}
+                                sx={{ m: 1 }}
                                 size='large'
                                 type={showPassword ? 'text' : 'password'}
                                 value={loginDetails.password}
@@ -151,15 +152,19 @@ function Login() {
 
                         </Box>
                     </Box>
-                    <Box height='auto' m={2} display={'flex'} flexDirection={'column'} alignItems='center'>
-                        <Typography>Forgot Password ?</Typography>
+                </Box>
+
+                </Box>
+                <Box height='auto' m={2} mt="auto" display={'flex'} flexDirection={'column'} alignItems='center' >
+                        <Typography pb={"20px"}>Forgot Password ?</Typography>
                         <Box width={'100%'} borderRadius={30} overflow='hidden'>
-                            <Button onClick={formSubmitHandler} disabled={!errorDetails.isFormValid || userState.userLogIn.loading ? true : false} sx={{ padding: '0.7em' }} fullWidth type='submit' variant='contained'>Log in</Button>
+                            <Button onClick={formSubmitHandler} sx={{bgcolor: !errorDetails.isFormValid || userState.userLogIn.loading ? "lightBlue" : "primary",padding:'0.7em'}}  fullWidth type='submit' variant='contained'>Log in</Button>
                         </Box>
                     </Box>
-                </Box>
             </Box>
         </Box>
     )
 }
 export default Login
+
+// sx={{position:"absolute",bottom:"2em"}}
