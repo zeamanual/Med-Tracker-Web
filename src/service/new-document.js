@@ -9,7 +9,11 @@ let BASE_URL ;
     formData.append("type", documentType);
     formData.append("description", description);
 
-    return axios.post(`${BASE_URL}/upload`,formData)
+    return axios.post(`${BASE_URL}/upload`,formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
     
   }
 
