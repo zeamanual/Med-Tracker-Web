@@ -1,10 +1,15 @@
-import { AccountCircle, ArrowBack, SearchRounded } from '@mui/icons-material'
-import { Box, Card, InputAdornment, MenuItem, Stack, TextField, Typography } from '@mui/material'
+import { AccountCircle, SearchRounded } from '@mui/icons-material'
+import { useLocation,Link } from 'react-router-dom';
+import { ArrowBack, Expand, Visibility, VisibilityOff } from '@mui/icons-material'
+import { Box, Card, InputAdornment, MenuItem, Stack, Button, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAllergies, fetchDiagnoses, fetchMedicines, fetchVaccines } from '../state/slices/storedLists'
 
-function Add({selectedKey=1}) {
+function Add() {
+    const location = useLocation()
+    const { id } = location.state
+    let selectedKey = id
 
     let storedLists = useSelector(state => state.storedList)
     let dispatch = useDispatch()
@@ -31,7 +36,6 @@ function Add({selectedKey=1}) {
     let searchKeyChangeHandler = (e)=>{
         setSearchKey(e.target.value)
     }
-
     let [searchKey, setSearchKey] = React.useState('')
     let samples = [
         {
@@ -63,12 +67,13 @@ function Add({selectedKey=1}) {
     return (
         <Box display={'flex'} justifyContent='center' >
             <Box display='flex' flexDirection='column' width={{ xs: '90vw', md: '60vw' }} >
-                <Box display='flex' alignItems='center'>
-                    <ArrowBack sx={{ paddingY: 3, paddingRight: 3 }}></ArrowBack>
-                    <Typography variant='h6'>Add Screen</Typography>
+                <Box py={2} display='flex' alignItems='center'>
+                    <Link to={-1}> <ArrowBack  /> </Link>
+                    <Typography sx={{paddingLeft:"1em"}} variant='h6'>Add Screen</Typography>
                 </Box>
-                <Box width='100%'>
-                    <TextField value={searchKey} onChange={searchKeyChangeHandler} fullWidth placeholder='search'
+                <Box bgcolor={"white"} width='100%'>
+                    
+                    <TextField value={searchKey}  onChange={searchKeyChangeHandler} fullWidth placeholder='search'
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">

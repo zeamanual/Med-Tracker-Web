@@ -3,11 +3,12 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/IconButton';
-import MainPageCard from '../components/Main-page-card';
+import MainPageCard from '../components/main-page-card';
 import data from "../service/json-data"
 import { useState } from 'react';
 import {SnackBarModal} from '../components/snackbar-modal';
 import Document_Lists from '../components/lists';
+import { Link } from 'react-router-dom';
 // import  Lists  from '../components/lists';
 
 

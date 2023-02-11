@@ -16,6 +16,8 @@ import StyleIcon from '@mui/icons-material/Style';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import { RemoveSnackBar } from "./snackbar-modal";
 import { useState } from 'react';
+import { Link } from "react-router-dom";
+import Add from "../pages/add";
 
 
 export default function MainPageCard({ singleData }) {
@@ -44,7 +46,7 @@ export default function MainPageCard({ singleData }) {
     'Allergies':<VaccinesIcon  sx={style}/>,
     "Diagnoses" : <InsertDriveFileIcon  sx={style}/>,
     "Vaccines": <StyleIcon sx={style} />,
-    "Documents": <StyleIcon sx={style} />
+    // "Documents": <StyleIcon sx={style} />
   }
  
   const [open, setOpen] = useState(false);
@@ -139,13 +141,17 @@ export default function MainPageCard({ singleData }) {
                 </Box>:""}
 
                 <Box sx={{ mr: 2 }}>
+                  <Link 
+                    to="/add" state={{ id: 2 }}>
                   <Button
+                   
                     sx={buttonStyle}
                     variant="outlined"
                     startIcon={<AddIcon sx={{color:"gray"}} />}
                   >
                     Add
                   </Button>
+                  </Link>
                 </Box>
                 {singleData.addedList.length > 0 ? <Box sx={{ mr: 2 }}>
                   <Button
