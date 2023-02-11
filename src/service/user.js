@@ -1,31 +1,26 @@
-import axios from 'axios'
+import { clientInstance } from "./conf"
 
-// wll be changed to read from environment variable
-let BASE_URL = 'baseUrl'
-
-export let loginAPI = async (username,password)=>{
-    return axios({
-        url:`${BASE_URL}/user`,
-        method:'post',
-        data:{
-            username,password
-        }
+export const loginAPI = async (username,password)=>{
+    return clientInstance.post('/api/user/Auth/login',{
+        username,password
     })
+
 }
-export let SignupAPI = async (username,password)=>{
-    return axios({
-        url:`${BASE_URL}/user/signup`,
-        method:'post',
-        data:{
-            username,password
-        }
+export const SignupAPI = async (username,password)=>{
+    return clientInstance.post('/api/user/Auth/register',{
+        username,password
     })
+
 }
 
-export let profileUpdateAPI = async (profileInformation)=>{
-    return axios({
-        url:`${BASE_URL}/user`,
-        method:'put',
-        data:profileInformation
+export const profileUpdateAPI = async (profileInformation)=>{
+    return clientInstance.post('/api/Profile/update',{
+        profileInformation
     })
+
+}
+
+export const getProfileAPI = async ()=>{
+    return clientInstance.get('/api/Profile/get')
+
 }

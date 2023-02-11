@@ -1,9 +1,7 @@
-import axios from "axios";
-let BASE_URL ;
-
+import { clientInstance } from "./conf"
 const getFiles = () => {
 
-    return axios.get(`${BASE_URL}/files`)
+    return clientInstance.get(`/api/Document`)
   
 
 }
