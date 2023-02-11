@@ -5,6 +5,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/IconButton';
 import MainPageCard from '../components/main-page-card';
 import data from "../service/json-data"
+import newData from "../service/new-json"
 import { useState } from 'react';
 import {SnackBarModal} from '../components/snackbar-modal';
 import Document_Lists from '../components/lists';
@@ -23,6 +24,17 @@ const MainPage = () => {
     const handleClose = () => {
       setOpen(false);
     };
+
+    let data = [
+      newData["user"]["allergies"],
+      newData["user"]["medicines"],
+      newData["user"]["diagnoses"],
+      newData["user"]["vaccines"],
+      newData["user"]["documents"]
+    
+    ]
+    let titles =["Allergies","Medicines","Diagnoses","Vaccines","Documents"]
+    
     
     return ( 
     <Container  disableGutters maxWidth={false} >
@@ -45,7 +57,9 @@ const MainPage = () => {
         data.map((singleData,index)=>{
           // return <List/>
           // return <Document_Lists/>
-          return <MainPageCard key={index} singleData={singleData}/>
+          console.log(singleData,"this is single data");
+
+          return <MainPageCard key={index} index={index} titles={titles} singleData={singleData}/>
         })
         
         }
