@@ -44,7 +44,7 @@ export default function MainPageCard({ singleData }) {
     'Allergies':<VaccinesIcon  sx={style}/>,
     "Diagnoses" : <InsertDriveFileIcon  sx={style}/>,
     "Vaccines": <StyleIcon sx={style} />,
-    "Documents": <StyleIcon sx={style} />
+    // "Documents": <StyleIcon sx={style} />
   }
  
   const [open, setOpen] = useState(false);
