@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import { useDispatch } from 'react-redux';
+import { logout } from '../state/slices/user';
 
 const style = {
   position: 'absolute',
@@ -23,6 +25,8 @@ const style = {
 
 function SnackBarModal({open,handleClose}) {
 
+  let dispatch = useDispatch()
+
   return (
     <div>
       <Modal
@@ -33,7 +37,7 @@ function SnackBarModal({open,handleClose}) {
       >
         <Box sx={style} >
             <Button onClick={null} sx={{color:"white",display:"block",textTransform: "none",}}>Terms and conditions</Button>
-            <Button onClick={null} sx={{color:"white",display:"block",textTransform: "none",}}>Sign out</Button>
+            <Button onClick={()=>dispatch(logout())} sx={{color:"white",display:"block",textTransform: "none",}}>Sign out</Button>
         </Box>
       </Modal>
     </div>

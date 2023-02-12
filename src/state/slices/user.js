@@ -1,18 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { persistAuth, removeAuth } from "../../helpers/authPersistence"
 import { loginAPI, profileUpdateAPI, SignupAPI } from "../../service/user"
 
 let initialState = {
     loading: false,
-    user: {
-        userId: '',
-        fullName: '',
-        email: '',
-        allergies: [],
-        medicines: [],
-        diagnoses: [],
-        vaccines: [],
-        documents: [],
-    },
+    token: localStorage.getItem('token') || '',
+    userId: localStorage.getItem('userId') || '',
+    fullName: localStorage.getItem('fullName') || '',
+    email: localStorage.getItem('email') || '',
+    allergies: [],
+    medicines: [],
+    diagnoses: [],
+    vaccines: [],
+    documents: [],
+    currentUserObjectRaw: '',
     userLogIn: {
         loading: false,
         errorMsg: '',
@@ -33,13 +34,13 @@ let initialState = {
 
 export let userLogin = createAsyncThunk(
     'user/login',
-    async ({ username, password }, thunkApi) => {
+    async ({ email, password }, thunkApi) => {
         try {
-            let response = await loginAPI(username, password)
+            let response = await loginAPI(email, password)
             return response.data
 
         } catch (error) {
-            let errorMsg = error.response.data?.message
+            let errorMsg = error?.response?.data
             return thunkApi.rejectWithValue(errorMsg ? errorMsg : error.message)
         }
     }
@@ -50,7 +51,7 @@ export let userSignup = createAsyncThunk(
     'user/signup',
     async ({ firstName, lastName, email, password }, thunkApi) => {
         try {
-            let response = await SignupAPI(firstName,lastName,email, password)
+            let response = await SignupAPI(firstName, lastName, email, password)
             return response.data
 
         } catch (error) {
@@ -95,11 +96,22 @@ let userSlice = createSlice({
             state.userSignup.successMsg = ''
             state.userSignup.loading = false
         },
+        logout: (state) => {
+            removeAuth()
+            state.allergies = []
+            state.diagnoses = []
+            state.documents = []
+            state.vaccines=[]
+            state.medicines=[]
+            state.email=''
+            state.fullName=''
+            state.userId=''
+            state.currentUserObjectRaw = ''
+            state.token=''
+        }
     },
 
     extraReducers: (builder) => {
-
-
 
         // sign up reducer
         builder.addCase(userSignup.pending, (state) => {
@@ -129,12 +141,23 @@ let userSlice = createSlice({
 
         builder.addCase(userLogin.fulfilled, (state, action) => {
             state.userLogIn.loading = false
-            state.user = { ...action.payload.user };
+            state.currentUserObjectRaw = action.payload.user
+            state.token = action.payload.token
+            state.allergies = action.payload.user.allergies
+            state.vaccines = action.payload.user.vaccines
+            state.diagnoses = action.payload.user.diagnoses
+            state.medicines = action.payload.user.medicines
+            state.documents = action.payload.user.documents
+            state.email = action.payload.user.email
+            state.fullName = action.payload.user.fullName
             state.userLogIn.errorMsg = ''
+            state.userId=action.payload.user.userId
+            persistAuth({ token: state.token, userId: state.userId, email: state.email, fullName: state.fullName })
             state.userLogIn.successMsg = "User Logged in Successfully"
         })
 
         builder.addCase(userLogin.rejected, (state, action) => {
+            console.log('log in faillded', action)
             state.userLogIn.loading = false
             state.userLogIn.errorMsg = action.payload
             state.userLogIn.successMsg = ''
@@ -162,6 +185,6 @@ let userSlice = createSlice({
 
 
 let userReducer = userSlice.reducer
-export let { resetLoginFormStatus, resetSignupFormStatus, resetProfileUpdateFormStatus } = userSlice.actions
+export let { resetLoginFormStatus, logout,resetSignupFormStatus, resetProfileUpdateFormStatus } = userSlice.actions
 
 export default userReducer
