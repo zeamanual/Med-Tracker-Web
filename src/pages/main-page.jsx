@@ -13,11 +13,15 @@ import DocumentLists from '../components/lists';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Button } from '@mui/material';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import Profile from '../components/profile';
 
 
 const MainPage = () => {
 
     const user = useSelector((state) => state.user);
+     const [drawerState, setDrawerState] = useState(false);
     const current_hour = new Date().getHours();
     let navigate = useNavigate()
     const [open, setOpen] = useState(false);
@@ -28,13 +32,24 @@ const MainPage = () => {
       setOpen(false);
     };
     console.log(newData);
+    const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
 
-    let data = [
-      newData["user"]["allergies"],
-      newData["user"]["medicines"],
-      newData["user"]["diagnoses"],
-      newData["user"]["vaccines"],
-      newData["user"]["documents"]
+    setDrawerState(open);
+  };
+
+    const data = [
+      user.allergies,
+      user.medicines,
+      user.diagnoses,
+      user.vaccines,
+      user.documents
     
     ]
     let titles =["Allergies","Medicines","Diagnoses","Vaccines","Documents"]
@@ -63,15 +78,40 @@ const MainPage = () => {
         {
           open? < SnackBarModal open={open} handleClose = {handleClose}  />:<></>      
         }
-        {
-        data.map((singleData,index)=>{
+        
+        <Box sx={{ mb: 4 ,}}>
+      <Box sx={{ backgroundColor: "white", borderRadius: "1.5em" }}>
+        <Box 
+        // borderRadius={{xs:'0.5em',md:"1.5em"}}
+        // boxShadow={{xs:"1px 1px 7px  #a3a3a3",md:"0px 1px 2px  lightGray"}}
+        
+          sx={{
+             width: '20rem', height: '7rem',
+            padding: '1.4rem 0 0 2rem',
+            // boxShadow: "1px 1px 7px  gray",
+          }}
+        >
+          <h3 style={{paddingLeft:'.4rem'}}>Gemechis Urgessa</h3>
+          <p style={{paddingLeft:'.4rem'}}>Member since 2020</p>
+          <Button onClick={toggleDrawer("right", true)}>Click here to edit</Button>
+        </Box>
+        </Box>
+        </Box>
+        {data.map((singleData,index)=>{
           console.log(singleData)
           return <MainPageCard key={index} index={index} titles={titles} singleData={singleData}/>
         })
         
         }
         
-          
+          <SwipeableDrawer
+        anchor={"right"}
+        open={drawerState}
+        onClose={toggleDrawer("right", false)}
+        onOpen={toggleDrawer("right", true)}
+      >
+            {<Profile toggleDrawer={toggleDrawer} />}
+          </SwipeableDrawer>
       </Container>
       </Box>
      );

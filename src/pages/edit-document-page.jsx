@@ -7,7 +7,7 @@ import { useSnackbar } from 'notistack';
 import { useParams } from 'react-router-dom';
 
 const DocumentType = [
-  "Certificate",
+  'Certificate',
   "Discharge Summary",
   "Insurance",
   "Living Will",
@@ -18,14 +18,19 @@ const DocumentType = [
   "Other",
 ];
 
-const EditDocumentPage = () => {
+const EditDocumentPage = (props) => {
   const [document, setDocument] = useState();
   const [documentTitle, setDocumentTitle] = useState('');
-  const { item } = useParams();
+  const item = props.item.catagory;
+  console.log(item);
+  if (props.item){
+
+    console.log(props.item.catagory);
+  }
   // const item = useMemo(() => ({file:'file.pdf', documentTitle:'health', name:'max.pdf', description: 'me on the moon', documentType: 'Discharge Summary'}), []);
 
-  const [formData, setFormData] = useState(item);
-  const [documentType, setDocumentType] = useState(formData.documentType);
+  const [formData, setFormData] = useState({});
+  const [documentType, setDocumentType] = useState('');
   const [description, setDescription] = useState('');
   const [documentError, setDocumentError] = useState({
     documentErrorMessage: false,
@@ -36,8 +41,12 @@ const EditDocumentPage = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
-    setFormData(item);
-  }, [item]);
+    setFormData(props.item);
+    if (props.item){
+
+      setDocumentType(props.item.catagory);
+    }
+  }, [props.item]);
 
 
   const handleDescription = (e) => {
@@ -92,13 +101,15 @@ const EditDocumentPage = () => {
     }
   };
   return (
-    <Box component="form" onSubmit={handleAddNewDocument} sx={{ maxWidth: '34em !important',
+    <Box component="form" onSubmit={handleAddNewDocument} sx={{ width: '36em !important',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
   alignItems: 'center',
   height: '100vh',
-  margin: '0 auto'}}>
+  margin: '0 auto',
+  padding: '2em',
+  }}>
       <Box sx={{display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -106,13 +117,13 @@ const EditDocumentPage = () => {
   gap: '1em',
   width: '100%'}}>
         <h2>Add New document</h2>
-        <FileUpload name = {formData.name}
+        <FileUpload name = {formData.title}
           updateFileCb={updateFileCb}
           maxFileSizeInBytes={9000000000}
           isProvided={documentError.documentErrorMessage}
         />
         <TextField
-          value={formData.documentTitle}
+          value={formData.title}
           onChange={handleDocumentTitle}
           error={documentError.documentTitleErrorMessage}
           fullWidth
@@ -124,11 +135,10 @@ const EditDocumentPage = () => {
           }
         />
         <TextField
-        
           fullWidth
           select
           label="Document Type"
-          defaultValue={formData.documentType}
+          value={'Prescription'}
           onChange={handleDocumentType}
         >
           {DocumentType.map((option) => (

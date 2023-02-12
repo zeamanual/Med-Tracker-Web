@@ -24,41 +24,47 @@ const DocumentType = [
     
 //     ]
 
-const ListDocuments = () => {
+const ListDocuments = (props) => {
     
-
-    const dispatch = useDispatch();
-    // const [files, setFiles] = useState([]);
+    const [loading, setLoading] = useState(true);
+    // const dispatch = useDispatch();
+    const [files, setFiles] = useState(props.data);
     // const files = newFiles;
-    const files = useSelector(state => state.files);
-    const isLoading = useSelector(state => state.isLoading);
-    const errorMessage = useSelector(state => state.errorMessage);
+    // const files = useSelector(state => state.files);
+    // const isLoading = useSelector(state => state.isLoading);
+    // const errorMessage = useSelector(state => state.errorMessage);
     const groupedFiles = files.reduce((group, file) => {
-        const { documentType } = file;
-        group[documentType] = group[documentType] ?? [];
-        group[documentType].push(file);
+        const { catagory } = file;
+        group[catagory] = group[catagory] ?? [];
+        group[catagory].push(file);
         return group;
     }, {});
     // console.log(newFiles);
-    // console.log(groupedFiles);
+    console.log(groupedFiles);
     // DocumentType.forEach(eachType => {
     //         console.log(groupedFiles[eachType])
     // });
     useEffect(() => {
-        // setFiles(newFiles);
-        dispatch(fetchFiles());
-    },[dispatch]);
+        // setLoading(true);
+        const timeOutId = setTimeout(() => {
+
+        setLoading(false);
+        }, 1000);
+        return () => {
+            clearTimeout(timeOutId);
+        }
+        
+    },[]);
 
     return (
         <>
-        <p>new</p>
-        {isLoading ? <CircularProgress /> :
+        {loading ? <CircularProgress /> :
+
         DocumentType.map(eachType => {
             return groupedFiles[eachType] !== undefined ? 
             <Lists key={eachType} data={groupedFiles[eachType]} title ={eachType}/> :
             <Lists key={eachType} data={[]} title ={eachType}/>
         })}
-        {errorMessage && <p>failed to load data!</p>}
         </>
         
     )
