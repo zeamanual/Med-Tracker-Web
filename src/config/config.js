@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export const BASE_URL = 'https://0cda-2a0d-5600-44-5000-00-1da7.ngrok.io'
+export const BASE_URL = 'https://7dae-2a0d-5600-42-1000-00-b802.ngrok.io/'
 
 export let clientInstance = axios.create({
     headers: {
