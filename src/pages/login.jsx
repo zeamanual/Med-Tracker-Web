@@ -2,6 +2,7 @@ import { ArrowBack, Expand, Visibility, VisibilityOff } from '@mui/icons-materia
 import { Alert, Box, Button, CircularProgress, IconButton, InputAdornment, Modal, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { resetLoginFormStatus, userLogin } from '../state/slices/user'
 
 function Login() {
@@ -156,7 +157,7 @@ function Login() {
 
                 </Box>
                 <Box height='auto' m={2} mt="auto" display={'flex'} flexDirection={'column'} alignItems='center' >
-                        <Typography pb={"20px"}>Forgot Password ?</Typography>
+                        <Typography pb={"20px"}>Don't have an account ? <Link to={"/signup"}>Sign up</Link> </Typography>
                         <Box width={'100%'} borderRadius={30} overflow='hidden'>
                             <Button onClick={formSubmitHandler} sx={{bgcolor: !errorDetails.isFormValid || userState.userLogIn.loading ? "lightBlue" : "primary",padding:'0.7em'}}  fullWidth type='submit' variant='contained'>Log in</Button>
                         </Box>

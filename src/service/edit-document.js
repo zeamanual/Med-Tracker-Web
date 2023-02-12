@@ -1,4 +1,4 @@
-import { clientInstance } from "./conf";
+import { clientInstance } from "../config/config";
 
 const editFile = (id) => {
 
