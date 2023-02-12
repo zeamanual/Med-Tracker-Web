@@ -2,21 +2,12 @@ import { clientInstance,BASE_URL } from '../config/config'
 
 
 export let diagnosesListAPI = async (name)=>{
-    return clientInstance({
-        url:`${BASE_URL}/api/Diagnoses/search?name=${name}`,
-        method:'get',
-    })
+    return clientInstance.get(`/api/Diagnoses/search?name=${name}`)
+
 }
 export let diagnosesAddAPI = async (id)=>{
-    return clientInstance({
-        
-        url:`${BASE_URL}/api/Diagnoses/add/${id}`,
-        method:'get',
-    })
+    return clientInstance.post(`/api/Diagnoses/add/${id}`)
 }
 export let diagnosesDeleteAPI = async (id)=>{
-    return clientInstance({
-        url:`${BASE_URL}/api/Diagnoses/${id}`,
-        method:'delete',
-    })
+    return clientInstance.delete(`/api/Diagnoses/${id}`)
 }

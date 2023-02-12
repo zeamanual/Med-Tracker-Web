@@ -11,21 +11,25 @@ import EditIcon from '@mui/icons-material/Edit';
 import LanguageIcon from '@mui/icons-material/Language';
 import AddIcon from '@mui/icons-material/Add';
 import ShareIcon from '@mui/icons-material/Share';
+import FolderIcon from '@mui/icons-material/Folder';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import StyleIcon from '@mui/icons-material/Style';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import { RemoveSnackBar } from "./snackbar-modal";
 import { useState } from 'react';
+import { Link } from "react-router-dom";
+import Add from "../pages/add";
+import Document_Lists from "./lists";
 
 
-export default function MainPageCard({ singleData }) {
+export default function MainPageCard({ singleData,index,titles }) {
   // console.log(singleData, "data for each apperaed");
 
-  
+  console.log(singleData.length,"single data in his home",titles);
 
   const style ={
     fontWeight: 900,
-    color: singleData.addedList.length === 0 ? "gray.600" : "#4298e1",
+    color: singleData.length === 0 ? "#373f4a" : "#4298e1",
     pr: 2,
     pt: 1,
     fontSize:"45px"
@@ -40,11 +44,11 @@ export default function MainPageCard({ singleData }) {
   }
 
   const Icons ={
-    'Medicine': <LocalHospitalIcon sx={style} />,
-    'Allergies':<VaccinesIcon  sx={style}/>,
-    "Diagnoses" : <InsertDriveFileIcon  sx={style}/>,
-    "Vaccines": <StyleIcon sx={style} />,
-    "Documents": <StyleIcon sx={style} />
+    '0': <VaccinesIcon  sx={style}/>,
+    '1':<LocalHospitalIcon sx={style} />,
+    "2" : <InsertDriveFileIcon  sx={style}/>,
+    "3": <StyleIcon sx={style} />,
+    "4": <FolderIcon sx={style} />
   }
  
   const [open, setOpen] = useState(false);
@@ -84,7 +88,8 @@ export default function MainPageCard({ singleData }) {
               id="panella-header"
             >
               <Box sx={{ display: "flex", alignItems: "start" }}>
-              { Icons[singleData.name]}
+              { Icons[index]}
+              {/* <LocalHospitalIcon  /> */}
                                
 
                 <Box
@@ -94,16 +99,17 @@ export default function MainPageCard({ singleData }) {
                     width: "12em",
                   }}
                 >
-                  <Typography pl={{xs:'0.0em',md:"24px"}}  sx={{ fontWeight: 600, fontSize: "22px" }}>
-                    {singleData.name}
+                  <Typography pl={{xs:'0.1em',md:"24px"}}  sx={{ fontWeight: 600, fontSize: "22px" }}>
+                    {titles[index]}
+                    
                   </Typography>
-                  <Typography pl={{xs:'0.0em',md:"24px"}}
+                  <Typography color={"gray"} pl={{xs:'0.1em',md:"24px"}}
                     noWrap
                     sx={{ fontSize: "16px", textOverflow: "ellipsis" }}
                   >
-                    {singleData.addedList.length === 0
-                      ? `No ${singleData.name.toLowerCase()} listed`
-                      : `${singleData.addedList.length} ${singleData.addedList.length === 1?"item":"items"}: ${singleData.addedList[0].title}`}
+                    {singleData.length === 0
+                      ? `No ${ titles[index].toLowerCase()} listed`
+                      : `${singleData.length} ${singleData.length === 1?"item":"items"}: ${ index==4? singleData[0].title: singleData[0].name}`}
                   </Typography>
                 </Box>
               </Box>
@@ -113,10 +119,13 @@ export default function MainPageCard({ singleData }) {
               <Box
                 sx={{ py: 2, maxHeight: "70vh", overflowY: "scroll" }}
               >
-                {singleData.addedList.map((each,index) => {
+                {/* <Document_Lists/> */}
+                {index ===4? <Box>helloo</Box> : 
+                singleData.map((each,ind) => {
+        
                   return (
-                    <Box key={index}>
-                      <Typography>{each.title}</Typography>
+                    <Box key={ind}>
+                      <Typography>{each.name}</Typography>
                       <Typography sx={{ fontSize: "10px" }}>
                         {each.code}
                       </Typography>
@@ -128,7 +137,7 @@ export default function MainPageCard({ singleData }) {
               open? < RemoveSnackBar open={open} handleClose = {handleClose}  />:<></>      
             }
               <Box  overflow={{xs:'scroll',md:"hidden"}}  sx={{ display: "flex", py: 1, }}>
-              {singleData.addedList.length > 0 ? <Box sx={{ mr: 2 }}>
+              {singleData.length > 0 ? <Box sx={{ mr: 2 }}>
                   <Button
                     sx={buttonStyle}
                     variant="outlined"
@@ -139,15 +148,20 @@ export default function MainPageCard({ singleData }) {
                 </Box>:""}
 
                 <Box sx={{ mr: 2 }}>
+                  <Link 
+                    style={{ textDecoration: 'none' }}
+                    to="/add" state={{ id: index}}>
                   <Button
+                   
                     sx={buttonStyle}
                     variant="outlined"
                     startIcon={<AddIcon sx={{color:"gray"}} />}
                   >
                     Add
                   </Button>
+                  </Link>
                 </Box>
-                {singleData.addedList.length > 0 ? <Box sx={{ mr: 2 }}>
+                {singleData.length > 0 ? <Box sx={{ mr: 2 }}>
                   <Button
                     onClick={handleClickOpen}
                     sx={buttonStyle}
@@ -158,7 +172,7 @@ export default function MainPageCard({ singleData }) {
                     Edit
                   </Button>
                 </Box>:""}
-                {singleData.addedList.length > 0 ? <Box>
+                {singleData.length > 0 ? <Box>
                   <Button
                   
                     sx={buttonStyle}

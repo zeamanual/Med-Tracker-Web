@@ -3,23 +3,12 @@ import { clientInstance,BASE_URL } from '../config/config'
 
 
 export let medicinesListAPI = async (name)=>{
-    return clientInstance({
-        url:`${BASE_URL}/api/Medicine/search?name=${name}`,
-        method:'get',
-    })
+    return clientInstance.get(`/api/Medicine/search?name=${name}`)
 }
-
 
 export let medicineAddAPI = async (id)=>{
-    return clientInstance({
-        url:`${BASE_URL}/api/Medicine/add/${id}`,
-        method:'get',
-    })
+    return clientInstance.post(`/api/Medicine/add/${id}`)
 }
 export let medicineDeleteAPI = async (id)=>{
-    return clientInstance({
-        
-        url:`${BASE_URL}/api/Medicine/${id}`,
-        method:'delete',
-    })
+    return clientInstance.delete(`/api/Medicine/${id}`)
 }

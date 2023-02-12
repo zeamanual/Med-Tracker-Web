@@ -1,9 +1,10 @@
-import axios from "axios";
-let BASE_URL ;
+
+import { clientInstance } from "../config/config";
+
 
 const deleteFile = (id) => {
 
-    return axios.delete(`${BASE_URL}/id`)
+    return clientInstance.delete(`/api/Document/${id}`)
   
 
 }

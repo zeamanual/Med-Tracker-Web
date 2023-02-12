@@ -59,24 +59,25 @@
       }
     ]
   },
- 
-    {
-      "documentId": "08dafaa0-c3ca-4502-8936-73ee3224635e",
-      "filePath": "http://localhost:30325/Resources\\Files\\638097978687563532-Ba.jpg",
-      "title": null,
-      "catagory": null,
-      "description": null,
-      "userId": "08dafa5f-a8fb-4e76-8e91-8bda81d93bd0",
-      "user": null
-    },
-    {
-      "documentId": "08dafaa1-8516-4eac-88e3-cf644c1a5a54",
-      "filePath": "http://localhost:30325/Resources\\Files\\638097981907058943-Baby.jpg",
-      "title": "baby",
-      "catagory": "the",
-      "description": "none",
-      "userId": "08dafa5f-a8fb-4e76-8e91-8bda81d93bd0",
-      "user": null
-    }
-
+  {
+    "_id": "63bf0db7bf0f78b1ae4159f2",
+    "name": "Documents",
+    "addedList": [
+      {
+        "id": "63bf0db7131a37ccabe4f6a2",
+        "name": "Lindsey Anthony",
+        "code": "EXTRA"
+      },
+      {
+        "id": "63bf0db7ab4a45e8027e913e",
+        "name": "Mathews Dunn",
+        "code": "PE"
+      },
+      {
+        "id": "63bf0db70bbd031251a90f4f",
+        "name": "Wendy Dickson",
+        "code": "VIAG"
+      }
+    ]
+  }
 ]
