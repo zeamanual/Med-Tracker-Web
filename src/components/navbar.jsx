@@ -83,11 +83,8 @@ function NavBar(props) {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ display: 'flex'}} justifyContent="center" overflow={"hidden"}>
+    <Box sx={{ display: 'flex'}} justifyContent="center" overflow={"hidden"} boxShadow={"1px 1px 6px 5px lightgray"}>
       <CssBaseline  />
-      
-      {/* <AppBar component="nav" sx={{boxShadow:"0,0,0,0 white", backgroundColor:"white !important"}}>
-        <Toolbar > */}
           <Box display={"flex"} justifyContent="center" my={"auto"} alignContent={"center"} >
         
           <IconButton
