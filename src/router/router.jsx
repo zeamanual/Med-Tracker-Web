@@ -4,6 +4,7 @@ import Login from "../pages/login";
 import SignUp from "../pages/signup";
 import { BrowserRouter,Route,Routes } from 'react-router-dom';
 import MainPage from "../pages/main-page";
+import ProfileUpdate from "../pages/profileUpdate";
 import Landing from "../pages/landing";
 import About from "../pages/about";
 import Business from "../pages/business";
@@ -28,6 +29,7 @@ const PageRouter = () => {
             <Route path="/add"  element={<Add/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<SignUp/>}/>
+            <Route path='/profile' element={<ProfileUpdate/>} ></Route>
             <Route path="/about" element={<About/>}/>
             <Route path="/business" element={<Business/>}/>
             <Route path="/medicalcard" element={<MedicalCard/>}/>

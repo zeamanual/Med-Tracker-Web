@@ -15,12 +15,12 @@ export const SignupAPI = async (firstName, lastName, email, password) => {
 }
 
 export const profileUpdateAPI = async (profileInformation) => {
-    return clientInstance.post('/api/Profile/update', {
-        profileInformation
+    return clientInstance.put('/api/Profile/update', {
+        ...profileInformation
     })
 
 }
-
+ 
 export const getProfileAPI = async () => {
     return clientInstance.get('/api/Profile/get')
 
