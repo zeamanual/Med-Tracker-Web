@@ -86,7 +86,7 @@ const Footer = () => {
       <Box color="lightgray" bgcolor={"#13141a"}>
         <Box
           p={8}
-          pt={16}
+          
           justifyContent="space-between"
           display={"flex"}
           flexDirection={{ xs: "column", md: "row" }}
@@ -166,12 +166,12 @@ const Footer = () => {
           </Box>
         </Box>
         <Box bgcolor={"gray"} p={"1px"} mx={"36px"}></Box>
-        <Box width={"75%"} py={2} margin="auto">
+        <Box width={"75%"} py={2} margin="auto" textAlign={"center"}>
           <Typography pb={1} color={"lightgray"}>
-            2021 © WMC Technologies AS. ALL Rights Reserved. | Terms | Privacy |
+            2021 © WMC Technologies AS. ALL Rights Reserved. <br />
             Security World Medical Card is a registered trademark of World
             Medical Center Holding S.A. The technology that is used by World
-            Medical Card onWeb/onCard/onMobile is protected by patents
+            Medical Card onMobile is protected by patents
           </Typography>
         </Box>
       </Box>
