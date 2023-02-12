@@ -8,7 +8,7 @@ import data from "../service/json-data"
 import newData from "../service/new-json"
 import { useState } from 'react';
 import {SnackBarModal} from '../components/snackbar-modal';
-import Document_Lists from '../components/lists';
+import DocumentLists from '../components/lists';
 import { Link } from 'react-router-dom';
 import {useSelector} from 'react-redux';
 // import  Lists  from '../components/lists';

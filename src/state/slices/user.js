@@ -12,7 +12,6 @@ let initialState = {
         diagnoses : [],
         vaccines : [],
         documents : [],
-        token : ''
     },
     userLogIn: {
         loading: false,
