@@ -46,6 +46,7 @@ const MainPage = () => {
     })
     
     return ( 
+    <Box minHeight={"100vh"}  paddingX={{xs:"1em",lg:"14em"}} bgcolor={{ xs:"#f8f8f8",md:"#daf2f8"}}>
     <Container  disableGutters maxWidth={false} >
         <Box sx={{
           display: 'flex',
@@ -72,6 +73,7 @@ const MainPage = () => {
         
           
       </Container>
+      </Box>
      );
 }
  

@@ -1,99 +1,146 @@
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import ImageSwipper from "../components/ImageSwipper";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Grid from '@mui/material/Unstable_Grid2';
 import Footer from "../components/footer";
+import NavBar from "../components/navbar";
+import * as React from 'react';
+import Modal from '@mui/material/Modal';
+// npm install react-animation-on-scroll --save
+
+const style = {
+  backgroundColor:"white",
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 600,
+  bgcolor: 'background.paper',
+  border: '1px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
 const Landing = () => {
-    const navigate = useNavigate();
-    const images = [1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    
     return ( 
+        
         <>
-            <ImageSwipper/>
-            <Box my={"60px"}width={"100%"}>
-                <Typography textAlign={"center"} fontWeight="bold" mb="15px" variant="h4">
-                    WELCOME TO SHEGER LOUNGE
-                </Typography>
-                <Typography m="auto" width={"75%"} textAlign={"center"} variant="h6">
-                    Sheger lounge is located in the beautiful city of addis ababa. Its location is magnificent as it is located on the coastal road of the city, thus offering a unique view of the sea.
-                </Typography>
+     
+            <Box  overflow="hidden" sx={{position:"relative",}}>
+                <Box top={{xs:"0%", md:"50%"}} left={{xs:"0%", md:"10%"}} position="absolute" height="100%" sx={{ zIndex:10, opacity:""}}  >
+                    <Typography fontSize={{xs:"16px", md:"30px"}}  fontWeight={"bold"}  color={"white"} borderRadius="15px"  sx={{fontWeight:"600",letterSpacing: "4px", padding:"20px",opacity:"1",background: "rgba(19, 210, 256,0.5)"}}>
+                    A unique technology for safe 
+                    <br />
+                    and correct medical treatment
+                    </Typography>
+                    <Box marginTop="40px">
+                        <Link to={"/signup"}   style={{ borderRadius:"10px", textDecoration: 'none',backgroundColor:"#a81515", color:"white", padding:"14px",  paddingRight:"30px",paddingLeft:"30px"  }} > Register </Link>
+                    </Box>
+                </Box>   
+                <Box overflow={"hidden"}  ><img width="100%" objectFit="cover" src="/images/image1.jpg" alt="" /></Box>
+            </Box>
+            <Box  overflow="hidden" display={"flex"}  flexDirection={{xs:"column", md:"row"}} my={"60px"} width={"100%"}>
+                <img src="./images/phone.jpg" alt="" />
+                <Box >
+                    <Box width={{xs:"90%",md:"100%"}}>
+                         <img width={"100%"} src="./images/image2.png" alt="" />
+
+                    </Box>
+                    <Box marginLeft={"40px"} marginTop="40px">
+                        <Link onClick={handleOpen}  style={{ borderRadius:"10px", textDecoration: 'none',backgroundColor:"#a81515", color:"white", padding:"20px",  paddingRight:"40px",paddingLeft:"40px"  }} > More Details </Link>
+                    </Box>
+                    
+                    <Modal
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                    >
+                    <Box bgcolor={"white"} sx={style}>
+                        <Typography fontWeight={"bold"} id="modal-modal-title" variant="h4" component="h2">
+                        World Medical Card benefits:
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        - A personal and up-to-date health card is important to have available in the event of a critical situation. <br />
+                        - It is useful in meeting with healthcare professionals or pharmacists who do not know you. <br />
+                        - It is practical in the situation where you, for example, have to explain allergies, spectacle strength or vaccine status. <br />
+                        - In the app you can choose between, English, Spanish, German, Norwegian, Swedish or Danish profile language <br />
+                        - In the app you can translate medicines, diagnoses and allergies into 20 languages <br />
+                        - You can choose to share your digital health card with family and other trusted people <br />
+                        - World Medical Card ® for your safety in everyday life and when you are travelling <br />
+                        </Typography>
+                    </Box>
+                    </Modal>
+
+                </Box>
+              
 
             </Box>
 
-            <Box  m="auto" sx={{ width:{ xs: '75%', sm: '50%' }, display:"flex",  justifyContent:"space-between"}}>
-                <Box mr="5px" height="50%" textAlign={"center"}>
-                    <img  src="/images/1.png" alt="" />
-                    <Typography textAlign={"center"} mb="5px" variant="h5" fontWeight={"bold"}>
-                        75
-                    </Typography>
-                    <Typography m="auto" textAlign={"center"} variant="p">
-                        Rooms
-                    </Typography>     
+            <Box display="flex" flexDirection={{xs:"column", md:"row"}} bgcolor={"#33b9cb"} pt="50px" pb="50px" justifyContent="space-between">
+                <Box  mr="5px" height="50%" textAlign={"center"}>
+                    <img  src="/images/1.png" alt="" />  
                 </Box>
+                
 
                 <Box mr="5px" height="50%" textAlign={"center"}>
                     <img  src="/images/2.png" alt="" />
-                    <Typography textAlign={"center"} mb="5px" variant="h5" fontWeight={"bold"}>
-                        300
-                    </Typography>
-                    <Typography m="auto" textAlign={"center"} variant="p">
-                        Guests
-                    </Typography>     
-                </Box>                
+                       
+                </Box>  
+                              
                 
                 <Box mr="5px" height="50%" textAlign={"center"}>
                     <img  src="/images/3.png" alt="" />
-                    <Typography textAlign={"center"} mb="5px" variant="h5" fontWeight={"bold"}>
-                        2
+                </Box>
+                
+                <Box mr="5px" height="50%" textAlign={"center"}>
+                    <img  src="/images/4.png" alt="" />
+                </Box>
+
+            </Box>
+
+            <Box my={"60px"} width={"100%"}>
+                <Box sx={{marginBottom:"6em"}}>
+                    <Typography textAlign={"center"} color="#13bff2" fontWeight="bold" mb="15px" variant="h6">
+                    WHAT WE DO
                     </Typography>
-                    <Typography m="auto" textAlign={"center"} variant="p">
-                        Swimming Pool
+                    <Typography textAlign={"center"} fontWeight="bold" mb="15px" fontSize={{xs:"16px",md:"32px"}} >
+                        Latest News & Articles
+                    </Typography>
+                </Box>
+            <Box margin={"auto"} flexDirection={{xs:"column", md:"row"}} width="90%" display="flex" justifyContent="space-between">
+                <Box mr="5em" >
+                    <img width={"100%"} objectFit="cover"  src="/images/img8.png" alt="" />
+                    <Typography variant="h6" fontWeight={"bold"} color={"#13bff2"}>
+                    The most meaningful Christmas gift you can give to your employees
+                    </Typography>     
+                </Box>
+
+                <Box mr="5em"  >
+                    <img width={"100%"} objectFit="cover"  src="/images/img9.png" alt="" />
+                    <Typography variant="h6" fontWeight={"bold"} color={"#13bff2"}>
+                    Dont forget about the influenza                    </Typography>     
+                </Box>                
+                
+                <Box  >
+                    <img width={"100%"} objectFit="cover" src="/images/img6.jpg" alt="" />
+                    <Typography variant="h6" fontWeight={"bold"} color={"#13bff2"}>
+                    Medication in turkish
                     </Typography>     
                 </Box>
         
 
             </Box>
 
-            <Box  my="80px" sx={{position:"relative" }}>
-                <Typography variant="h6" fontWeight={"bold"}  color={"black"} width="80%" height={"80%"} textAlign={"center"}  sx={{overflow: 'auto', position:"absolute",fontWeight:"1", left:"10%", top:"10%", padding:"40px",opacity:"1", margin:"auto",background: "rgba(254, 254, 254, 0.8)"}}>
-                The rooms of sheger lounge are designed in such a way as to offer its guests the simplicity and comfort they need to relax and unwind. All rooms are characterized by a pleasant simplicity, but without being deprived of the required modern comforts. They have a private bathroom, TV and air conditioning, among other amenities.
-
-The privileged location of Sheger lounge is suitable for unlimited walks on the busy coastal road of Addis Ababa, where there are many taverns, restaurants and cafes-bars to explore. The center of Addis Ababa, where all the services you may need are located, is also easily accessible on foot.
-
-Starting at Sheger lounge you can explore all that Addis Ababa has to offer in any area.
-                </Typography>
-            
-                <Box ><img opacity={"0.5"} style={{objectFit:"cover"}} height="400px"  width={"100%"} src="/images/sheger5.jpg" alt="" /></Box>
-            </Box>
-
-            <Box my={"60px"} width={"100%"}>
-                <Typography textAlign={"center"} fontWeight="bold" mb="15px" variant="h4">
-                    REVIEW
-                </Typography>
-                <Typography m="auto" width={"75%"} textAlign={"center"} variant="h6">
-                Starting at Hotel Plaza you can explore all that Kalamata has to offer in any area. You can also organize various excursions in the areas that surround the city and discover the beauties of Messinia. Contact the hotel staff for guidance on attractions worth visiting.                </Typography>
-
 
             </Box>
-            <Box my="20px" width={"100%"} sx={{display:"flex",justifyContent:"center"}}>
-                <Button onClick={e=>{navigate("/services")}}  m="auto" variant="outlined">View More</Button>
-            </Box>
-            <Box width={"100%"} sx={{display:"flex", justifyContent:"center"}} >
-                {/* <Box  sx={{display:"flex", justifyContent:"center"}}> */}
-                    <Grid width={"75%"} mx="auto"  alignItems="center" container columns={{ xs: 4, sm: 8, md: 10 }}>
-                        {images.map((num, index) => (
-                        <Grid  xs={2} sm={4} md={2} key={index}>
-                            <img src={`/images/landing-icons/${num}.png`} alt="" />
-                        </Grid>
-                        ))}
-                    </Grid>
-                {/* </Box> */}
-            </Box>
-
-        <Footer/>
         </>
-    );
+    )
 }
  
 export default Landing;

@@ -454,7 +454,7 @@ function ProfileUpdate() {
     }
 
     if (userState.profileUpdate.successMsg) {
-        navigate('/')
+        navigate('/home')
     }
 
 
