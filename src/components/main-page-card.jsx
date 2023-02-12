@@ -119,7 +119,8 @@ export default function MainPageCard({ singleData,index,titles }) {
               <Box
                 sx={{ py: 2, maxHeight: "70vh", overflowY: "scroll" }}
               >
-                {index ===4? <Document_Lists/> :
+                {/* <Document_Lists/> */}
+                {index ===4? <Box>helloo</Box> : 
                 singleData.map((each,ind) => {
         
                   return (
