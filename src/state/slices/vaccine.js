@@ -95,7 +95,7 @@ let vaccineSlice = createSlice({
         builder.addCase(addVaccine.fulfilled, (state, action) => {
             state.loading = false
             state.errorMsg = ''
-            state.successMsg = 'Vaccine added'
+            state.successMsg = 'Added'
         })
 
         builder.addCase(addVaccine.rejected, (state, action) => {

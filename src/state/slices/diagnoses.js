@@ -102,7 +102,7 @@ let DiagnosesSlice = createSlice({
         builder.addCase(addDiagnoses.fulfilled, (state, action) => {
             state.loading = false
             state.errorMsg = ''
-            state.successMsg = 'Diagnoses added'
+            state.successMsg = 'Added'
         })
 
         builder.addCase(addDiagnoses.rejected, (state, action) => {
