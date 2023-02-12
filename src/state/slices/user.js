@@ -4,14 +4,14 @@ import { loginAPI, profileUpdateAPI, SignupAPI } from "../../service/user"
 let initialState = {
     loading: false,
     user: {
-        userId : '',
-        fullName : '',
-        email : '',
-        allergies : [],
-        medicines : [],
-        diagnoses : [],
-        vaccines : [],
-        documents : [],
+        userId: '',
+        fullName: '',
+        email: '',
+        allergies: [],
+        medicines: [],
+        diagnoses: [],
+        vaccines: [],
+        documents: [],
     },
     userLogIn: {
         loading: false,
@@ -48,9 +48,9 @@ export let userLogin = createAsyncThunk(
 
 export let userSignup = createAsyncThunk(
     'user/signup',
-    async ({ username, password }, thunkApi) => {
+    async ({ firstName, lastName, email, password }, thunkApi) => {
         try {
-            let response = await SignupAPI(username, password)
+            let response = await SignupAPI(firstName,lastName,email, password)
             return response.data
 
         } catch (error) {
@@ -129,7 +129,7 @@ let userSlice = createSlice({
 
         builder.addCase(userLogin.fulfilled, (state, action) => {
             state.userLogIn.loading = false
-            state.user = {...action.payload.user};
+            state.user = { ...action.payload.user };
             state.userLogIn.errorMsg = ''
             state.userLogIn.successMsg = "User Logged in Successfully"
         })
@@ -162,6 +162,6 @@ let userSlice = createSlice({
 
 
 let userReducer = userSlice.reducer
-export let { resetLoginFormStatus,resetSignupFormStatus, resetProfileUpdateFormStatus } = userSlice.actions
+export let { resetLoginFormStatus, resetSignupFormStatus, resetProfileUpdateFormStatus } = userSlice.actions
 
 export default userReducer

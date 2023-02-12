@@ -10,11 +10,8 @@ import { useEffect, useState } from 'react';
 import {SnackBarModal} from '../components/snackbar-modal';
 
 import DocumentLists from '../components/lists';
-import { Link } from 'react-router-dom';
-import {useSelector} from 'react-redux';
 
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelect } from '@mui/base';
 import { useSelector } from 'react-redux';
 
 // import  Lists  from '../components/lists';

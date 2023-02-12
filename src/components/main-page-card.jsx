@@ -141,7 +141,7 @@ export default function MainPageCard({ singleData,index,titles }) {
 
         
                   return (
-                    <Box key={ind}>
+                    <Box key={index}>
                       <Typography>{each.name}</Typography>
                       <Typography sx={{ fontSize: "10px" }}>
                         {each.code}
