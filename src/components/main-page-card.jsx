@@ -19,7 +19,7 @@ import { RemoveSnackBar } from "./snackbar-modal";
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import Add from "../pages/add";
-import Document_Lists from "./lists";
+import DocumentLists from "./lists";
 
 
 export default function MainPageCard({ singleData,index,titles }) {
@@ -119,7 +119,7 @@ export default function MainPageCard({ singleData,index,titles }) {
               <Box
                 sx={{ py: 2, maxHeight: "70vh", overflowY: "scroll" }}
               >
-                {index ===4? <Document_Lists/> :
+                {index ===4? singleData.map(each => <DocumentLists data={each} /> ):
                 singleData.map((each,index) => {
         
                   return (
