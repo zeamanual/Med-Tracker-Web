@@ -5,6 +5,7 @@ import SignUp from "../pages/signup";
 import { BrowserRouter,Route,Routes } from 'react-router-dom';
 import MainPage from "../pages/main-page";
 
+
 const PageRouter = () => {
   return (
 

@@ -60,7 +60,7 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-const Document_Lists = (props) => {
+const DocumentLists = (props) => {
   const [file, setFile] = useState([]);
   const [title, setTitle] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
@@ -150,4 +150,4 @@ const Document_Lists = (props) => {
   );
 };
 
-export default Document_Lists;
+export default DocumentLists;

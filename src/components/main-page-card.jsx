@@ -19,7 +19,9 @@ import { RemoveSnackBar } from "./snackbar-modal";
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import Add from "../pages/add";
-import Document_Lists from "./lists";
+import DocumentLists from "./lists";
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import Translate from "./translate";
 
 
 export default function MainPageCard({ singleData,index,titles }) {
@@ -52,16 +54,30 @@ export default function MainPageCard({ singleData,index,titles }) {
   }
  
   const [open, setOpen] = useState(false);
+  const [drawerState, setDrawerState] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+
+    setDrawerState(open);
+  };
+
   
 
 
   return (
+    <>
     <Box sx={{ mb: 4 }}>
       <Box sx={{ backgroundColor: "white", borderRadius: "1.5em" }}>
         <Box 
@@ -119,9 +135,10 @@ export default function MainPageCard({ singleData,index,titles }) {
               <Box
                 sx={{ py: 2, maxHeight: "70vh", overflowY: "scroll" }}
               >
-                {/* <Document_Lists/> */}
-                {index ===4? <Box>helloo</Box> : 
-                singleData.map((each,ind) => {
+
+                {index ===4? singleData.map(each => <DocumentLists data={[]} /> ):
+                singleData.map((each,index) => {
+
         
                   return (
                     <Box key={ind}>
@@ -139,6 +156,7 @@ export default function MainPageCard({ singleData,index,titles }) {
               <Box  overflow={{xs:'scroll',md:"hidden"}}  sx={{ display: "flex", py: 1, }}>
               {singleData.length > 0 ? <Box sx={{ mr: 2 }}>
                   <Button
+                  onClick={toggleDrawer('right', true)}
                     sx={buttonStyle}
                     variant="outlined"
                     startIcon={<LanguageIcon sx={{color:"gray"}} />}
@@ -188,5 +206,15 @@ export default function MainPageCard({ singleData,index,titles }) {
         </Box>
       </Box>
     </Box>
+    <SwipeableDrawer
+        anchor={"right"}
+        open={drawerState}
+        onClose={toggleDrawer("right", false)}
+        onOpen={toggleDrawer("right", true)}
+      >
+            {<Translate />
+            }
+          </SwipeableDrawer>
+          </>
   );
 }
