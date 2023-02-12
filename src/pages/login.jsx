@@ -117,7 +117,8 @@ function Login() {
             <Box display={'flex'} flexDirection={'column'} justifyContent='space-between' width={{ xs: '100vw', md: '60vw', lg: '50vw' }}>
                 <Box>
                     <Box display='flex' justifycontent='start' >
-                        <ArrowBack></ArrowBack>
+                    <Link to={-1}> <ArrowBack  /> </Link>
+                    
                     </Box>
                     <Box display={'flex'} flexDirection='column' p={2}>
                         <Typography my={0} sx={{ fontWeight: '800' }} variant='h6'>Login to World Medical Card </Typography>

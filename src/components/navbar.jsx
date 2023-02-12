@@ -16,7 +16,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import EmailIcon from '@mui/icons-material/Email';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { padding } from '@mui/system';
 
 const drawerWidth = 240;
 const navItems = [
@@ -25,26 +26,23 @@ const navItems = [
     path:"/"
   },
   {
-    name:"services",
-    path:"/services"
+    name:"Business",
+    path:"/business"
   },
 
   {
-    name:"gallery",
-    path:"/gallery"
+    name:"About",
+    path:"/about"
   },  
   {
-    name:"location",
-    path:"/location"
+    name:"Professionals",
+    path:"/professionals"
   },  
   {
-    name:"contact",
-    path:"/contact"
+    name:"FAQ",
+    path:"/faq"
   },
-  {
-    name:"book now",
-    path:"/booking"
-  }
+
 ];
 
 function NavBar(props) {
@@ -59,7 +57,7 @@ function NavBar(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        Sheger Lounge
+        World Medicine
       </Typography>
       <Divider />
       <Box >
@@ -69,8 +67,8 @@ function NavBar(props) {
                     sx={{ 
                       display:"block",
                       fontSize:"13px",
-                      color:location.pathname == item.path?"#1d50bf":"black",
-                      // backgroundColor: item.name=="book now" ?"#1d50bf":"",
+                      color:location.pathname == item.path?"#13bff2":"black",
+                      // backgroundColor: item.name=="book now" ?"#13bff2":"",
                       
                       }}>
                      {item.name}
@@ -85,42 +83,35 @@ function NavBar(props) {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ display: 'flex'}}>
-      <CssBaseline />
+    <Box sx={{ display: 'flex'}} justifyContent="center" overflow={"hidden"}>
+      <CssBaseline  />
       
-      <AppBar component="nav" sx={{backgroundColor:"white !important",boxShadow:"1px 1px 3px 1px #D3D3D3" }}>
-      <Box sx={{bgcolor:"#5A5A5A", textAlign:"left",px:2 ,py:1,display:"flex"}}>
-      <LocalPhoneIcon sx={{fontSize:"18px"}}/> <Typography sx={{px:2,fontSize:"12px"}}> +251945818635</Typography>
-      <EmailIcon sx={{fontSize:"18px"}}/> <Typography sx={{px:2,fontSize:"12px"}}> shegerlounge@gmail.com</Typography>
+      {/* <AppBar component="nav" sx={{boxShadow:"0,0,0,0 white", backgroundColor:"white !important"}}>
+        <Toolbar > */}
+          <Box display={"flex"} justifyContent="center" my={"auto"} alignContent={"center"} >
         
-        </Box>
-        <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ ml: 2, fontSize:"20px", display: { sm: 'none' } }}
           >
-            <MenuIcon sx={{color:"#1d50bf"}} />
+            <MenuIcon sx={{color:"#13bff2"}} />
           </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            color={"black"}
-            sx={{ flexGrow: 0, display: { xs: 'none', sm: 'block' } }}
-          >
-            SHEGER LOUNGE
-          </Typography>
+          <Box mr="40px">
+            <img src="./images/icon.jpg" alt="icon" />
+          </Box>
           <Box sx={{ flexGrow: 1}} ></Box>
           <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
             {navItems.map((item) => (
-                  <Button onClick={e=>{
+                  <Button  onClick={e=>{
                     navigate(item.path)}} 
                     sx={{ 
+                    marginRight:"29px",
                       fontSize:"13px",
-                      color:location.pathname == item.path?"#1d50bf":"black",
-                      // backgroundColor: item.name=="book now" ?"#1d50bf":"",
+                      fontWeight:"600",
+                      color:location.pathname == item.path?"#13bff2":"gray",
                       
                       }}>
                      {item.name}
@@ -129,8 +120,11 @@ function NavBar(props) {
               ))}
             
           </Box>
-        </Toolbar>
-      </AppBar>
+          <Box my={"auto"}>
+            <Link to={"/login"}  style={{ textDecoration: 'none',backgroundColor:"black", color:"white", padding:"8px", paddingRight:"24px",paddingLeft:"24px"  }} > Login </Link>
+          </Box>
+      </Box>
+    
       <Box component="nav">
         <Drawer
           container={container}
