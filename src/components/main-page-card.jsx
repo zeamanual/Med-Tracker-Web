@@ -120,10 +120,10 @@ export default function MainPageCard({ singleData,index,titles }) {
                 sx={{ py: 2, maxHeight: "70vh", overflowY: "scroll" }}
               >
                 {index ===4? <Document_Lists/> :
-                singleData.map((each,index) => {
+                singleData.map((each,ind) => {
         
                   return (
-                    <Box key={index}>
+                    <Box key={ind}>
                       <Typography>{each.name}</Typography>
                       <Typography sx={{ fontSize: "10px" }}>
                         {each.code}
