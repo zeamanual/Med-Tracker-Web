@@ -6,18 +6,20 @@ import IconButton from '@mui/material/IconButton';
 import MainPageCard from '../components/main-page-card';
 import data from "../service/json-data"
 import newData from "../service/new-json"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {SnackBarModal} from '../components/snackbar-modal';
+
 import DocumentLists from '../components/lists';
-import { Link } from 'react-router-dom';
-import {useSelector} from 'react-redux';
-// import  Lists  from '../components/lists';
+
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 const MainPage = () => {
-    const user = useSelector((state) => state.user.user);
-    console.log(user);
+
+    const user = useSelector((state) => state.user);
     const current_hour = new Date().getHours();
+    let navigate = useNavigate()
     const [open, setOpen] = useState(false);
     const handleClickOpen = () => {
       setOpen(true);
@@ -25,6 +27,7 @@ const MainPage = () => {
     const handleClose = () => {
       setOpen(false);
     };
+    console.log(newData);
 
     let data = [
       newData["user"]["allergies"],
@@ -36,6 +39,11 @@ const MainPage = () => {
     ]
     let titles =["Allergies","Medicines","Diagnoses","Vaccines","Documents"]
     
+    useEffect(()=>{
+      if(!user.token){
+        navigate('/login')
+      }
+    })
     
     return ( 
     <Container  disableGutters maxWidth={false} >
@@ -56,10 +64,7 @@ const MainPage = () => {
         }
         {
         data.map((singleData,index)=>{
-          // return <List/>
-          // return <Document_Lists/>
-          console.log(singleData,"this is single data");
-
+          console.log(singleData)
           return <MainPageCard key={index} index={index} titles={titles} singleData={singleData}/>
         })
         

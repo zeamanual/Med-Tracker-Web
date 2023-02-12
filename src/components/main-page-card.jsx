@@ -145,8 +145,10 @@ export default function MainPageCard({ singleData,index,titles }) {
               <Box
                 sx={{ py: 2, maxHeight: "70vh", overflowY: "scroll" }}
               >
+
                 {index ===4? singleData.map(each => <DocumentLists data={[]} /> ):
                 singleData.map((each,index) => {
+
         
                   return (
                     <Box key={index}>
@@ -176,7 +178,7 @@ export default function MainPageCard({ singleData,index,titles }) {
                 <Box sx={{ mr: 2 }}>
                   <Link 
                     style={{ textDecoration: 'none' }}
-                    to="/add" state={{ id: 2 }}>
+                    to="/add" state={{ id: index}}>
                   <Button
                    
                     sx={buttonStyle}

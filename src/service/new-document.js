@@ -1,4 +1,6 @@
-import { clientInstance } from "./conf";
+import { clientInstance } from "../config/config";
+
+
 
   const upload = (file, documentTitle, documentType, description) =>{
     let formData = new FormData();
