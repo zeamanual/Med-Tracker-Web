@@ -9,8 +9,8 @@ export let clientInstance = axios.create({
         "Content-Type": "application/json",
         "ngrok-skip-browser-warning": "true",
         "Authorization":`${token}`,
-        // "Access-Control-Allow-Origin": "*",
-        // "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
     },
     baseURL: BASE_URL
 })

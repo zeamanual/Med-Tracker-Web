@@ -3,7 +3,7 @@ import { Alert, Box, Button, CircularProgress, IconButton, InputAdornment, MenuI
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
-import { getProfile, resetLoginFormStatus, resetProfileUpdateFormStatus, userLogin, userProfileUpdate } from '../state/slices/user'
+import { getProfile, resetGetProfileStatus, resetLoginFormStatus, resetProfileUpdateFormStatus, userLogin, userProfileUpdate } from '../state/slices/user'
 
 function ProfileUpdate() {
 
@@ -15,15 +15,17 @@ function ProfileUpdate() {
 
     React.useEffect(() => {
         // dispatch(resetLoginFormStatus())
+        dispatch(resetProfileUpdateFormStatus())
+        dispatch(resetGetProfileStatus())
         dispatch(getProfile())
     }, [])
 
     let handleFirstNameChange = (e) => {
         let value = e.target.value
-        if (value.length < 1) {
+        if (value.length < 4) {
             setFieldsValue(previousValue => ({
                 ...previousValue,
-                firstName: { ...fieldsValue.firstName, msg: 'First name can not be empty', value: e.target.value }
+                firstName: { ...fieldsValue.firstName, msg: 'First name must be at least 4 characters', value: e.target.value }
             }))
             return false
         } else {
@@ -37,10 +39,10 @@ function ProfileUpdate() {
 
     let handleLastNameChange = (e) => {
         let value = e.target.value
-        if (value.length < 1) {
+        if (value.length < 4) {
             setFieldsValue(previousValue => ({
                 ...previousValue,
-                lastName: { ...fieldsValue.lastName, msg: 'Last name can not be empty', value: e.target.value }
+                lastName: { ...fieldsValue.lastName, msg: 'Last name must be at least 4 characters', value: e.target.value }
             }))
             return false
         } else {
@@ -380,7 +382,7 @@ function ProfileUpdate() {
                 ssn: { ...preValue.ssn, value: userObj?.zip, msg: '', changeHandler: handleSSNChange },
                 nationality: { ...preValue.nationality, value: userObj?.nationality, msg: '', changeHandler: handleNationalityChange },
                 tlf: { ...preValue.tlf, value: userObj?.telephoneNumber, msg: '', changeHandler: handleTlfChange },
-                organDonor: { ...preValue.organDonor, value: Boolean(userObj?.organDonor), msg: '', changeHandler: handleOrganDonorChange },
+                organDonor: { ...preValue.organDonor, value: Boolean(userObj?.organDonor)?'yes':'no', msg: '', changeHandler: handleOrganDonorChange },
                 postnr: { ...preValue.postnr, value: userObj?.zip, msg: '', changeHandler: handlePostnrChange },
                 city: { ...preValue.city, value: userObj?.city, msg: '', changeHandler: handleCityChange },
                 land: { ...preValue.land, value: userObj?.country, msg: '', changeHandler: handleLandChange },
@@ -413,6 +415,8 @@ function ProfileUpdate() {
         }
         if (isFormValid) {
             let profileInformation = {
+                firstName:fieldsValue.firstName.value,
+                lastName:fieldsValue.lastName.value,
                 dateOfBirth: fieldsValue.dob.value,
                 gender: fieldsValue.gender.value,
                 cprNumber: Number(fieldsValue.ssn.value),
@@ -446,6 +450,10 @@ function ProfileUpdate() {
 
     let handleModalClose = () => {
         dispatch(resetProfileUpdateFormStatus())
+    }
+
+    if(userState.profileUpdate.successMsg){
+        navigate('/')
     }
 
 
