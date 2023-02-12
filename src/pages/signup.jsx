@@ -3,31 +3,31 @@ import { Alert, Box, Button, CircularProgress, IconButton, InputAdornment, Modal
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { resetLoginFormStatus, userLogin } from '../state/slices/user'
+import { resetSignupFormStatus, userSignup } from '../state/slices/user'
 
 function Signup() {
 
 
     let userState = useSelector(state => state.user)
     let dispatch = useDispatch()
-    let [loginDetails, setLoginDetails] = React.useState({ userName: '', password: '' })
+    let [signupDetails, setSignupDetails] = React.useState({ userName: '', password: '' })
     let [errorDetails, setErrorDetails] = React.useState({ userName: { hasError: false, msg: '' }, password: { hasError: false, msg: '' }, isFormValid: false })
     let [showPassword, setShowPassword] = React.useState(false)
 
     React.useEffect(() => {
-        dispatch(resetLoginFormStatus())
+        dispatch(resetSignupFormStatus())
     }, [])
 
     let formSubmitHandler = (e) => {
         e.preventDefault();
-        if ((!errorDetails.userName.hasError && !loginDetails.userName) && (!errorDetails.password.hasError && loginDetails.password)) {
-            dispatch(userLogin({ username: loginDetails.userName, password: loginDetails.password }))
+        if ((!errorDetails.userName.hasError && !signupDetails.userName) && (!errorDetails.password.hasError && signupDetails.password)) {
+            dispatch(userSignup({ username: signupDetails.userName, password: signupDetails.password }))
 
         }
     }
 
     let usernameChangeHandler = (e) => {
-        setLoginDetails({ ...loginDetails, userName: e.target.value })
+        setSignupDetails({ ...signupDetails, userName: e.target.value })
         if (e.target.value.length < 5) {
             setErrorDetails({
                 ...errorDetails,
@@ -44,13 +44,13 @@ function Signup() {
                     hasError: false,
                     msg: ''
                 },
-                isFormValid: (true && !errorDetails.password.hasError && loginDetails.password)
+                isFormValid: (true && !errorDetails.password.hasError && signupDetails.password)
             })
         }
     }
 
     let passwordChangeHandler = (e) => {
-        setLoginDetails({ ...loginDetails, password: e.target.value })
+        setSignupDetails({ ...signupDetails, password: e.target.value })
         if (e.target.value.length < 8) {
             setErrorDetails({
                 ...errorDetails,
@@ -67,7 +67,7 @@ function Signup() {
                     hasError: false,
                     msg: ''
                 },
-                isFormValid: (true && !errorDetails.userName.hasError && loginDetails.userName)
+                isFormValid: (true && !errorDetails.userName.hasError && signupDetails.userName)
             })
         }
     }
@@ -77,16 +77,15 @@ function Signup() {
     }
 
     let handleModalClose = () => {
-        dispatch(resetLoginFormStatus())
+        dispatch(resetSignupFormStatus())
     }
     return (
         <Box py={5} bgcolor='#f8f8f8' height={'100vh'} display='flex' justifyContent='center' >
 
-            {/* log in state UI */}
             <Modal
-                open={userState.userLogIn.loading ||
-                    userState.userLogIn.errorMsg ||
-                    userState.userLogIn.successMsg
+                open={userState.userSignup.loading ||
+                    userState.userSignup.errorMsg ||
+                    userState.userSignup.successMsg
                 }
                 onClose={handleModalClose}
             >
@@ -99,8 +98,8 @@ function Signup() {
                     alignItems='center'
                     sx={{ transform: 'translate(-50%,-50%)' }}
                 >
-                    {userState.userLogIn.errorMsg && <Alert severity='error'>{userState.userLogIn.errorMsg}</Alert>}
-                    {userState.userLogIn.loading && <CircularProgress color='primary' />}
+                    {userState.userSignup.errorMsg && <Alert severity='error'>{userState.userSignup.errorMsg}</Alert>}
+                    {userState.userSignup.loading && <CircularProgress color='primary' />}
                 </Box>
             </Modal>
 
@@ -111,10 +110,10 @@ function Signup() {
                     </Box>
                     <Box display={'flex'} flexDirection='column' p={2}>
                         <Typography my={0} sx={{ fontWeight: '800' }} variant='h6'>Signup to World Medical Card </Typography>
-                        <Typography my={2}  variant='body1' color='gray' >How would you like to sign-in?</Typography>
+                        <Typography my={2}  variant='body1' color='gray' >How would you like to sign-up?</Typography>
                     </Box>
                     <Box m={1} display='flex' justifyContent={'center'} padding={1} bgcolor='white' borderRadius={3}  >
-                        <Typography  p={1} variant='body1'>Sign-in with Google</Typography>
+                        <Typography  p={1} variant='body1'>Sign-up with Google</Typography>
                     </Box>
                     <Box mt={6} display={'flex'} justifyContent='center'>
                         <Typography color={'lightGray'} > _______________ <Typography px={2} sx={{ display: 'inline', fontWeight: '600' }} color='gray'>OR</Typography> _______________</Typography>
@@ -124,7 +123,7 @@ function Signup() {
 
                     <Box m={2}>
                         <Box my={3} bgcolor='white'>
-                            <TextField sx={{ m: 1 }} variant="standard" InputProps={{ disableUnderline: true, }} fullWidth={true} size='large' value={loginDetails.userName}
+                            <TextField sx={{ m: 1 }} variant="standard" InputProps={{ disableUnderline: true, }} fullWidth={true} size='large' value={signupDetails.userName}
                                 onChange={usernameChangeHandler} label='Username' ></TextField>
                             {errorDetails.userName.hasError ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{errorDetails.userName.msg}</Alert> : <></>}
                         </Box>
@@ -133,7 +132,7 @@ function Signup() {
                                 sx={{ m: 1 }}
                                 size='large'
                                 type={showPassword ? 'text' : 'password'}
-                                value={loginDetails.password}
+                                value={signupDetails.password}
                                 onChange={passwordChangeHandler}
                                 label='password'
                                 variant="standard"
@@ -159,7 +158,7 @@ function Signup() {
                 <Box height='auto' m={2} mt="auto" display={'flex'} flexDirection={'column'} alignItems='center' >
                         <Typography pb={"20px"}>All ready have an account ? <Link to={"/login"}>Login</Link> </Typography>
                         <Box width={'100%'} borderRadius={30} overflow='hidden'>
-                            <Button onClick={formSubmitHandler} sx={{bgcolor: !errorDetails.isFormValid || userState.userLogIn.loading ? "lightBlue" : "primary",padding:'0.7em'}}  fullWidth type='submit' variant='contained'>Log in</Button>
+                            <Button onClick={formSubmitHandler} sx={{bgcolor: !errorDetails.isFormValid || userState.userSignup.loading ? "lightBlue" : "primary",padding:'0.7em'}}  fullWidth type='submit' variant='contained'>Sign up</Button>
                         </Box>
                     </Box>
             </Box>
