@@ -152,7 +152,6 @@ function Signup() {
                             {errorDetails.password.hasError ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{errorDetails.password.msg}</Alert> : <></>}
 
                         </Box>
-
                     </Box>
                 </Box>
 
