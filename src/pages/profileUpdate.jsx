@@ -3,6 +3,7 @@ import { Alert, Box, Button, CircularProgress, IconButton, InputAdornment, MenuI
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
+import { getDateObject } from '../helpers/dateManipulate'
 import { getProfile, resetGetProfileStatus, resetLoginFormStatus, resetProfileUpdateFormStatus, userLogin, userProfileUpdate } from '../state/slices/user'
 
 function ProfileUpdate() {
@@ -370,19 +371,19 @@ function ProfileUpdate() {
     })
 
     let [fetchedDataUsed, setFetchedDataUsed] = React.useState(false)
- 
+
     // adding existing user profile informations once they are fetched from the backend
     if (userObj && !fetchedDataUsed) {
         setFieldsValue(preValue => {
             return {
                 firstName: { ...preValue.firstName, value: userObj?.firstName, msg: '', changeHandler: handleFirstNameChange },
                 lastName: { ...preValue.lastName, value: userObj?.lastName, msg: '', changeHandler: handleLastNameChange },
-                dob: { ...preValue.dob, value: userObj?.dateOfBirth, msg: '', changeHandler: handleDoBChange },
+                dob: { ...preValue.dob, value: new Date(userObj?.dateOfBirth).toISOString().substring(0, 10), msg: '', changeHandler: handleDoBChange },
                 gender: { ...preValue.gender, value: userObj?.gender, msg: '', changeHandler: handleGenderChange },
                 ssn: { ...preValue.ssn, value: userObj?.zip, msg: '', changeHandler: handleSSNChange },
                 nationality: { ...preValue.nationality, value: userObj?.nationality, msg: '', changeHandler: handleNationalityChange },
                 tlf: { ...preValue.tlf, value: userObj?.telephoneNumber, msg: '', changeHandler: handleTlfChange },
-                organDonor: { ...preValue.organDonor, value: Boolean(userObj?.organDonor)?'yes':'no', msg: '', changeHandler: handleOrganDonorChange },
+                organDonor: { ...preValue.organDonor, value: Boolean(userObj?.organDonor) ? 'yes' : 'no', msg: '', changeHandler: handleOrganDonorChange },
                 postnr: { ...preValue.postnr, value: userObj?.zip, msg: '', changeHandler: handlePostnrChange },
                 city: { ...preValue.city, value: userObj?.city, msg: '', changeHandler: handleCityChange },
                 land: { ...preValue.land, value: userObj?.country, msg: '', changeHandler: handleLandChange },
@@ -415,15 +416,15 @@ function ProfileUpdate() {
         }
         if (isFormValid) {
             let profileInformation = {
-                firstName:fieldsValue.firstName.value,
-                lastName:fieldsValue.lastName.value,
-                dateOfBirth: fieldsValue.dob.value,
+                firstName: fieldsValue.firstName.value,
+                lastName: fieldsValue.lastName.value,
+                dateOfBirth: getDateObject(fieldsValue.dob.value),
                 gender: fieldsValue.gender.value,
                 cprNumber: Number(fieldsValue.ssn.value),
                 tlfNumber: Number(fieldsValue.tlf.value),
                 nationality: fieldsValue.nationality.value,
                 telephoneNumber: fieldsValue.tlf.value,
-                organDonor: fieldsValue.organDonor.value=='Yes'?true:false,
+                organDonor: fieldsValue.organDonor.value == 'Yes' ? true : false,
                 zip: fieldsValue.ssn.value,
                 city: fieldsValue.city.value,
                 country: fieldsValue.land.value,
@@ -452,7 +453,7 @@ function ProfileUpdate() {
         dispatch(resetProfileUpdateFormStatus())
     }
 
-    if(userState.profileUpdate.successMsg){
+    if (userState.profileUpdate.successMsg) {
         navigate('/')
     }
 
@@ -486,7 +487,7 @@ function ProfileUpdate() {
             </Modal>
 
             <Box width={{ xs: '100vw', md: '60vw', lg: '50vw' }}>
-                <Box display='flex' justifycontent='start'  >
+                <Box display='flex' justifycontent='start' pt={2} >
                     <Button onClick={() => navigate('/')}>
                         <ArrowBack ></ArrowBack>
                     </Button>
@@ -514,7 +515,7 @@ function ProfileUpdate() {
                         <Box display={'flex'} justifyContent='space-between'>
                             <Box mt={2} flexGrow={1}>
                                 <Box bgcolor='white' flexGrow={1}>
-                                    <TextField placeholder='mm/dd/yy' fullWidth={true} value={fieldsValue.dob.value}
+                                    <TextField placeholder='yy/mm/dd' fullWidth={true} value={fieldsValue.dob.value}
                                         onChange={fieldsValue.dob.changeHandler} size='small' label='Date of Birth' ></TextField>
                                 </Box>
                                 {fieldsValue.dob.msg ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{fieldsValue.dob.msg}</Alert> : <></>}
@@ -535,15 +536,17 @@ function ProfileUpdate() {
                         </Box>
 
                         <Box my={2} bgcolor='white'>
-                            <TextField fullWidth={true} value={fieldsValue.ssn.value} onChange={fieldsValue.ssn.changeHandler} size='small' label='Social Security Number ( Optional )' ></TextField>
+                            <TextField fullWidth={true} value={fieldsValue.ssn.value} type='number' onChange={fieldsValue.ssn.changeHandler} size='small' label='Social Security Number ( Optional )' ></TextField>
                         </Box>
                         {fieldsValue.ssn.msg ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{fieldsValue.ssn.msg}</Alert> : <></>}
+                       
                         <Box my={2} bgcolor='white'>
                             <TextField fullWidth={true} value={fieldsValue.nationality.value} onChange={fieldsValue.nationality.changeHandler} size='small' label='Nationality' ></TextField>
                         </Box>
                         {fieldsValue.nationality.msg ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{fieldsValue.nationality.msg}</Alert> : <></>}
+                       
                         <Box my={2} bgcolor='white'>
-                            <TextField fullWidth={true} value={fieldsValue.tlf.value} onChange={fieldsValue.tlf.changeHandler} size='small' label='Tlf nr' ></TextField>
+                            <TextField fullWidth={true}  type='number' value={fieldsValue.tlf.value} onChange={fieldsValue.tlf.changeHandler} size='small' label='Tlf nr' ></TextField>
                         </Box>
                         {fieldsValue.tlf.msg ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{fieldsValue.tlf.msg}</Alert> : <></>}
 
@@ -571,7 +574,7 @@ function ProfileUpdate() {
                         <Box display={'flex'} justifyContent='space-between'>
                             <Box mt={2} flexGrow={1}>
                                 <Box bgcolor='white' flexGrow={1}>
-                                    <TextField fullWidth={true} value={fieldsValue.postnr.value}
+                                    <TextField fullWidth={true} type='number' value={fieldsValue.postnr.value}
                                         onChange={fieldsValue.postnr.changeHandler} size='small' label='Postnr./-sted' ></TextField>
                                 </Box>
                                 {fieldsValue.postnr.msg ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{fieldsValue.postnr.msg}</Alert> : <></>}
