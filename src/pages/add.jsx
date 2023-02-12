@@ -75,7 +75,9 @@ function Add() {
     let handleModalClose = () => {
         navigate('/')
     }
+ 
 
+    
     React.useEffect(() => {
         if (!user.token) {
             navigate('/login')
