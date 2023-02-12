@@ -4,6 +4,7 @@ import Login from "../pages/login";
 import SignUp from "../pages/signup";
 import { BrowserRouter,Route,Routes } from 'react-router-dom';
 import MainPage from "../pages/main-page";
+import ProfileUpdate from "../pages/profileUpdate";
 
 
 const PageRouter = () => {
@@ -17,6 +18,7 @@ const PageRouter = () => {
             <Route path="/add"  element={<Add/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<SignUp/>}/>
+            <Route path='/profile' element={<ProfileUpdate/>} ></Route>
             {/* <Route path="*" element={ <div>page not found</div>}/> */}
         </Routes>
     </BrowserRouter>
