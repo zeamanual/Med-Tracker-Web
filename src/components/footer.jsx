@@ -44,7 +44,7 @@ const Footer = () => {
       </Modal>
       <Box
         display={"flex"}
-        pb="50px"
+        // pb="50px"
         alignItems="end"
         justifyContent={"space-between"}
         flexDirection={{ xs: "column", md: "row" }}
@@ -53,12 +53,13 @@ const Footer = () => {
       >
         <Typography
           mb={{ xs: "30px", md: "0px" }}
-          width={"50%"}
-          fontSize={{ xs: "14px", md: "36px" }}
+          width={"40%"}
+          paddingBottom="50px"
+          fontSize={{ xs: "14px", md: "28px" }}
         >
           Learn More About The World Medical Card® And How To Use It
         </Typography>
-        <Box marginLeft={{ xs: "0px", md: "40px" }}>
+        <Box marginBottom={"50px"} marginRight="30px" marginLeft={{ xs: "0px", md: "40px" }}>
           <Link
             onClick={handleOpen1}
             style={{
@@ -69,14 +70,16 @@ const Footer = () => {
               padding: "20px",
               paddingRight: "40px",
               paddingLeft: "40px",
+              
+
             }}
           >
-            {" "}
+            
             Watch video
           </Link>
         </Box>
         <Box width={{ xs: "50%", md: "30%" }}>
-          <img width={"100%"} src="images/girl.png" alt="" />
+          <img width={"80%"} src="images/girl.png" alt="" />
         </Box>
       </Box>
 

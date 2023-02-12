@@ -30,7 +30,7 @@ const Landing = () => {
     return ( 
         
         <>
-        <NavBar/>
+     
             <Box  overflow="hidden" sx={{position:"relative",}}>
                 <Box top={{xs:"0%", md:"50%"}} left={{xs:"0%", md:"10%"}} position="absolute" height="100%" sx={{ zIndex:10, opacity:""}}  >
                     <Typography fontSize={{xs:"16px", md:"30px"}}  fontWeight={"bold"}  color={"white"} borderRadius="15px"  sx={{fontWeight:"600",letterSpacing: "4px", padding:"20px",opacity:"1",background: "rgba(19, 210, 256,0.5)"}}>
@@ -139,9 +139,6 @@ const Landing = () => {
 
 
             </Box>
-            
-                    
-            <Footer/>
         </>
     )
 }

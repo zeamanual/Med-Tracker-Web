@@ -8,6 +8,11 @@ import Landing from "../pages/landing";
 import About from "../pages/about";
 import Business from "../pages/business";
 import Professionals from "../pages/professionals";
+import MedicalCard from "../pages/WorldMedicalCard";
+import WorryFree from "../pages/TravelWorryFree";
+import Info from "../pages/ShareYourInfo";
+import NavBar from "../components/navbar";
+import Footer from "../components/footer";
 
 
 
@@ -16,7 +21,7 @@ const PageRouter = () => {
 
     <>
     <BrowserRouter>
-      {/* { path.includes(window.location.pathname) ? <NavBar /> : null } */}
+      <NavBar/>
         <Routes>
             <Route path="/" element={<Landing/>}/>
             <Route path="/home" element={<MainPage/>}/>
@@ -25,9 +30,13 @@ const PageRouter = () => {
             <Route path="/signup" element={<SignUp/>}/>
             <Route path="/about" element={<About/>}/>
             <Route path="/business" element={<Business/>}/>
+            <Route path="/medicalcard" element={<MedicalCard/>}/>
+            <Route path="/worryFree" element={<WorryFree/>}/>
+            <Route path="/info" element={<Info/>}/> 
             <Route path="/professionals" element={<Professionals/>}/>
             <Route path="*" element={ <div>page not found</div>}/>
         </Routes>
+        <Footer/>
     </BrowserRouter>
     </>
   );
