@@ -1,18 +1,24 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userReducer from '../slices/user'
-import sotredListReducer from '../slices/storedLists'
 import addDocumentSlice from '../slices/new-document'
 import fetchFilesSlice from '../slices/list-documents';
 import editFileSlice from '../slices/edit-document';
 import deleteFileSlice from '../slices/delete-document';
+import allergyReducer from "../slices/allergy";
+import medicineReducer from "../slices/medicine";
+import diagnosesReducer from "../slices/diagnoses";
+import vaccineReducer from "../slices/vaccine";
 
 let rootReducer = combineReducers({
     user:userReducer,
-    storedList:sotredListReducer,
     addDocument: addDocumentSlice,
     files: fetchFilesSlice,
     editDocument: editFileSlice,
-    deleteDocument : deleteFileSlice
+    deleteDocument : deleteFileSlice,
+    allergy:allergyReducer,
+    vaccine:vaccineReducer,
+    medicine:medicineReducer,
+    diagnoses:diagnosesReducer
 })
 
 let store = configureStore({
