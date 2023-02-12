@@ -4,6 +4,11 @@ import Login from "../pages/login";
 import SignUp from "../pages/signup";
 import { BrowserRouter,Route,Routes } from 'react-router-dom';
 import MainPage from "../pages/main-page";
+import Landing from "../pages/landing";
+import About from "../pages/about";
+import Business from "../pages/business";
+import Professionals from "../pages/professionals";
+
 
 const PageRouter = () => {
   return (
@@ -12,11 +17,15 @@ const PageRouter = () => {
     <BrowserRouter>
       {/* { path.includes(window.location.pathname) ? <NavBar /> : null } */}
         <Routes>
-            <Route path="/" element={<MainPage/>}/>
+            <Route path="/" element={<Landing/>}/>
+            <Route path="/home" element={<MainPage/>}/>
             <Route path="/add"  element={<Add/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<SignUp/>}/>
-            {/* <Route path="*" element={ <div>page not found</div>}/> */}
+            <Route path="/about" element={<About/>}/>
+            <Route path="/business" element={<Business/>}/>
+            <Route path="/professionals" element={<Professionals/>}/>
+            <Route path="*" element={ <div>page not found</div>}/>
         </Routes>
     </BrowserRouter>
     </>
