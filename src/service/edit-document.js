@@ -1,9 +1,8 @@
-import axios from "axios";
-let BASE_URL ;
+import { clientInstance } from "./conf";
 
 const editFile = (id) => {
 
-    return axios.post(`${BASE_URL}/id`)
+    return clientInstance.post(`/api/Document/Update/${id}`)
   
 
 }

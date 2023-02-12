@@ -58,6 +58,26 @@
         "code": "VIAG"
       }
     ]
+  },
+  {
+    "_id": "63bf0db7bf0f78b1ae4159f2",
+    "name": "Documents",
+    "addedList": [
+      {
+        "id": "63bf0db7131a37ccabe4f6a2",
+        "name": "Lindsey Anthony",
+        "code": "EXTRA"
+      },
+      {
+        "id": "63bf0db7ab4a45e8027e913e",
+        "name": "Mathews Dunn",
+        "code": "PE"
+      },
+      {
+        "id": "63bf0db70bbd031251a90f4f",
+        "name": "Wendy Dickson",
+        "code": "VIAG"
+      }
+    ]
   }
-
 ]

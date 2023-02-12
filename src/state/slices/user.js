@@ -3,6 +3,16 @@ import { loginAPI, profileUpdateAPI, SignupAPI } from "../../service/user"
 
 let initialState = {
     loading: false,
+    user: {
+        userId : '',
+        fullName : '',
+        email : '',
+        allergies : [],
+        medicines : [],
+        diagnoses : [],
+        vaccines : [],
+        documents : [],
+    },
     userLogIn: {
         loading: false,
         errorMsg: '',
@@ -119,6 +129,7 @@ let userSlice = createSlice({
 
         builder.addCase(userLogin.fulfilled, (state, action) => {
             state.userLogIn.loading = false
+            state.user = {...action.payload.user};
             state.userLogIn.errorMsg = ''
             state.userLogIn.successMsg = "User Logged in Successfully"
         })
