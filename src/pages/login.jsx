@@ -2,7 +2,7 @@ import { ArrowBack, Expand, Visibility, VisibilityOff } from '@mui/icons-materia
 import { Alert, Box, Button, CircularProgress, IconButton, InputAdornment, Modal, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { resetLoginFormStatus, userLogin } from '../state/slices/user'
 
 function Login() {
@@ -10,8 +10,9 @@ function Login() {
 
     let userState = useSelector(state => state.user)
     let dispatch = useDispatch()
-    let [loginDetails, setLoginDetails] = React.useState({ userName: '', password: '' })
-    let [errorDetails, setErrorDetails] = React.useState({ userName: { hasError: false, msg: '' }, password: { hasError: false, msg: '' }, isFormValid: false })
+    let navigate = useNavigate()
+    let [loginDetails, setLoginDetails] = React.useState({ email: '', password: '' })
+    let [errorDetails, setErrorDetails] = React.useState({ email: { hasError: false, msg: '' }, password: { hasError: false, msg: '' }, isFormValid: false })
     let [showPassword, setShowPassword] = React.useState(false)
 
     React.useEffect(() => {
@@ -20,31 +21,36 @@ function Login() {
 
     let formSubmitHandler = (e) => {
         e.preventDefault();
-        if ((!errorDetails.userName.hasError && !loginDetails.userName) && (!errorDetails.password.hasError && loginDetails.password)) {
-            dispatch(userLogin({ username: loginDetails.userName, password: loginDetails.password }))
 
+        if ((!errorDetails.email.hasError && Boolean(loginDetails.email)) &&
+            (!errorDetails.password.hasError && Boolean(loginDetails.password))) {
+            dispatch(userLogin({ email: loginDetails.email, password: loginDetails.password }))
+        } else {
+            console.log('not submitted')
         }
     }
 
-    let usernameChangeHandler = (e) => {
-        setLoginDetails({ ...loginDetails, userName: e.target.value })
-        if (e.target.value.length < 5) {
+    let emailChangeHandler = (e) => {
+        let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        let isValid = regex.test(e.target.value)
+        setLoginDetails({ ...loginDetails, email: e.target.value })
+        if (!isValid) {
             setErrorDetails({
                 ...errorDetails,
-                userName: {
+                email: {
                     hasError: true,
-                    msg: 'User Name must be at least 5 characters'
+                    msg: 'Invalid Email'
                 },
                 isFormValid: false
             })
         } else {
             setErrorDetails({
                 ...errorDetails,
-                userName: {
+                email: {
                     hasError: false,
                     msg: ''
                 },
-                isFormValid: (true && !errorDetails.password.hasError && loginDetails.password)
+                isFormValid: Boolean(true && !errorDetails.password.hasError && loginDetails.password)
             })
         }
     }
@@ -67,7 +73,7 @@ function Login() {
                     hasError: false,
                     msg: ''
                 },
-                isFormValid: (true && !errorDetails.userName.hasError && loginDetails.userName)
+                isFormValid: Boolean(true && !errorDetails.email.hasError && loginDetails.email)
             })
         }
     }
@@ -78,6 +84,10 @@ function Login() {
 
     let handleModalClose = () => {
         dispatch(resetLoginFormStatus())
+    }
+
+    if(userState.userLogIn.successMsg){
+        navigate('/')
     }
     return (
         <Box py={5} bgcolor='#f8f8f8' height={'100vh'} display='flex' justifyContent='center' >
@@ -112,10 +122,10 @@ function Login() {
                     </Box>
                     <Box display={'flex'} flexDirection='column' p={2}>
                         <Typography my={0} sx={{ fontWeight: '800' }} variant='h6'>Login to World Medical Card </Typography>
-                        <Typography my={2}  variant='body1' color='gray' >How would you like to sign-in?</Typography>
+                        <Typography my={2} variant='body1' color='gray' >How would you like to sign-in?</Typography>
                     </Box>
                     <Box m={1} display='flex' justifyContent={'center'} padding={1} bgcolor='white' borderRadius={3}  >
-                        <Typography  p={1} variant='body1'>Sign-in with Google</Typography>
+                        <Typography p={1} variant='body1'>Sign-in with Google</Typography>
                     </Box>
                     <Box mt={6} display={'flex'} justifyContent='center'>
                         <Typography color={'lightGray'} > _______________ <Typography px={2} sx={{ display: 'inline', fontWeight: '600' }} color='gray'>OR</Typography> _______________</Typography>
@@ -123,46 +133,46 @@ function Login() {
 
                     <Box justifyContent={'space-between'} display={'flex'} flexDirection='column'>
 
-                    <Box m={2}>
-                        <Box my={3} bgcolor='white'>
-                            <TextField sx={{ m: 1 }} variant="standard" InputProps={{ disableUnderline: true, }} fullWidth={true} size='large' value={loginDetails.userName}
-                                onChange={usernameChangeHandler} label='Username' ></TextField>
-                            {errorDetails.userName.hasError ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{errorDetails.userName.msg}</Alert> : <></>}
-                        </Box>
-                        <Box my={2} bgcolor='white' >
-                            <TextField
-                                sx={{ m: 1 }}
-                                size='large'
-                                type={showPassword ? 'text' : 'password'}
-                                value={loginDetails.password}
-                                onChange={passwordChangeHandler}
-                                label='password'
-                                variant="standard"
-                                InputProps={{
-                                    disableUnderline: true,
-                                    endAdornment: (
-                                        <InputAdornment position='end'>
-                                            <IconButton onClick={passwordvisibilityHandler}>
-                                                {showPassword ? <VisibilityOff /> : <Visibility></Visibility>}
-                                            </IconButton>
-                                        </InputAdornment>
-                                    ),
-                                }}
-                                fullWidth={true}
-                            ></TextField>
-                            {errorDetails.password.hasError ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{errorDetails.password.msg}</Alert> : <></>}
+                        <Box m={2}>
+                            <Box my={3} bgcolor='white'>
+                                <TextField sx={{ m: 1 }} variant="standard" InputProps={{ disableUnderline: true, }} fullWidth={true} size='large' value={loginDetails.email}
+                                    onChange={emailChangeHandler} label='email' ></TextField>
+                                {errorDetails.email.hasError ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{errorDetails.email.msg}</Alert> : <></>}
+                            </Box>
+                            <Box my={2} bgcolor='white' >
+                                <TextField
+                                    sx={{ m: 1 }}
+                                    size='large'
+                                    type={showPassword ? 'text' : 'password'}
+                                    value={loginDetails.password}
+                                    onChange={passwordChangeHandler}
+                                    label='password'
+                                    variant="standard"
+                                    InputProps={{
+                                        disableUnderline: true,
+                                        endAdornment: (
+                                            <InputAdornment position='end'>
+                                                <IconButton onClick={passwordvisibilityHandler}>
+                                                    {showPassword ? <VisibilityOff /> : <Visibility></Visibility>}
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                    fullWidth={true}
+                                ></TextField>
+                                {errorDetails.password.hasError ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{errorDetails.password.msg}</Alert> : <></>}
 
+                            </Box>
                         </Box>
                     </Box>
-                </Box>
 
                 </Box>
                 <Box height='auto' m={2} mt="auto" display={'flex'} flexDirection={'column'} alignItems='center' >
-                        <Typography pb={"20px"}>Don't have an account ? <Link to={"/signup"}>Sign up</Link> </Typography>
-                        <Box width={'100%'} borderRadius={30} overflow='hidden'>
-                            <Button onClick={formSubmitHandler} sx={{bgcolor: !errorDetails.isFormValid || userState.userLogIn.loading ? "lightBlue" : "primary",padding:'0.7em'}}  fullWidth type='submit' variant='contained'>Log in</Button>
-                        </Box>
+                    <Typography pb={"20px"}>Don't have an account ? <Link to={"/signup"}>Sign up</Link> </Typography>
+                    <Box width={'100%'} borderRadius={30} overflow='hidden'>
+                        <Button onClick={formSubmitHandler} sx={{ bgcolor: !errorDetails.isFormValid || userState.userLogIn.loading ? "lightBlue" : "primary", padding: '0.7em' }} fullWidth type='submit' variant='contained'>Log in</Button>
                     </Box>
+                </Box>
             </Box>
         </Box>
     )

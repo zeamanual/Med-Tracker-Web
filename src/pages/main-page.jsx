@@ -8,14 +8,15 @@ import data from "../service/json-data"
 import newData from "../service/new-json"
 import { useEffect, useState } from 'react';
 import {SnackBarModal} from '../components/snackbar-modal';
-import Document_Lists from '../components/lists';
+
+import DocumentLists from '../components/lists';
+
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelect } from '@mui/base';
 import { useSelector } from 'react-redux';
-// import  Lists  from '../components/lists';
 
 
 const MainPage = () => {
+
     const user = useSelector((state) => state.user);
     const current_hour = new Date().getHours();
     let navigate = useNavigate()
@@ -38,11 +39,11 @@ const MainPage = () => {
     ]
     let titles =["Allergies","Medicines","Diagnoses","Vaccines","Documents"]
     
-    // useEffect(()=>{
-    //   if(!user.userDetail){
-    //     navigate('/login')
-    //   }
-    // })
+    useEffect(()=>{
+      if(!user.token){
+        navigate('/login')
+      }
+    })
     
     return ( 
     <Box minHeight={"100vh"}  paddingX={{xs:"1em",lg:"14em"}} bgcolor={{ xs:"#f8f8f8",md:"#daf2f8"}}>

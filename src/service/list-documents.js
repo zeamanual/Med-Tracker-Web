@@ -1,4 +1,5 @@
-import { clientInstance } from "./conf"
+import { clientInstance } from "../config/config"
+
 const getFiles = () => {
 
     return clientInstance.get(`/api/Document`)

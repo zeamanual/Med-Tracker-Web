@@ -19,8 +19,10 @@ import { RemoveSnackBar } from "./snackbar-modal";
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import Add from "../pages/add";
-import Document_Lists from "./lists";
-
+import DocumentLists from "./lists";
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import Translate from "./translate";
+import html2canvas from 'html2canvas';
 
 export default function MainPageCard({ singleData,index,titles }) {
   // console.log(singleData, "data for each apperaed");
@@ -52,17 +54,41 @@ export default function MainPageCard({ singleData,index,titles }) {
   }
  
   const [open, setOpen] = useState(false);
+  const [drawerState, setDrawerState] = useState(false);
+  const image = React.useRef(null)
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
   };
-  
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+
+    setDrawerState(open);
+  };
+
+  const generateImage = () => {
+  html2canvas(image.current).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.download = `${titles[index]}.png`;
+    link.href = imgData;
+    link.click();
+  });
+};
 
 
   return (
-    <Box sx={{ mb: 4 }}>
+    <>
+    <Box ref={image} sx={{ mb: 4 }}>
       <Box sx={{ backgroundColor: "white", borderRadius: "1.5em" }}>
         <Box 
         borderRadius={{xs:'0.5em',md:"1.5em"}}
@@ -119,12 +145,13 @@ export default function MainPageCard({ singleData,index,titles }) {
               <Box
                 sx={{ py: 2, maxHeight: "70vh", overflowY: "scroll" }}
               >
-                {/* <Document_Lists/> */}
-                {index ===4? <Box>helloo</Box> : 
-                singleData.map((each,ind) => {
+
+                {index ===4? singleData.map(each => <DocumentLists data={[]} /> ):
+                singleData.map((each,index) => {
+
         
                   return (
-                    <Box key={ind}>
+                    <Box key={index}>
                       <Typography>{each.name}</Typography>
                       <Typography sx={{ fontSize: "10px" }}>
                         {each.code}
@@ -139,6 +166,7 @@ export default function MainPageCard({ singleData,index,titles }) {
               <Box  overflow={{xs:'scroll',md:"hidden"}}  sx={{ display: "flex", py: 1, }}>
               {singleData.length > 0 ? <Box sx={{ mr: 2 }}>
                   <Button
+                  onClick={toggleDrawer('right', true)}
                     sx={buttonStyle}
                     variant="outlined"
                     startIcon={<LanguageIcon sx={{color:"gray"}} />}
@@ -150,7 +178,7 @@ export default function MainPageCard({ singleData,index,titles }) {
                 <Box sx={{ mr: 2 }}>
                   <Link 
                     style={{ textDecoration: 'none' }}
-                    to="/add" state={{ id: 2 }}>
+                    to="/add" state={{ id: index}}>
                   <Button
                    
                     sx={buttonStyle}
@@ -174,7 +202,7 @@ export default function MainPageCard({ singleData,index,titles }) {
                 </Box>:""}
                 {singleData.length > 0 ? <Box>
                   <Button
-                  
+                  onClick={generateImage}
                     sx={buttonStyle}
                     variant="outlined"
                     startIcon={<ShareIcon sx={{color:"gray"}} />}
@@ -188,5 +216,15 @@ export default function MainPageCard({ singleData,index,titles }) {
         </Box>
       </Box>
     </Box>
+    <SwipeableDrawer
+        anchor={"right"}
+        open={drawerState}
+        onClose={toggleDrawer("right", false)}
+        onOpen={toggleDrawer("right", true)}
+      >
+            {<Translate />
+            }
+          </SwipeableDrawer>
+          </>
   );
 }

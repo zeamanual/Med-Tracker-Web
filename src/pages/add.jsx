@@ -1,79 +1,126 @@
-import { AccountCircle, SearchRounded } from '@mui/icons-material'
-import { useLocation,Link } from 'react-router-dom';
-import { ArrowBack, Expand, Visibility, VisibilityOff } from '@mui/icons-material'
-import { Box, Card, InputAdornment, MenuItem, Stack, Button, TextField, Typography } from '@mui/material'
+import { AccountCircle, ArrowBack, SearchRounded, Expand, Visibility, VisibilityOff } from '@mui/icons-material'
+import { Alert, Box, Card, CircularProgress, InputAdornment, MenuItem, Modal, Stack, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchAllergies, fetchDiagnoses, fetchMedicines, fetchVaccines } from '../state/slices/storedLists'
+import { useLocation, Link, useNavigate } from 'react-router-dom'
+import { addAllergy, fetchAllergies, resetAllAllegyStatus } from '../state/slices/allergy'
+import { addDiagnoses, fetchDiagnoses, resetAllDiagnosesStatus } from '../state/slices/diagnoses'
+import { addMedicine, fetchMedicines, resetAllMedicineStatus } from '../state/slices/medicine'
+import { addVaccine, fetchVaccines, resetAllVaccineStatus } from '../state/slices/vaccine'
 
 function Add() {
     const location = useLocation()
     const { id } = location.state
     let selectedKey = id
 
-    let storedLists = useSelector(state => state.storedList)
+    let allergy = useSelector(state => state.allergy)
+    let vaccine = useSelector(state => state.vaccine)
+    let diagnoses = useSelector(state => state.diagnoses)
+    let medicine = useSelector(state => state.medicine)
+    let user = useSelector(state => state.user)
+
     let dispatch = useDispatch()
+    let navigate = useNavigate()
 
     let storedListsIndex = [
         {
-            method: fetchAllergies,
-            list: storedLists.allergiesList
+            fetch: fetchAllergies,
+            add: addAllergy,
+            list: allergy.allergiesList,
+            reset: resetAllAllegyStatus,
+            idName: 'id'
         },
         {
-            method: fetchDiagnoses,
-            list: storedLists.diagnosesList
+            fetch: fetchMedicines,
+            add: addMedicine,
+            list: medicine.medicinesList,
+            reset: resetAllMedicineStatus,
+            idName: 'medicineId'
+
         },
         {
-            method: fetchMedicines,
-            list: storedLists.medicinesList
+            fetch: fetchDiagnoses,
+            add: addDiagnoses,
+            list: diagnoses.diagnosesList,
+            reset: resetAllDiagnosesStatus,
+            idName: 'diagnosesId'
+
         },
         {
-            method: fetchVaccines,
-            list: storedLists.vaccinesList
+            fetch: fetchVaccines,
+            add: addVaccine,
+            list: vaccine.vaccinesList,
+            reset: resetAllVaccineStatus,
+            idName: 'vaccineId'
         },
     ]
 
-    let searchKeyChangeHandler = (e)=>{
+    let resetAllStateStatus = () => {
+        storedListsIndex.forEach(item => { dispatch(item.reset()) })
+    }
+
+    let searchKeyChangeHandler = (e) => {
         setSearchKey(e.target.value)
+        dispatch(storedListsIndex[selectedKey].fetch({ name: e.target.value }))
+    }
+
+    let addHandler = (itemId) => {
+        resetAllStateStatus()
+        setShowModal(true)
+        dispatch(storedListsIndex[selectedKey].add({ id: itemId }))
     }
     let [searchKey, setSearchKey] = React.useState('')
-    let samples = [
-        {
-            name: 'Item one name',
-            id: 'R043LSFD35'
-        },
-        {
-            name: 'Item one name',
-            id: 'R043LSFD35'
-        },
-        {
-            name: 'Item one name',
-            id: 'R043LSFD35'
-        },
-        {
-            name: 'Item one name',
-            id: 'R043LSFD35'
-        },
-        {
-            name: 'Item one name',
-            id: 'R043LSFD35'
-        },
-    ]
+    let [showModal, setShowModal] = React.useState(false)
 
+    let handleModalClose = () => {
+        navigate('/')
+    }
+ 
+
+    
     React.useEffect(() => {
-        dispatch(storedListsIndex[selectedKey].method())
+        if (!user.token) {
+            navigate('/login')
+        }
+        resetAllStateStatus()
     }, [])
+    let loading = vaccine.loading || medicine.loading || diagnoses.loading || allergy.loading
+    let errorMsg = vaccine.errorMsg || medicine.errorMsg || diagnoses.errorMsg || allergy.errorMsg
+    let successMsg = vaccine.successMsg || medicine.successMsg || diagnoses.successMsg || allergy.successMsg
+
+    if (successMsg == 'Added') {
+        navigate('/')
+    }
 
     return (
         <Box display={'flex'} justifyContent='center' >
+
+            <Modal
+                open={(loading || errorMsg) && showModal}
+                onClose={handleModalClose}
+            >
+                <Box display='flex'
+                    position='absolute'
+                    top='50%'
+                    left='50%'
+                    flexDirection='column'
+                    justifyContent='center'
+                    alignItems='center'
+                    sx={{ transform: 'translate(-50%,-50%)' }}
+                >
+                    {errorMsg && <Alert severity='error'>{errorMsg}</Alert>}
+                    {loading && <CircularProgress color='primary' />}
+                </Box>
+            </Modal>
+
             <Box display='flex' flexDirection='column' width={{ xs: '90vw', md: '60vw' }} >
                 <Box py={2} display='flex' alignItems='center'>
-                    <Link to={-1}> <ArrowBack  /> </Link>
-                    <Typography sx={{paddingLeft:"1em"}} variant='h6'>Add Screen</Typography>
+                    <Link to={-1}> <ArrowBack /> </Link>
+                    <Typography sx={{ paddingLeft: "1em" }} variant='h6'>Add Screen</Typography>
                 </Box>
                 <Box bgcolor={"white"} width='100%'>
-                    
-                    <TextField value={searchKey}  onChange={searchKeyChangeHandler} fullWidth placeholder='search'
+
+                    <TextField value={searchKey} onChange={searchKeyChangeHandler} fullWidth placeholder='search'
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -85,20 +132,30 @@ function Add() {
                 </Box>
 
                 <Box my={2}>
-                    <Card sx={{ boxShadow: '0 0 4px gray' }}>
-                        {searchKey.length > 0 && samples.map(sample => {
-                        {/* {searchKey.length > 0 && storedListsIndex[selectedKey].list.map(sample => { */}
+                    {searchKey.length > 0 && <Card sx={{ boxShadow: '0 0 4px gray' }}>
+                        {(loading && !showModal) &&
+                            <Box display={'flex'} justifyContent='center' p={3}>
+                                <CircularProgress></CircularProgress>
+                            </Box>
+                        }
 
-                            return (
-                                <MenuItem>
-                                    <Box p={1}>
-                                        <Typography variant='h6'>{sample.name}</Typography>
-                                        <Typography>{sample.id}</Typography>
-                                    </Box>
-                                </MenuItem>
-                            )
-                        })}
+                        {(searchKey.length > 0 && storedListsIndex[selectedKey].list.length > 0)
+                            ? storedListsIndex[selectedKey].list.map(item => {
+                                return (
+                                    <MenuItem onClick={() => addHandler(item[storedListsIndex[selectedKey].idName])}>
+                                        <Box p={1}>
+                                            <Typography variant='h6'>{item.name}</Typography>
+                                        </Box>
+                                    </MenuItem>
+                                )
+                            })
+                            : searchKey.length > 0 && !loading
+                                ? <Box display={'flex'} justifyContent='center' p={3}>
+                                    <Typography>No Match Found!</Typography>
+                                </Box> : <></>
+                        }
                     </Card>
+                    }
                 </Box>
 
             </Box>
