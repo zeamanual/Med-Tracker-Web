@@ -26,10 +26,6 @@ const Landing = () => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
-    const [open1, setOpen1] = React.useState(false);
-    const handleOpen1 = () => setOpen1(true);
-    const handleClose1 = () => setOpen1(false);
     
     return ( 
         
@@ -143,29 +139,8 @@ const Landing = () => {
 
 
             </Box>
-            <Box display={"flex"} pb="50px" alignItems="end" justifyContent={"space-between"}  flexDirection={{xs:"column", md:"row"}} bgcolor={"#FFF6E0"}  px={{xs:"1em",md:"5em"}}>
-                <Typography mb={{xs:"30px",md:"0px"}} width={"50%"} fontSize={{xs:"14px",md:"36px"}}>Learn More About The World Medical Card® And How To Use It</Typography>
-                <Box marginLeft={{xs:"0px",md:"40px"}} >
-                    <Link onClick={handleOpen1}  style={{ borderRadius:"10px", textDecoration: 'none',backgroundColor:"#a81515", color:"white", padding:"20px",  paddingRight:"40px",paddingLeft:"40px"  }} > Watch video</Link>
-                </Box>
-                <Box width={{xs:"50%",md:"30%"}}>
-                    <img width={"100%"} src="images/girl.png" alt="" />
-                </Box>
-                
-            </Box>
             
                     
-                    <Modal
-                    open={open1}
-                    onClose={handleClose1}
-                    aria-labelledby="modal-modal-title2"
-                    aria-describedby="modal-modal-description2"
-                    >
-                    <Box  bgcolor={"white"} sx={style} height="60%" width={"80%"}>
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/VeOFAJHRM4g" title="World Medical Card - What is World Medical Card?" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                    </Box>
-                    </Modal>
-
             <Footer/>
         </>
     )
