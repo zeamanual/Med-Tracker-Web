@@ -150,7 +150,7 @@ export default function MainPageCard({ singleData,index,titles }) {
                 <Box sx={{ mr: 2 }}>
                   <Link 
                     style={{ textDecoration: 'none' }}
-                    to="/add" state={{ id: 2 }}>
+                    to="/add" state={{ id: index}}>
                   <Button
                    
                     sx={buttonStyle}
