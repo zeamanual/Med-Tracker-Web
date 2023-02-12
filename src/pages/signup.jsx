@@ -82,7 +82,6 @@ function Signup() {
     return (
         <Box py={5} bgcolor='#f8f8f8' height={'100vh'} display='flex' justifyContent='center' >
 
-            {/* log in state UI */}
             <Modal
                 open={userState.userSignup.loading ||
                     userState.userSignup.errorMsg ||
