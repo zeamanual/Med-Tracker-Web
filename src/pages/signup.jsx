@@ -111,7 +111,7 @@ function Signup() {
                     </Box>
                     <Box display={'flex'} flexDirection='column' p={2}>
                         <Typography my={0} sx={{ fontWeight: '800' }} variant='h6'>Signup to World Medical Card </Typography>
-                        <Typography my={2}  variant='body1' color='gray' >How would you like to sign-up?</Typography>
+                        <Typography my={2}  variant='body1' color='gray' >How would you like to sign-in?</Typography>
                     </Box>
                     <Box m={1} display='flex' justifyContent={'center'} padding={1} bgcolor='white' borderRadius={3}  >
                         <Typography  p={1} variant='body1'>Sign-in with Google</Typography>
