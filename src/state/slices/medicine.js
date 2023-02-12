@@ -94,9 +94,13 @@ let medicineSlice = createSlice({
         })
 
         builder.addCase(addMedicine.fulfilled, (state, action) => {
+            // console.log(action.payload,'in medice add')
+            // state.medicinesList.push(action.payload.medicines[0])
+            // state.medicinesList=state.medicinesList
+            // console.log(action.payload.medicines,'med list')
             state.loading = false
             state.errorMsg = ''
-            state.successMsg = 'Medicine added'
+            state.successMsg = 'Added'
         })
 
         builder.addCase(addMedicine.rejected, (state, action) => {

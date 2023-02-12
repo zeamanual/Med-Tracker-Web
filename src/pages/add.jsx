@@ -17,7 +17,7 @@ function Add() {
     let vaccine = useSelector(state => state.vaccine)
     let diagnoses = useSelector(state => state.diagnoses)
     let medicine = useSelector(state => state.medicine)
-    let user = useSelector(state=>state.user)
+    let user = useSelector(state => state.user)
 
     let dispatch = useDispatch()
     let navigate = useNavigate()
@@ -80,10 +80,15 @@ function Add() {
         if (!user.token) {
             navigate('/login')
         }
-        dispatch(storedListsIndex[selectedKey].reset())
+        resetAllStateStatus()
     }, [])
     let loading = vaccine.loading || medicine.loading || diagnoses.loading || allergy.loading
     let errorMsg = vaccine.errorMsg || medicine.errorMsg || diagnoses.errorMsg || allergy.errorMsg
+    let successMsg = vaccine.successMsg || medicine.successMsg || diagnoses.successMsg || allergy.successMsg
+
+    if (successMsg == 'Added') {
+        navigate('/')
+    }
 
     return (
         <Box display={'flex'} justifyContent='center' >

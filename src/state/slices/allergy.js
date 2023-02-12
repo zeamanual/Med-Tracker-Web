@@ -95,7 +95,7 @@ let allergySlice = createSlice({
         builder.addCase(addAllergy.fulfilled, (state, action) => {
             state.loading = false
             state.errorMsg = ''
-            state.successMsg = 'Allergy added'
+            state.successMsg = 'Added'
         })
 
         builder.addCase(addAllergy.rejected, (state, action) => {
