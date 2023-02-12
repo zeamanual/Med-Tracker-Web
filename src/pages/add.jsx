@@ -2,7 +2,7 @@ import { AccountCircle, ArrowBack, SearchRounded, Expand, Visibility, Visibility
 import { Alert, Box, Card, CircularProgress, InputAdornment, MenuItem, Modal, Stack, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, Link ,useNavigate } from 'react-router-dom'
+import { useLocation, Link, useNavigate } from 'react-router-dom'
 import { addAllergy, fetchAllergies, resetAllAllegyStatus } from '../state/slices/allergy'
 import { addDiagnoses, fetchDiagnoses, resetAllDiagnosesStatus } from '../state/slices/diagnoses'
 import { addMedicine, fetchMedicines, resetAllMedicineStatus } from '../state/slices/medicine'
@@ -17,6 +17,7 @@ function Add() {
     let vaccine = useSelector(state => state.vaccine)
     let diagnoses = useSelector(state => state.diagnoses)
     let medicine = useSelector(state => state.medicine)
+    let user = useSelector(state=>state.user)
 
     let dispatch = useDispatch()
     let navigate = useNavigate()
@@ -54,8 +55,8 @@ function Add() {
         },
     ]
 
-    let resetAllStateStatus=()=>{
-        storedListsIndex.forEach(item=>{ dispatch(item.reset())})
+    let resetAllStateStatus = () => {
+        storedListsIndex.forEach(item => { dispatch(item.reset()) })
     }
 
     let searchKeyChangeHandler = (e) => {
@@ -66,7 +67,7 @@ function Add() {
     let addHandler = (itemId) => {
         resetAllStateStatus()
         setShowModal(true)
-        dispatch(storedListsIndex[selectedKey].add({id:itemId}))
+        dispatch(storedListsIndex[selectedKey].add({ id: itemId }))
     }
     let [searchKey, setSearchKey] = React.useState('')
     let [showModal, setShowModal] = React.useState(false)
@@ -76,6 +77,9 @@ function Add() {
     }
 
     React.useEffect(() => {
+        if (!user.token) {
+            navigate('/login')
+        }
         dispatch(storedListsIndex[selectedKey].reset())
     }, [])
     let loading = vaccine.loading || medicine.loading || diagnoses.loading || allergy.loading
@@ -104,12 +108,12 @@ function Add() {
 
             <Box display='flex' flexDirection='column' width={{ xs: '90vw', md: '60vw' }} >
                 <Box py={2} display='flex' alignItems='center'>
-                    <Link to={-1}> <ArrowBack  /> </Link>
-                    <Typography sx={{paddingLeft:"1em"}} variant='h6'>Add Screen</Typography>
+                    <Link to={-1}> <ArrowBack /> </Link>
+                    <Typography sx={{ paddingLeft: "1em" }} variant='h6'>Add Screen</Typography>
                 </Box>
                 <Box bgcolor={"white"} width='100%'>
-                    
-                    <TextField value={searchKey}  onChange={searchKeyChangeHandler} fullWidth placeholder='search'
+
+                    <TextField value={searchKey} onChange={searchKeyChangeHandler} fullWidth placeholder='search'
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">

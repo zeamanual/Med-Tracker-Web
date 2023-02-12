@@ -1,9 +1,9 @@
 import { clientInstance } from "../config/config"
 
 
-export const loginAPI = async (username, password) => {
+export const loginAPI = async (email, password) => {
     return clientInstance.post('/api/user/Auth/login', {
-        username, password
+        email, password
     })
 
 }

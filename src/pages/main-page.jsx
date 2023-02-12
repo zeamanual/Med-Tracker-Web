@@ -14,12 +14,10 @@ import DocumentLists from '../components/lists';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-// import  Lists  from '../components/lists';
-
 
 const MainPage = () => {
 
-    const user = useSelector((state) => state.user.user);
+    const user = useSelector((state) => state.user);
     const current_hour = new Date().getHours();
     let navigate = useNavigate()
     const [open, setOpen] = useState(false);
@@ -41,11 +39,11 @@ const MainPage = () => {
     ]
     let titles =["Allergies","Medicines","Diagnoses","Vaccines","Documents"]
     
-    // useEffect(()=>{
-    //   if(!user.userDetail){
-    //     navigate('/login')
-    //   }
-    // })
+    useEffect(()=>{
+      if(!user.token){
+        navigate('/login')
+      }
+    })
     
     return ( 
     <Container  disableGutters maxWidth={false} >
