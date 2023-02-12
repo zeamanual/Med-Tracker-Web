@@ -22,7 +22,7 @@ import Add from "../pages/add";
 import DocumentLists from "./lists";
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Translate from "./translate";
-
+import html2canvas from 'html2canvas';
 
 export default function MainPageCard({ singleData,index,titles }) {
   // console.log(singleData, "data for each apperaed");
@@ -55,6 +55,8 @@ export default function MainPageCard({ singleData,index,titles }) {
  
   const [open, setOpen] = useState(false);
   const [drawerState, setDrawerState] = useState(false);
+  const image = React.useRef(null)
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -73,12 +75,20 @@ export default function MainPageCard({ singleData,index,titles }) {
     setDrawerState(open);
   };
 
-  
+  const generateImage = () => {
+  html2canvas(image.current).then(canvas => {
+    const imgData = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.download = `${titles[index]}.png`;
+    link.href = imgData;
+    link.click();
+  });
+};
 
 
   return (
     <>
-    <Box sx={{ mb: 4 }}>
+    <Box ref={image} sx={{ mb: 4 }}>
       <Box sx={{ backgroundColor: "white", borderRadius: "1.5em" }}>
         <Box 
         borderRadius={{xs:'0.5em',md:"1.5em"}}
@@ -192,7 +202,7 @@ export default function MainPageCard({ singleData,index,titles }) {
                 </Box>:""}
                 {singleData.length > 0 ? <Box>
                   <Button
-                  
+                  onClick={generateImage}
                     sx={buttonStyle}
                     variant="outlined"
                     startIcon={<ShareIcon sx={{color:"gray"}} />}
