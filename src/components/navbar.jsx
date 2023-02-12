@@ -45,6 +45,10 @@ const navItems = [
     path: "/faq"
   },
 
+  {
+    name: "FAQ",
+    path: "/faq",
+  },
 ];
 
 function NavBar(props) {
@@ -59,7 +63,7 @@ function NavBar(props) {
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
         World Medicine
       </Typography>
@@ -84,7 +88,8 @@ function NavBar(props) {
     </Box>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
   const navigate = useNavigate();
 
   return (
@@ -140,8 +145,11 @@ function NavBar(props) {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
@@ -149,7 +157,6 @@ function NavBar(props) {
       </Box>
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
-
       </Box>
     </Box>
   );
