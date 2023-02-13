@@ -25,7 +25,6 @@ import Translate from "./translate";
 import html2canvas from 'html2canvas';
 
 export default function MainPageCard({ singleData,index,titles }) {
-  // console.log(singleData, "data for each apperaed");
 
   console.log(singleData.length,"single data in his home",titles);
 
