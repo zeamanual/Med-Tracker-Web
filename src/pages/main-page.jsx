@@ -99,7 +99,7 @@ const MainPage = () => {
         </Box>
         {data.map((singleData,index)=>{
           console.log(singleData)
-          return <MainPageCard key={index} index={index} titles={titles} singleData={singleData}/>
+          return <MainPageCard key={singleData.name} index={index} titles={titles} singleData={singleData}/>
         })
         
         }

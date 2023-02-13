@@ -25,7 +25,6 @@ import Translate from "./translate";
 import html2canvas from 'html2canvas';
 
 export default function MainPageCard({ singleData,index,titles }) {
-  // console.log(singleData, "data for each apperaed");
 
   console.log(singleData.length,"single data in his home",titles);
 
@@ -115,7 +114,6 @@ export default function MainPageCard({ singleData,index,titles }) {
             >
               <Box sx={{ display: "flex", alignItems: "start" }}>
               { Icons[index]}
-              {/* <LocalHospitalIcon  /> */}
                                
 
                 <Box
@@ -164,7 +162,7 @@ export default function MainPageCard({ singleData,index,titles }) {
               open? < RemoveSnackBar open={open} handleClose = {handleClose}  />:<></>      
             }
               <Box  overflow={{xs:'scroll',md:"hidden"}}  sx={{ display: "flex", py: 1, }}>
-              {singleData.length > 0 ? <Box sx={{ mr: 2 }}>
+              {singleData.length > 0 && index !=4 ? <Box sx={{ mr: 2 }}>
                   <Button
                   onClick={toggleDrawer('right', true)}
                     sx={buttonStyle}
@@ -189,7 +187,7 @@ export default function MainPageCard({ singleData,index,titles }) {
                   </Button>
                   </Link>
                 </Box>
-                {singleData.length > 0 ? <Box sx={{ mr: 2 }}>
+                {singleData.length > 0 && index !=4 ?  <Box sx={{ mr: 2 }}>
                   <Button
                     onClick={handleClickOpen}
                     sx={buttonStyle}
@@ -200,7 +198,7 @@ export default function MainPageCard({ singleData,index,titles }) {
                     Edit
                   </Button>
                 </Box>:""}
-                {singleData.length > 0 ? <Box>
+                {singleData.length > 0 && index !=4 ?  <Box>
                   <Button
                   onClick={generateImage}
                     sx={buttonStyle}
