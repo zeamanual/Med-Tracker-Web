@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { persistAuth, removeAuth } from "../../helpers/authPersistence"
-import { loginAPI, profileUpdateAPI, SignupAPI } from "../../service/user"
+import { getProfileAPI, loginAPI, profileUpdateAPI, SignupAPI } from "../../service/user"
 
 let initialState = {
     loading: false,
@@ -29,6 +29,12 @@ let initialState = {
         errorMsg: '',
         successMsg: ''
     },
+    getProfile: {
+        loading: false,
+        errorMsg: '',
+        successMsg: '',
+        profileObj:''
+    }
 }
 
 
@@ -55,6 +61,25 @@ export let userSignup = createAsyncThunk(
             return response.data
 
         } catch (error) {
+            let errorMsg = error.response.data?.message
+            return thunkApi.rejectWithValue(errorMsg ? errorMsg : error.message)
+        }
+    }
+)
+
+export let getProfile = createAsyncThunk(
+    'user/getProfile',
+    async (_ = '', thunkApi) => {
+        try {
+            console.log('before running***')
+            let response = await getProfileAPI()
+            console.log('after running***',response)
+
+            return response.data
+
+        } catch (error) {
+            console.log('error running***',error)
+
             let errorMsg = error.response.data?.message
             return thunkApi.rejectWithValue(errorMsg ? errorMsg : error.message)
         }
@@ -91,6 +116,11 @@ let userSlice = createSlice({
             state.profileUpdate.successMsg = ''
             state.profileUpdate.loading = false
         },
+        resetGetProfileStatus: (state) => {
+            state.getProfile.errorMsg = ''
+            state.getProfile.successMsg = ''
+            state.getProfile.loading = false
+        },
         resetSignupFormStatus: (state) => {
             state.userSignup.errorMsg = ''
             state.userSignup.successMsg = ''
@@ -101,13 +131,13 @@ let userSlice = createSlice({
             state.allergies = []
             state.diagnoses = []
             state.documents = []
-            state.vaccines=[]
-            state.medicines=[]
-            state.email=''
-            state.fullName=''
-            state.userId=''
+            state.vaccines = []
+            state.medicines = []
+            state.email = ''
+            state.fullName = ''
+            state.userId = ''
             state.currentUserObjectRaw = ''
-            state.token=''
+            state.token = ''
         }
     },
 
@@ -151,7 +181,7 @@ let userSlice = createSlice({
             state.email = action.payload.user.email
             state.fullName = action.payload.user.fullName
             state.userLogIn.errorMsg = ''
-            state.userId=action.payload.user.userId
+            state.userId = action.payload.user.userId
             persistAuth({ token: state.token, userId: state.userId, email: state.email, fullName: state.fullName })
             state.userLogIn.successMsg = "User Logged in Successfully"
         })
@@ -180,11 +210,31 @@ let userSlice = createSlice({
             state.profileUpdate.errorMsg = action.payload
             state.profileUpdate.successMsg = ''
         })
+
+        // get profile data reducer
+        builder.addCase(getProfile.pending, (state) => {
+            state.getProfile.loading = true
+            state.getProfile.errorMsg = ''
+            state.getProfile.successMsg = ''
+        })
+
+        builder.addCase(getProfile.fulfilled, (state, action) => {
+            console.log('profile fetched succwe',action)
+            state.getProfile.loading = false
+            state.getProfile.errorMsg = ''
+            state.getProfile.successMsg = 'Profile Fetched Successfuly'
+            state.getProfile.profileObj=action.payload
+        })
+        builder.addCase(getProfile.rejected, (state, action) => {
+            state.getProfile.loading = false
+            state.getProfile.errorMsg = action.payload
+            state.getProfile.successMsg = ''
+        })
     }
 })
 
 
 let userReducer = userSlice.reducer
-export let { resetLoginFormStatus, logout,resetSignupFormStatus, resetProfileUpdateFormStatus } = userSlice.actions
+export let { resetLoginFormStatus, logout, resetGetProfileStatus, resetSignupFormStatus, resetProfileUpdateFormStatus } = userSlice.actions
 
 export default userReducer

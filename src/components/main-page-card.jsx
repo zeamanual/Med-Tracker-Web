@@ -19,7 +19,7 @@ import { RemoveSnackBar } from "./snackbar-modal";
 import { useState } from 'react';
 import { Link } from "react-router-dom";
 import Add from "../pages/add";
-import DocumentLists from "./lists";
+import ListDocuments from "./list-documents";
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Translate from "./translate";
 import html2canvas from 'html2canvas';
@@ -145,7 +145,7 @@ export default function MainPageCard({ singleData,index,titles }) {
                 sx={{ py: 2, maxHeight: "70vh", overflowY: "scroll" }}
               >
 
-                {index ===4? singleData.map(each => <DocumentLists data={[]} /> ):
+                {index ===4? <ListDocuments data={singleData} />:
                 singleData.map((each,index) => {
 
         

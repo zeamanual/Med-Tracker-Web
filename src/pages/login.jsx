@@ -57,7 +57,7 @@ function Login() {
 
     let passwordChangeHandler = (e) => {
         setLoginDetails({ ...loginDetails, password: e.target.value })
-        if (e.target.value.length < 8) {
+        if (e.target.value.length < 5) {
             setErrorDetails({
                 ...errorDetails,
                 password: {
@@ -87,7 +87,7 @@ function Login() {
     }
 
     if(userState.userLogIn.successMsg){
-        navigate('/')
+        navigate('/home')
     }
     return (
         <Box py={5} bgcolor='#f8f8f8' height={'100vh'} display='flex' justifyContent='center' >
