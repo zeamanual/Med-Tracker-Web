@@ -93,6 +93,10 @@ function Add() {
     let successMsg = vaccine.successMsg || medicine.successMsg || diagnoses.successMsg || allergy.successMsg
 
     if (successMsg === 'Added') {
+        dispatch(resetAllAllegyStatus())
+        dispatch(resetAllDiagnosesStatus())
+        dispatch(resetAllMedicineStatus())
+        dispatch(resetAllVaccineStatus())
         navigate('/home')
     }
 

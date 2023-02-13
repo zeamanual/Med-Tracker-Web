@@ -121,7 +121,7 @@ let DiagnosesSlice = createSlice({
         builder.addCase(deleteDiagnoses.fulfilled, (state, action) => {
             state.loading = false
             state.errorMsg = ''
-            state.successMsg = 'Medicine deleted'
+            state.successMsg = 'Diagnoses deleted'
         })
 
         builder.addCase(deleteDiagnoses.rejected, (state, action) => {
