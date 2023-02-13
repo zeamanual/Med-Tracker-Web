@@ -12,7 +12,7 @@ const About = () => {
   let cyber_p2 = "";
   return (
     <>
-      {/* <ImageWithText /> */}
+      
       <ImageWithTextWhite
         title={title}
         paragraph={paragraph}
