@@ -31,24 +31,38 @@ const TranslateLang = (props) => {
 const [data, setData] = useState([]);
 const [Lang, setLang] = useState('English');
 const [loading, setLoading] = useState(false);
+
 const randomString = (length) => {
   let result = '';
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const charactersLength = characters.length;
+  const crypto = window.crypto || window.msCrypto;
+  const randomValues = new Uint32Array(1);
+
   for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    crypto.getRandomValues(randomValues);
+    result += characters.charAt(randomValues[0] % charactersLength);
   }
+
   return result;
-}
+};
+
 const randomStringAsi = (length) => {
   let result = '';
   const characters = '是在不了有和人这中大为上个国我以要他时来用们生到作地于出就0123456789';
   const charactersLength = characters.length;
+  const crypto = window.crypto || window.msCrypto;
+  const randomValues = new Uint32Array(1);
+
   for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    crypto.getRandomValues(randomValues);
+    result += characters.charAt(randomValues[0] % charactersLength);
   }
+
   return result;
-}
+};
+
+
 let temp ;
 const handleLang = (e) => {
     setLoading(true)

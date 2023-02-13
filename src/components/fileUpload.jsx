@@ -1,10 +1,12 @@
- import { Button, Box , Input} from '@mui/material';
- import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
+import { useEffect } from 'react';
+import { Button, Box , Input} from '@mui/material';
+import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import React, { useState} from 'react';
 const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
  const FileUpload = ({updateFileCb,
   maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES, isProvided , name}) => {
-  const [file, setFile] = useState();
+  // const [file, setFile] = useState();
+  let [Name, setName] = useState(name);
   const [error, setError] = useState(false);
   const handleNewFileUpload = (e) => {
     const newFile= e.target.files[0];
@@ -14,11 +16,14 @@ const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
 
 
     else{
-      setFile(newFile);
+      // setFile(newFile);
+      setName(newFile.name);
       updateFileCb(newFile)
     }
     
   };
+  // useEffect(() => {
+  // }, [name]);
   //
 
     return (<>
@@ -32,8 +37,7 @@ const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
   alignItems: 'center',
   backgroundColor: 'white'}}
        className={(error || isProvided) && 'error-msg'}>
-        { file ? <span style={{margin: 'auto auto'}}>{file.name}</span>: name ? <span style={{margin: 'auto auto'}}>{name}</span>:
-        <Button variant='contained' sx={{margin: '.2em !important'}}> <DriveFolderUploadIcon /> Add</Button>}
+        { Name === undefined ?  <Button variant='contained' sx={{margin: '.2em !important'}}> <DriveFolderUploadIcon /> Add</Button> : name ? <span style={{margin: 'auto auto'}}>{name}</span> : <Button variant='contained' sx={{margin: '.2em !important'}}> <DriveFolderUploadIcon /> Add</Button>}
         <Input
         sx={{fontSize: '18px',
   display: 'block',

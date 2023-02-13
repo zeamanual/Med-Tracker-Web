@@ -23,9 +23,7 @@ export const uploadData = createAsyncThunk(
 
         } catch (error) {
             console.log(error, "error");
-            const variant = 'error'
             const errorMessage = error.message
-            enqueueSnackbar('Document not Successfully Added!', {variant})
             return thunkApi.rejectWithValue(errorMessage);
         }
     }

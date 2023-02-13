@@ -249,7 +249,7 @@ export default function MainPageCard({ singleData,index,titles }) {
         onClose={handleAdd(false)}
         onOpen={handleAdd(true)}
       >
-            {<AddDocumentPage />
+            {<AddDocumentPage handleAdd={handleAdd}/>
             }
           </SwipeableDrawer>
           </>

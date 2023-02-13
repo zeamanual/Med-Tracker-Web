@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import FileUpload from "../components/fileUpload";
-import { TextField, MenuItem, Button, Box, CircularProgress } from "@mui/material";
+import { TextField, MenuItem, Button, Box, CircularProgress, ListItem, ListItemText, Typography } from "@mui/material";
 import {resetStatus, uploadData} from '../state/slices/new-document'
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 
 const DocumentType = [
   "Certificate",
@@ -17,7 +19,7 @@ const DocumentType = [
   "Other",
 ];
 
-const AddDocumentPage = () => {
+const AddDocumentPage = (props) => {
   const [document, setDocument] = useState();
   const [documentTitle, setDocumentTitle] = useState('');
   const [documentType, setDocumentType] = useState("Certificate");
@@ -57,34 +59,48 @@ const AddDocumentPage = () => {
   };
   const handleAddNewDocument = (e) => {
     e.preventDefault();
-    loading = true;
-    setLoading(true);
-    console.log(loading, "loading")
+    console.log(document.length,'data');
     if (documentTitle.length === 0) {
       documentError.documentTitleErrorMessage = true;
       setDocumentError({ ...documentError, documentTitleErrorMessage: true });
     }
-    if (document === undefined) {
+    if (document === undefined || document.length === 0) {
       documentError.documentErrorMessage = true;
       setDocumentError({ ...documentError, documentErrorMessage: true });
     } else if (
       documentError.documentErrorMessage === false &&
       documentError.documentTitleErrorMessage === false
-    ) {
-      dispatch(uploadData({document, documentTitle, documentType, description, enqueueSnackbar}));
-       if (data.uploadData.errorMessage.length !== 0) {
-        const variant = 'error'
-        enqueueSnackbar('Failed to upload document !', {variant} );
-      }
-      
+      ) {
+        dispatch(uploadData({document, documentTitle, documentType, description, enqueueSnackbar}));
+        
+        if (data.uploadData.errorMessage.length !== 0) {
+          const variant = 'error'
+          enqueueSnackbar('Failed to upload document !', {variant} );
+        }
+        else if (data.uploadData.successUploads) {
+          loading = true;
+          setLoading(true);
+          dispatch(resetStatus());
+        }
+        props.handleAdd(false);
+        setDocument();
+        setDocumentTitle('');
+        setDocumentType("Certificate");
+        setDescription('');
+        setDocumentError({ documentErrorMessage: false, documentTitleErrorMessage: false });
+        
     }
   };
   useEffect(() => {
-    if(data.uploadData.successUploads){
+    let timeId;
+      timeId = setTimeout(() => {
       setLoading(false);
+      }, 2000);
+      return () => {
+        clearTimeout(timeId);
+      };
 
-    }
-    },[data.uploadData.successUploads])
+    },[loading])
   return (
     <Box component="form" onSubmit={handleAddNewDocument} sx={{ width: '36em !important',
   display: 'flex',
@@ -100,16 +116,30 @@ const AddDocumentPage = () => {
   flexDirection: 'column',
   gap: '1em',
   width: '100%'}} >
-        <h2>Add New document</h2>
+    <ListItem>
+          <Button onClick={props.handleAdd(false)}>
+            <ArrowBackIcon />
+          </Button>
+          <ListItemText
+            sx={{ marginLeft: "1rem" }}
+            primary={
+              <Typography style={{ fontWeight: "700" }}>Add New document</Typography>
+            }
+          />
+        </ListItem>
+        
         <FileUpload
           updateFileCb={updateFileCb}
           maxFileSizeInBytes={9000000000}
           isProvided={documentError.documentErrorMessage}
+          name={document? document.name : undefined}
+
         />
         <TextField
           onChange={handleDocumentTitle}
           error={documentError.documentTitleErrorMessage}
           fullWidth
+          value={documentTitle}
           variant="outlined"
           placeholder="Document Title"
           helperText={
@@ -120,6 +150,7 @@ const AddDocumentPage = () => {
         <TextField
           fullWidth
           select
+          value={documentType}
           label="Document Type"
           defaultValue="Certificate"
           onChange={handleDocumentType}
@@ -136,6 +167,7 @@ const AddDocumentPage = () => {
           multiline
           maxRows={9}
           fullWidth
+          value={description}
           variant="outlined"
           placeholder="Description(Optional)"
         />
@@ -155,9 +187,9 @@ const AddDocumentPage = () => {
             sx={{
               color: 'green[500]',
               position: 'absolute',
-              top: '40%',
+              top: '25%',
               left: '50%',
-              marginTop: '-10px',
+              marginTop: '-4px',
               marginLeft: '-12px',
             }}
           />)}
