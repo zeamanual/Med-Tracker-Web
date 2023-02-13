@@ -1,10 +1,7 @@
-import { clientInstance } from "../config/config"
+import { clientInstance } from "../config/config";
 
 const getFiles = () => {
+  return clientInstance.get(`/api/Document`);
+};
 
-    return clientInstance.get(`/api/Document`)
-  
-
-}
-
-export default getFiles
+export default getFiles;

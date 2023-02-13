@@ -59,7 +59,11 @@ const Footer = () => {
         >
           Learn More About The World Medical Card® And How To Use It
         </Typography>
-        <Box marginBottom={"50px"} marginRight="30px" marginLeft={{ xs: "0px", md: "40px" }}>
+        <Box
+          marginBottom={"50px"}
+          marginRight="30px"
+          marginLeft={{ xs: "0px", md: "40px" }}
+        >
           <Link
             onClick={handleOpen1}
             style={{
@@ -70,11 +74,8 @@ const Footer = () => {
               padding: "20px",
               paddingRight: "40px",
               paddingLeft: "40px",
-              
-
             }}
           >
-            
             Watch video
           </Link>
         </Box>
@@ -86,7 +87,6 @@ const Footer = () => {
       <Box color="lightgray" bgcolor={"#13141a"}>
         <Box
           p={8}
-          
           justifyContent="space-between"
           display={"flex"}
           flexDirection={{ xs: "column", md: "row" }}
