@@ -5,6 +5,7 @@ import {resetStatus, uploadData} from '../state/slices/new-document'
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import { useParams } from 'react-router-dom';
+import { editFileById } from "../state/slices/edit-document";
 
 const DocumentType = [
   'Certificate',
@@ -84,7 +85,7 @@ const EditDocumentPage = (props) => {
       documentError.documentErrorMessage === false &&
       documentError.documentTitleErrorMessage === false
     ) {
-      dispatch(uploadData(document, documentTitle, documentType, description));
+      dispatch(editFileById(document, documentTitle, documentType, description));
       if (data.uploadData.successUploads){
         const variant = 'success';
         enqueueSnackbar('Document Successfully Added!', {variant} );

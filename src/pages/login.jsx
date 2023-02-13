@@ -1,4 +1,4 @@
-import { ArrowBack, Expand, Visibility, VisibilityOff } from '@mui/icons-material'
+import { ArrowBack, Visibility, VisibilityOff } from '@mui/icons-material'
 import { Alert, Box, Button, CircularProgress, IconButton, InputAdornment, Modal, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
