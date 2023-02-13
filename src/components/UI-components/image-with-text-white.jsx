@@ -15,9 +15,9 @@ const ImageWithTextWhite = ({title,paragraph,image,paragraph2}) => {
       my={"20px"}
     >
       <Box width={"20%"}  marginLeft="5em">
-        <img src={`images/${image}`} alt={`images ${image}`}/>
+        <img  src={`images/${image}`} alt={`images ${image}`}/>
       </Box>
-      <Box  p={5} width={{ xs: "100%", md: "50%" }}>
+      <Box  p={5}  width={{ xs: "100%", md: "50%" }}>
         <Typography
           mb="20px"
           variant="h4"
