@@ -1,9 +1,7 @@
 import React from 'react';
-import {Typography, AppBar,Card, CardActions, CardContent, CardMedia, CssBaseline, Grid, Toolbar, Container} from '@mui/material'
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import {Typography, CssBaseline, Grid, Container} from '@mui/material'
 import Button from '@mui/material/Button';
 import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
 import Box from '@mui/material/Box';
 
 const MedicalCard = () => {
@@ -27,7 +25,6 @@ const MedicalCard = () => {
            />
           </ImageList> 
       </Box>
-     
       </Grid>
       </Container> 
       <main>
@@ -57,9 +54,9 @@ const MedicalCard = () => {
           </Container>
         </div>
         <Grid Container spacing={2} align = "center">
-          <Grid item>
+          
           <Button variant="contained">LOGIN</Button>
-          </Grid>
+          
 
         </Grid>
       </main>

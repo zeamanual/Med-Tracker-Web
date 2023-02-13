@@ -1,4 +1,4 @@
-import { ArrowBack, Expand, Visibility, VisibilityOff } from '@mui/icons-material'
+import { ArrowBack, Visibility, VisibilityOff } from '@mui/icons-material'
 import { Alert, Box, Button, CircularProgress, IconButton, InputAdornment, Modal, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,7 +17,7 @@ function Login() {
 
     React.useEffect(() => {
         dispatch(resetLoginFormStatus())
-    }, [])
+    },[])
 
     let formSubmitHandler = (e) => {
         e.preventDefault();
@@ -31,7 +31,7 @@ function Login() {
     }
 
     let emailChangeHandler = (e) => {
-        let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        let regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
         let isValid = regex.test(e.target.value)
         setLoginDetails({ ...loginDetails, email: e.target.value })
         if (!isValid) {
@@ -57,7 +57,7 @@ function Login() {
 
     let passwordChangeHandler = (e) => {
         setLoginDetails({ ...loginDetails, password: e.target.value })
-        if (e.target.value.length < 8) {
+        if (e.target.value.length < 5) {
             setErrorDetails({
                 ...errorDetails,
                 password: {
@@ -87,7 +87,7 @@ function Login() {
     }
 
     if(userState.userLogIn.successMsg){
-        navigate('/')
+        navigate('/home')
     }
     return (
         <Box py={5} bgcolor='#f8f8f8' height={'100vh'} display='flex' justifyContent='center' >
@@ -117,7 +117,8 @@ function Login() {
             <Box display={'flex'} flexDirection={'column'} justifyContent='space-between' width={{ xs: '100vw', md: '60vw', lg: '50vw' }}>
                 <Box>
                     <Box display='flex' justifycontent='start' >
-                        <ArrowBack></ArrowBack>
+                    <Link to={-1}> <ArrowBack  /> </Link>
+                    
                     </Box>
                     <Box display={'flex'} flexDirection='column' p={2}>
                         <Typography my={0} sx={{ fontWeight: '800' }} variant='h6'>Login to World Medical Card </Typography>

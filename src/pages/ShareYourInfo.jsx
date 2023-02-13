@@ -1,9 +1,7 @@
 import React from 'react';
-import {Typography, AppBar,Card, CardActions, CardContent, CardMedia, CssBaseline, Grid, Toolbar, Container} from '@mui/material'
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import {Typography, CssBaseline, Grid, Container} from '@mui/material'
 import Button from '@mui/material/Button';
 import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
 import Box from '@mui/material/Box';
 
 const Info = () => {
@@ -11,11 +9,7 @@ const Info = () => {
       <>
       <CssBaseline/>
       <Container maxWidth = "xs" >
-       <Grid 
-            container
-            spacing={0}  
-            justifyContent="center"
-            alignItems="center">
+       <Grid>
       <Box
       display="flex"
       justifyContent="center"
@@ -32,10 +26,7 @@ const Info = () => {
       </Container> 
       <main>
         <Container maxWidth = "lg">
-          <Box  
-             justifyContent="center"
-             alignItems="center"
-              styles={{height:'300px', width:{xs:100,sm:200,md:800,lg:600,xl:1000}}} align = "center">
+          <Box>
           
            <img 
            src='https://images.unsplash.com/photo-1584432810601-6c7f27d2362b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1083&q=80'
@@ -59,9 +50,9 @@ const Info = () => {
           </Container>
         </div>
         <Grid Container spacing={2} align = "center">
-          <Grid item>
+          
           <Button variant="skip">Skip Tour</Button>
-          </Grid>
+          
 
         </Grid>
       </main>

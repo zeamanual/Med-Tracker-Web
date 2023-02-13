@@ -16,39 +16,41 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import EmailIcon from '@mui/icons-material/Email';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { padding } from '@mui/system';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../state/slices/user';
 
 const drawerWidth = 240;
 const navItems = [
   {
-    name:"Home",
-    path:"/"
+    name: "Home",
+    path: "/"
   },
   {
-    name:"services",
-    path:"/services"
+    name: "Business",
+    path: "/business"
   },
 
   {
-    name:"gallery",
-    path:"/gallery"
-  },  
-  {
-    name:"location",
-    path:"/location"
-  },  
-  {
-    name:"contact",
-    path:"/contact"
+    name: "About",
+    path: "/about"
   },
   {
-    name:"book now",
-    path:"/booking"
-  }
+    name: "Professionals",
+    path: "/professionals"
+  },
+  {
+    name: "FAQ",
+    path: "/faq"
+  },
+
 ];
 
 function NavBar(props) {
   let location = useLocation()
+  let dispatch = useDispatch()
+  let userState = useSelector(state => state.user)
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -57,80 +59,78 @@ function NavBar(props) {
   };
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        Sheger Lounge
+        World Medicine
       </Typography>
       <Divider />
       <Box >
-      {navItems.map((item) => (
-                  <Button onClick={e=>{
-                    navigate(item.path)}} 
-                    sx={{ 
-                      display:"block",
-                      fontSize:"13px",
-                      color:location.pathname == item.path?"#1d50bf":"black",
-                      // backgroundColor: item.name=="book now" ?"#1d50bf":"",
-                      
-                      }}>
-                     {item.name}
-                  </Button>
-                 
-              ))}
+        {navItems.map((item) => (
+          <Button onClick={e => {
+            navigate(item.path)
+          }}
+            sx={{
+              display: "block",
+              fontSize: "13px",
+              color: location.pathname == item.path ? "#13bff2" : "black",
+              // backgroundColor: item.name=="book now" ?"#13bff2":"",
+
+            }}>
+            {item.name}
+          </Button>
+
+        ))}
       </Box>
     </Box>
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ display: 'flex'}}>
+    <Box sx={{ display: 'flex' }} justifyContent="center" overflow={"hidden"} boxShadow={"1px 1px 6px 5px lightgray"}>
       <CssBaseline />
-      
-      <AppBar component="nav" sx={{backgroundColor:"white !important",boxShadow:"1px 1px 3px 1px #D3D3D3" }}>
-      <Box sx={{bgcolor:"#5A5A5A", textAlign:"left",px:2 ,py:1,display:"flex"}}>
-      <LocalPhoneIcon sx={{fontSize:"18px"}}/> <Typography sx={{px:2,fontSize:"12px"}}> +251945818635</Typography>
-      <EmailIcon sx={{fontSize:"18px"}}/> <Typography sx={{px:2,fontSize:"12px"}}> shegerlounge@gmail.com</Typography>
-        
+      <Box display={"flex"} justifyContent="center" my={"auto"} alignContent={"center"} >
+
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleDrawerToggle}
+          sx={{ ml: 2, fontSize: "20px", display: { sm: 'none' } }}
+        >
+          <MenuIcon sx={{ color: "#13bff2" }} />
+        </IconButton>
+        <Box mr="40px">
+          <img src="./images/icon.jpg" alt="icon" />
         </Box>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
-          >
-            <MenuIcon sx={{color:"#1d50bf"}} />
-          </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            color={"black"}
-            sx={{ flexGrow: 0, display: { xs: 'none', sm: 'block' } }}
-          >
-            SHEGER LOUNGE
-          </Typography>
-          <Box sx={{ flexGrow: 1}} ></Box>
-          <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
-            {navItems.map((item) => (
-                  <Button onClick={e=>{
-                    navigate(item.path)}} 
-                    sx={{ 
-                      fontSize:"13px",
-                      color:location.pathname == item.path?"#1d50bf":"black",
-                      // backgroundColor: item.name=="book now" ?"#1d50bf":"",
-                      
-                      }}>
-                     {item.name}
-                  </Button>
-                 
-              ))}
-            
-          </Box>
-        </Toolbar>
-      </AppBar>
+        <Box sx={{ flexGrow: 1 }} ></Box>
+        <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
+          {navItems.map((item) => (
+            <Button onClick={e => {
+              navigate(item.path)
+            }}
+              sx={{
+                marginRight: "29px",
+                fontSize: "13px",
+                fontWeight: "600",
+                color: location.pathname == item.path ? "#13bff2" : "gray",
+
+              }}>
+              {item.name}
+            </Button>
+
+          ))}
+
+        </Box>
+        <Box my={"auto"}>
+          {!userState.token && <Link to={"/login"} style={{ textDecoration: 'none', backgroundColor: "black", color: "white", padding: "8px", paddingRight: "24px", paddingLeft: "24px" }} > Login </Link>}
+
+          {userState.token && <Button onClick={()=>dispatch(logout())} style={{ textDecoration: 'none', backgroundColor: "black", color: "white", padding: "8px", paddingRight: "24px", paddingLeft: "24px" }} > Logout </Button>}
+        </Box>
+      </Box>
+
       <Box component="nav">
         <Drawer
           container={container}
@@ -141,8 +141,11 @@ function NavBar(props) {
             keepMounted: true, // Better open performance on mobile.
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
@@ -150,7 +153,6 @@ function NavBar(props) {
       </Box>
       <Box component="main" sx={{ p: 3 }}>
         <Toolbar />
-
       </Box>
     </Box>
   );

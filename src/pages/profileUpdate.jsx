@@ -1,25 +1,32 @@
-import { ArrowBack, Expand, Visibility, VisibilityOff } from '@mui/icons-material'
-import { Alert, Box, Button, CircularProgress, IconButton, InputAdornment, MenuItem, Modal, TextField, Typography } from '@mui/material'
+import { ArrowBack } from '@mui/icons-material'
+import { Alert, Box, Button, CircularProgress, MenuItem, Modal, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { resetLoginFormStatus, resetProfileUpdateFormStatus, userLogin, userProfileUpdate } from '../state/slices/user'
+import { useNavigate } from 'react-router'
+import { getDateObject } from '../helpers/dateManipulate'
+import { getProfile, resetGetProfileStatus,  resetProfileUpdateFormStatus,  userProfileUpdate } from '../state/slices/user'
 
 function ProfileUpdate() {
 
 
     let userState = useSelector(state => state.user)
+    let userObj = useSelector(state => state.user.getProfile.profileObj)
     let dispatch = useDispatch()
+    let navigate = useNavigate()
 
     React.useEffect(() => {
         // dispatch(resetLoginFormStatus())
+        dispatch(resetProfileUpdateFormStatus())
+        dispatch(resetGetProfileStatus())
+        dispatch(getProfile())
     }, [])
 
     let handleFirstNameChange = (e) => {
         let value = e.target.value
-        if (value.length < 1) {
+        if (value.length < 4) {
             setFieldsValue(previousValue => ({
                 ...previousValue,
-                firstName: { ...fieldsValue.firstName, msg: 'First name can not be empty', value: e.target.value }
+                firstName: { ...fieldsValue.firstName, msg: 'First name must be at least 4 characters', value: e.target.value }
             }))
             return false
         } else {
@@ -33,10 +40,10 @@ function ProfileUpdate() {
 
     let handleLastNameChange = (e) => {
         let value = e.target.value
-        if (value.length < 1) {
+        if (value.length < 4) {
             setFieldsValue(previousValue => ({
                 ...previousValue,
-                lastName: { ...fieldsValue.lastName, msg: 'Last name can not be empty', value: e.target.value }
+                lastName: { ...fieldsValue.lastName, msg: 'Last name must be at least 4 characters', value: e.target.value }
             }))
             return false
         } else {
@@ -150,22 +157,6 @@ function ProfileUpdate() {
             return true
         }
     }
-
-
-
-
-
-    // ///////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
 
 
     let handlePostnrChange = (e) => {
@@ -331,6 +322,9 @@ function ProfileUpdate() {
         return true
     }
 
+    if (userObj) {
+        console.log('user data fetched', userObj)
+    }
 
     let [fieldsValue, setFieldsValue] = React.useState({
         firstName: { value: '', msg: '', changeHandler: handleFirstNameChange },
@@ -360,32 +354,89 @@ function ProfileUpdate() {
         other: { value: '', msg: '', changeHandler: noValidationChangeHanlder }
     })
 
+    let [fetchedDataUsed, setFetchedDataUsed] = React.useState(false)
+
+    // adding existing user profile informations once they are fetched from the backend
+    if (userObj && !fetchedDataUsed) {
+        setFieldsValue(preValue => {
+            return {
+                firstName: { ...preValue.firstName, value: userObj?.firstName, msg: '', changeHandler: handleFirstNameChange },
+                lastName: { ...preValue.lastName, value: userObj?.lastName, msg: '', changeHandler: handleLastNameChange },
+                dob: { ...preValue.dob, value: new Date(userObj?.dateOfBirth).toISOString().substring(0, 10), msg: '', changeHandler: handleDoBChange },
+                gender: { ...preValue.gender, value: userObj?.gender, msg: '', changeHandler: handleGenderChange },
+                ssn: { ...preValue.ssn, value: userObj?.zip, msg: '', changeHandler: handleSSNChange },
+                nationality: { ...preValue.nationality, value: userObj?.nationality, msg: '', changeHandler: handleNationalityChange },
+                tlf: { ...preValue.tlf, value: userObj?.telephoneNumber, msg: '', changeHandler: handleTlfChange },
+                organDonor: { ...preValue.organDonor, value: Boolean(userObj?.organDonor) ? 'yes' : 'no', msg: '', changeHandler: handleOrganDonorChange },
+                postnr: { ...preValue.postnr, value: userObj?.zip, msg: '', changeHandler: handlePostnrChange },
+                city: { ...preValue.city, value: userObj?.city, msg: '', changeHandler: handleCityChange },
+                land: { ...preValue.land, value: userObj?.country, msg: '', changeHandler: handleLandChange },
+                street: { ...preValue.street, value: userObj?.streetAddress, msg: '', changeHandler: handleStreetChange },
+                insuranceType: { ...preValue.insuranceType, value: userObj?.insuranceType, msg: '', changeHandler: handleInsuraTypeChange },
+                insuranceCompany: { ...preValue.insuranceCompany, value: userObj?.insuranceCompany, msg: '', changeHandler: handleInsuraceCompany },
+                policyNumber: { ...preValue.policyNumber, value: userObj?.policyNumber, msg: '', changeHandler: noValidationChangeHanlder },
+                alarmTelephone: { ...preValue.alarmTelephone, value: userObj?.emergencyPhone, msg: '', changeHandler: noValidationChangeHanlder },
+                emergencyContact1Name: { ...preValue.emergencyContact1Name, value: userObj?.emergencyContactName, msg: '', changeHandler: handleEmerContactNameChange },
+                emergencyContact2Name: { value: '', msg: '', changeHandler: noValidationChangeHanlder },
+                emergencyContact1phone: { ...preValue.emergencyContact1phone, value: userObj?.emergencyContactPhoneNo, msg: '', changeHandler: handleEmerContactPhoneChange },
+                emergencyContact2phone: { value: '', msg: '', changeHandler: noValidationChangeHanlder },
+                emergencyContact1relation: { ...preValue.emergencyContact1relation, value: userObj?.relationship, msg: '', changeHandler: handleEmerContactRelationChange },
+                emergencyContact2relation: { value: '', msg: '', changeHandler: noValidationChangeHanlder },
+                other: { ...preValue.other, value: userObj?.other, msg: '', changeHandler: noValidationChangeHanlder },
+            }
+        })
+        setFetchedDataUsed(true)
+    }
 
 
     let formSubmitHandler = (e) => {
         e.preventDefault();
         let isFormValid = true
         for (let fieldName of Object.keys(fieldsValue)) {
-            let isFieldValid= fieldsValue[fieldName].changeHandler({ target: { value: fieldsValue[fieldName].value } })
+            let isFieldValid = fieldsValue[fieldName].changeHandler({ target: { value: fieldsValue[fieldName].value } })
             if (!isFieldValid) {
                 isFormValid = false
             }
         }
         if (isFormValid) {
-            let profileInformation = {}
-            Object.keys(fieldsValue).forEach((fieldName)=>{
-                profileInformation[fieldName]=fieldsValue[fieldName].value
-            })
-            console.log('form submitted',profileInformation)
+            let profileInformation = {
+                firstName: fieldsValue.firstName.value,
+                lastName: fieldsValue.lastName.value,
+                dateOfBirth: getDateObject(fieldsValue.dob.value),
+                gender: fieldsValue.gender.value,
+                cprNumber: Number(fieldsValue.ssn.value),
+                tlfNumber: Number(fieldsValue.tlf.value),
+                nationality: fieldsValue.nationality.value,
+                telephoneNumber: fieldsValue.tlf.value,
+                organDonor: fieldsValue.organDonor.value == 'Yes' ? true : false,
+                zip: fieldsValue.ssn.value,
+                city: fieldsValue.city.value,
+                country: fieldsValue.land.value,
+                streetAddress: fieldsValue.street.value,
+                insuranceType: fieldsValue.insuranceType.value,
+                insuranceCompany: fieldsValue.insuranceCompany.value,
+                policyNumber: fieldsValue.policyNumber.value,
+                emergencyPhone: fieldsValue.alarmTelephone.value,
+                emergencyContactName: fieldsValue.emergencyContact1Name.value,
+                emergencyContactPhoneNo: fieldsValue.emergencyContact1phone.value,
+                relationship: fieldsValue.emergencyContact1relation.value,
+                other: fieldsValue.other.value
+            }
+            
+            console.log('form submitted', profileInformation)
             dispatch(userProfileUpdate(profileInformation))
         } else {
-            console.log('form not submitted')
+            console.log('profile update form not submitted')
         }
     }
 
 
     let handleModalClose = () => {
         dispatch(resetProfileUpdateFormStatus())
+    }
+
+    if (userState.profileUpdate.successMsg) {
+        navigate('/home')
     }
 
 
@@ -395,6 +446,7 @@ function ProfileUpdate() {
             {/* log in state UI */}
             <Modal
                 open={userState.profileUpdate.loading ||
+                    userState.getProfile.loading ||
                     userState.profileUpdate.errorMsg ||
                     userState.profileUpdate.successMsg
                 }
@@ -411,12 +463,16 @@ function ProfileUpdate() {
                 >
                     {userState.profileUpdate.errorMsg && <Alert severity='error'>{userState.profileUpdate.errorMsg}</Alert>}
                     {userState.profileUpdate.loading && <CircularProgress color='primary' />}
+                    {userState.getProfile.loading && <CircularProgress color='primary' />}
+
                 </Box>
             </Modal>
 
             <Box width={{ xs: '100vw', md: '60vw', lg: '50vw' }}>
-                <Box display='flex' justifycontent='start' >
-                    <ArrowBack></ArrowBack>
+                <Box display='flex' justifycontent='start' pt={2} >
+                    <Button onClick={() => navigate('/home')}>
+                        <ArrowBack ></ArrowBack>
+                    </Button>
                 </Box>
 
                 <Box justifyContent={'space-between'} display={'flex'} flexDirection='column'>
@@ -441,7 +497,7 @@ function ProfileUpdate() {
                         <Box display={'flex'} justifyContent='space-between'>
                             <Box mt={2} flexGrow={1}>
                                 <Box bgcolor='white' flexGrow={1}>
-                                    <TextField placeholder='mm/dd/yy' fullWidth={true} value={fieldsValue.dob.value}
+                                    <TextField placeholder='yy/mm/dd' fullWidth={true} value={fieldsValue.dob.value}
                                         onChange={fieldsValue.dob.changeHandler} size='small' label='Date of Birth' ></TextField>
                                 </Box>
                                 {fieldsValue.dob.msg ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{fieldsValue.dob.msg}</Alert> : <></>}
@@ -462,15 +518,17 @@ function ProfileUpdate() {
                         </Box>
 
                         <Box my={2} bgcolor='white'>
-                            <TextField fullWidth={true} value={fieldsValue.ssn.value} onChange={fieldsValue.ssn.changeHandler} size='small' label='Social Security Number ( Optional )' ></TextField>
+                            <TextField fullWidth={true} value={fieldsValue.ssn.value} type='number' onChange={fieldsValue.ssn.changeHandler} size='small' label='Social Security Number ( Optional )' ></TextField>
                         </Box>
                         {fieldsValue.ssn.msg ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{fieldsValue.ssn.msg}</Alert> : <></>}
+                       
                         <Box my={2} bgcolor='white'>
                             <TextField fullWidth={true} value={fieldsValue.nationality.value} onChange={fieldsValue.nationality.changeHandler} size='small' label='Nationality' ></TextField>
                         </Box>
                         {fieldsValue.nationality.msg ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{fieldsValue.nationality.msg}</Alert> : <></>}
+                       
                         <Box my={2} bgcolor='white'>
-                            <TextField fullWidth={true} value={fieldsValue.tlf.value} onChange={fieldsValue.tlf.changeHandler} size='small' label='Tlf nr' ></TextField>
+                            <TextField fullWidth={true}  type='number' value={fieldsValue.tlf.value} onChange={fieldsValue.tlf.changeHandler} size='small' label='Tlf nr' ></TextField>
                         </Box>
                         {fieldsValue.tlf.msg ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{fieldsValue.tlf.msg}</Alert> : <></>}
 
@@ -498,7 +556,7 @@ function ProfileUpdate() {
                         <Box display={'flex'} justifyContent='space-between'>
                             <Box mt={2} flexGrow={1}>
                                 <Box bgcolor='white' flexGrow={1}>
-                                    <TextField fullWidth={true} value={fieldsValue.postnr.value}
+                                    <TextField fullWidth={true} type='number' value={fieldsValue.postnr.value}
                                         onChange={fieldsValue.postnr.changeHandler} size='small' label='Postnr./-sted' ></TextField>
                                 </Box>
                                 {fieldsValue.postnr.msg ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{fieldsValue.postnr.msg}</Alert> : <></>}
@@ -540,7 +598,7 @@ function ProfileUpdate() {
                         <Typography variant='h4' >Insurance</Typography>
                         <Typography color={'gray'} >Add insurance information for reference</Typography>
                         <Box my={2} bgcolor='white'>
-                            <TextField  defaultValue={'Yes'} fullWidth={true} select value={fieldsValue.insuranceType.value}
+                            <TextField defaultValue={'Yes'} fullWidth={true} select value={fieldsValue.insuranceType.value}
                                 onChange={fieldsValue.insuranceType.changeHandler} size='small' label='Type of Insurance' >
                                 <MenuItem value={'Travel'}>
                                     Travel Insurance
@@ -630,8 +688,8 @@ function ProfileUpdate() {
 
                     </Box>
                     <Box position='fixed' boxSizing={'border-box'}
-                        left='0' bottom={0} px={2}
-                        width={'100%'} display={'flex'}
+                        bottom={0} px={2}
+                        width={{ xs: '90%', sm: '50%', md: '50%' }} display={'flex'}
                         flexDirection={'column'} alignItems='center'
                     >
                         <Box width='100%' p={2} borderRadius={30} overflow='hidden'>

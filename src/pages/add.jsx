@@ -1,5 +1,5 @@
-import { AccountCircle, ArrowBack, SearchRounded, Expand, Visibility, VisibilityOff } from '@mui/icons-material'
-import { Alert, Box, Card, CircularProgress, InputAdornment, MenuItem, Modal, Stack, TextField, Typography } from '@mui/material'
+import {ArrowBack, SearchRounded } from '@mui/icons-material'
+import { Alert, Box, Card, CircularProgress, InputAdornment, MenuItem, Modal, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
@@ -24,6 +24,7 @@ function Add() {
 
     let storedListsIndex = [
         {
+            name:'Allergy',
             fetch: fetchAllergies,
             add: addAllergy,
             list: allergy.allergiesList,
@@ -31,6 +32,7 @@ function Add() {
             idName: 'id'
         },
         {
+            name:'Medicine',
             fetch: fetchMedicines,
             add: addMedicine,
             list: medicine.medicinesList,
@@ -39,6 +41,7 @@ function Add() {
 
         },
         {
+            name:'Diagnoses',
             fetch: fetchDiagnoses,
             add: addDiagnoses,
             list: diagnoses.diagnosesList,
@@ -47,6 +50,7 @@ function Add() {
 
         },
         {
+            name:'Vaccine',
             fetch: fetchVaccines,
             add: addVaccine,
             list: vaccine.vaccinesList,
@@ -73,7 +77,7 @@ function Add() {
     let [showModal, setShowModal] = React.useState(false)
 
     let handleModalClose = () => {
-        navigate('/')
+        navigate('/home')
     }
  
 
@@ -83,17 +87,19 @@ function Add() {
             navigate('/login')
         }
         resetAllStateStatus()
-    }, [])
+    },[])
     let loading = vaccine.loading || medicine.loading || diagnoses.loading || allergy.loading
     let errorMsg = vaccine.errorMsg || medicine.errorMsg || diagnoses.errorMsg || allergy.errorMsg
     let successMsg = vaccine.successMsg || medicine.successMsg || diagnoses.successMsg || allergy.successMsg
 
-    if (successMsg == 'Added') {
-        navigate('/')
+    if (successMsg === 'Added') {
+        navigate('/home')
     }
 
+    let currentPageName = storedListsIndex[selectedKey].name
+
     return (
-        <Box display={'flex'} justifyContent='center' >
+        <Box display={'flex'} minHeight={'60vh'} justifyContent='center' >
 
             <Modal
                 open={(loading || errorMsg) && showModal}
@@ -116,7 +122,7 @@ function Add() {
             <Box display='flex' flexDirection='column' width={{ xs: '90vw', md: '60vw' }} >
                 <Box py={2} display='flex' alignItems='center'>
                     <Link to={-1}> <ArrowBack /> </Link>
-                    <Typography sx={{ paddingLeft: "1em" }} variant='h6'>Add Screen</Typography>
+                    <Typography sx={{ paddingLeft: "1em" }} variant='h6'>{`Add ${currentPageName}`}</Typography>
                 </Box>
                 <Box bgcolor={"white"} width='100%'>
 
