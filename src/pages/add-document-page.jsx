@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FileUpload from "../components/fileUpload";
-import { TextField, MenuItem, Button, Box } from "@mui/material";
+import { TextField, MenuItem, Button, Box, CircularProgress } from "@mui/material";
 import {resetStatus, uploadData} from '../state/slices/new-document'
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
@@ -26,6 +26,7 @@ const AddDocumentPage = () => {
     documentErrorMessage: false,
     documentTitleErrorMessage: false,
   });
+  let [loading , setLoading] = useState(false);
   const dispatch = useDispatch();
   const data = useSelector(state => state.addDocument);
   const { enqueueSnackbar } = useSnackbar();
@@ -56,6 +57,9 @@ const AddDocumentPage = () => {
   };
   const handleAddNewDocument = (e) => {
     e.preventDefault();
+    loading = true;
+    setLoading(true);
+    console.log(loading, "loading")
     if (documentTitle.length === 0) {
       documentError.documentTitleErrorMessage = true;
       setDocumentError({ ...documentError, documentTitleErrorMessage: true });
@@ -67,28 +71,29 @@ const AddDocumentPage = () => {
       documentError.documentErrorMessage === false &&
       documentError.documentTitleErrorMessage === false
     ) {
-      dispatch(uploadData(document, documentTitle, documentType, description));
-      if (data.uploadData.successUploads){
-        const variant = 'success';
-        enqueueSnackbar('Document Successfully Added!', {variant} );
-        dispatch(resetStatus());
-
-      }
-      else if (data.uploadData.errorMessage.length !== 0) {
+      dispatch(uploadData({document, documentTitle, documentType, description, enqueueSnackbar}));
+       if (data.uploadData.errorMessage.length !== 0) {
         const variant = 'error'
         enqueueSnackbar('Failed to upload document !', {variant} );
       }
       
     }
   };
+  useEffect(() => {
+    if(data.uploadData.successUploads){
+      setLoading(false);
+
+    }
+    },[data.uploadData.successUploads])
   return (
-    <Box component="form" onSubmit={handleAddNewDocument} sx={{ maxWidth: '34em !important',
+    <Box component="form" onSubmit={handleAddNewDocument} sx={{ width: '36em !important',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
   alignItems: 'center',
   height: '100vh',
-  margin: '0 auto'}}>
+  margin: '0 auto',
+  padding:'2rem'}}>
       <Box sx={{display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -135,13 +140,28 @@ const AddDocumentPage = () => {
           placeholder="Description(Optional)"
         />
       </Box>
-      <Button type="submit" variant="contained" sx={{ marginBottom: '2em !important',
+       <Box sx={{ m: 1, position: 'relative' }}>
+      <Button disabled={loading} 
+      type="submit" variant="contained" sx={{ marginBottom: '2em !important',
   width: '100%',
   height: '4em',
   borderRadius: '6px'}}>
         {" "}
         UPLOAD NEW DOCUMENT
       </Button>
+      {loading && (
+          <CircularProgress
+            size={27}
+            sx={{
+              color: 'green[500]',
+              position: 'absolute',
+              top: '40%',
+              left: '50%',
+              marginTop: '-10px',
+              marginLeft: '-12px',
+            }}
+          />)}
+          </Box>
     </Box>
   );
 };

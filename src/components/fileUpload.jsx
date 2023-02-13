@@ -58,11 +58,11 @@ const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
       {error && <span style={{color: '#d32f2f',
     fontSize: '13px',
     fontWeight: '400',
-    marginRight: '29em'}}>File size should be less than {maxFileSizeInBytes/1000} KB</span>}
+    marginRight: '24em', width: '10rem'}}>File size should be less than {maxFileSizeInBytes/1000} KB</span>}
             {isProvided && <span style={{color: '#d32f2f',
     fontSize: '14px',
     fontWeight: '400',
-    marginRight: '28em'}}>Please Upload some file</span>}
+    marginRight: '24em', width: '10rem'}}>Please Upload some file</span>}
       </>
     )
  }

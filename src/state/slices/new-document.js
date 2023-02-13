@@ -11,14 +11,21 @@ const initialState = {
 
 export const uploadData = createAsyncThunk(
     'newDocument/upload',
-    async ({file, documentTitle, documentType, Description}, thunkApi) => {
+    async ({document, documentTitle, documentType, description, enqueueSnackbar}, thunkApi) => {
         try {
-            let response = await upload(file, documentTitle, documentType, Description)
+            console.log(document, documentTitle, documentType, description)
+            let response = await upload(document, documentTitle, documentType, description)
             console.log(response);
+            console.log("2upload")
+            const variant = 'success'
+            enqueueSnackbar('Document Successfully Added!', {variant})
             return response.data;
 
         } catch (error) {
+            console.log(error, "error");
+            const variant = 'error'
             const errorMessage = error.message
+            enqueueSnackbar('Document not Successfully Added!', {variant})
             return thunkApi.rejectWithValue(errorMessage);
         }
     }

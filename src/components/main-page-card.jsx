@@ -23,6 +23,7 @@ import ListDocuments from "./list-documents";
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Translate from "./translate";
 import html2canvas from 'html2canvas';
+import AddDocumentPage from "../pages/add-document-page";
 
 export default function MainPageCard({ singleData,index,titles }) {
 
@@ -54,6 +55,7 @@ export default function MainPageCard({ singleData,index,titles }) {
  
   const [open, setOpen] = useState(false);
   const [drawerState, setDrawerState] = useState(false);
+  const [drawerState2, setDrawerState2] = useState(false);
   const image = React.useRef(null)
   
   const handleClickOpen = () => {
@@ -72,6 +74,17 @@ export default function MainPageCard({ singleData,index,titles }) {
     }
 
     setDrawerState(open);
+  };
+  const handleAdd = (open) => (event) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+
+    setDrawerState2(open);
   };
 
   const generateImage = () => {
@@ -162,7 +175,7 @@ export default function MainPageCard({ singleData,index,titles }) {
               open? < RemoveSnackBar open={open} handleClose = {handleClose}  />:<></>      
             }
               <Box  overflow={{xs:'scroll',md:"hidden"}}  sx={{ display: "flex", py: 1, }}>
-              {singleData.length > 0 && index !=4 ? <Box sx={{ mr: 2 }}>
+              {singleData.length > 0 && index !==4 ? <Box sx={{ mr: 2 }}>
                   <Button
                   onClick={toggleDrawer('right', true)}
                     sx={buttonStyle}
@@ -174,7 +187,14 @@ export default function MainPageCard({ singleData,index,titles }) {
                 </Box>:""}
 
                 <Box sx={{ mr: 2 }}>
-                  <Link 
+                  {index === 4 ? <Button
+                   onClick={handleAdd(true)}
+                    sx={buttonStyle}
+                    variant="outlined"
+                    startIcon={<AddIcon sx={{color:"gray"}} />}
+                  >
+                    Add
+                  </Button> : <Link 
                     style={{ textDecoration: 'none' }}
                     to="/add" state={{ id: index}}>
                   <Button
@@ -185,7 +205,7 @@ export default function MainPageCard({ singleData,index,titles }) {
                   >
                     Add
                   </Button>
-                  </Link>
+                  </Link>}
                 </Box>
                 {singleData.length > 0 && index !=4 ?  <Box sx={{ mr: 2 }}>
                   <Button
@@ -220,7 +240,16 @@ export default function MainPageCard({ singleData,index,titles }) {
         onClose={toggleDrawer("right", false)}
         onOpen={toggleDrawer("right", true)}
       >
-            {<Translate />
+            {<Translate data={singleData} />
+            }
+          </SwipeableDrawer>
+      <SwipeableDrawer
+        anchor={"right"}
+        open={drawerState2}
+        onClose={handleAdd(false)}
+        onOpen={handleAdd(true)}
+      >
+            {<AddDocumentPage />
             }
           </SwipeableDrawer>
           </>
