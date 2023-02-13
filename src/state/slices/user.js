@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { clientInstance } from "../../config/config"
 import { persistAuth, removeAuth } from "../../helpers/authPersistence"
 import { getProfileAPI, getUserDataAPI, loginAPI, profileUpdateAPI, SignupAPI } from "../../service/user"
 
@@ -159,8 +160,12 @@ let userSlice = createSlice({
             state.userId = ''
             state.currentUserObjectRaw = ''
             state.token = ''
+            state.getProfile.profileObj=''
+            // clientInstance.defaults.headers = {
+            //     "Authorization": ``,
+            // }
         },
-        resetUserData:(state)=>{
+        resetUserData: (state) => {
             state.allergies = []
             state.diagnoses = []
             state.documents = []
@@ -214,6 +219,9 @@ let userSlice = createSlice({
             state.userId = action.payload.user.userId
             persistAuth({ token: state.token, userId: state.userId, email: state.email, fullName: state.fullName })
             state.userLogIn.successMsg = "User Logged in Successfully"
+            // clientInstance.defaults.headers = {
+            //     "Authorization": `${state.token}`,
+            // }
         })
 
         builder.addCase(userLogin.rejected, (state, action) => {
@@ -294,6 +302,6 @@ let userSlice = createSlice({
 
 
 let userReducer = userSlice.reducer
-export let { resetLoginFormStatus, logout,resetUserData, resetGetProfileStatus, resetSignupFormStatus, resetProfileUpdateFormStatus } = userSlice.actions
+export let { resetLoginFormStatus, logout, resetUserData, resetGetProfileStatus, resetSignupFormStatus, resetProfileUpdateFormStatus } = userSlice.actions
 
 export default userReducer

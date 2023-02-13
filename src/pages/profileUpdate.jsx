@@ -4,22 +4,26 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { getDateObject } from '../helpers/dateManipulate'
-import { getProfile, resetGetProfileStatus,  resetProfileUpdateFormStatus,  userProfileUpdate } from '../state/slices/user'
+import { getProfile, resetGetProfileStatus, resetProfileUpdateFormStatus, userProfileUpdate } from '../state/slices/user'
 
 function ProfileUpdate() {
 
-
+    let user = useSelector(state => state.user)
     let userState = useSelector(state => state.user)
     let userObj = useSelector(state => state.user.getProfile.profileObj)
     let dispatch = useDispatch()
     let navigate = useNavigate()
 
     React.useEffect(() => {
-        // dispatch(resetLoginFormStatus())
-        dispatch(resetProfileUpdateFormStatus())
-        dispatch(resetGetProfileStatus())
-        dispatch(getProfile())
-    }, [])
+        if (!user.token) {
+            navigate('/login')
+        } else {
+            // dispatch(resetLoginFormStatus())
+            dispatch(resetProfileUpdateFormStatus())
+            dispatch(resetGetProfileStatus())
+            dispatch(getProfile())
+        }
+    }, [user.token])
 
     let handleFirstNameChange = (e) => {
         let value = e.target.value
@@ -422,7 +426,7 @@ function ProfileUpdate() {
                 relationship: fieldsValue.emergencyContact1relation.value,
                 other: fieldsValue.other.value
             }
-            
+
             console.log('form submitted', profileInformation)
             dispatch(userProfileUpdate(profileInformation))
         } else {
@@ -521,14 +525,14 @@ function ProfileUpdate() {
                             <TextField fullWidth={true} value={fieldsValue.ssn.value} type='number' onChange={fieldsValue.ssn.changeHandler} size='small' label='Social Security Number ( Optional )' ></TextField>
                         </Box>
                         {fieldsValue.ssn.msg ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{fieldsValue.ssn.msg}</Alert> : <></>}
-                       
+
                         <Box my={2} bgcolor='white'>
                             <TextField fullWidth={true} value={fieldsValue.nationality.value} onChange={fieldsValue.nationality.changeHandler} size='small' label='Nationality' ></TextField>
                         </Box>
                         {fieldsValue.nationality.msg ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{fieldsValue.nationality.msg}</Alert> : <></>}
-                       
+
                         <Box my={2} bgcolor='white'>
-                            <TextField fullWidth={true}  type='number' value={fieldsValue.tlf.value} onChange={fieldsValue.tlf.changeHandler} size='small' label='Tlf nr' ></TextField>
+                            <TextField fullWidth={true} type='number' value={fieldsValue.tlf.value} onChange={fieldsValue.tlf.changeHandler} size='small' label='Tlf nr' ></TextField>
                         </Box>
                         {fieldsValue.tlf.msg ? <Alert sx={{ padding: 0, marginTop: 1 }} severity="error">{fieldsValue.tlf.msg}</Alert> : <></>}
 

@@ -62,9 +62,11 @@ const MainPage = () => {
   useEffect(() => {
     if (!user.token) {
       navigate('/login')
+    } else {
+      console.log('after token is checked')
+      dispatch(getUserData())
     }
-    dispatch(getUserData())
-  }, [])
+  }, [user.token])
 
   return (
     <Box minHeight={"100vh"} paddingX={{ xs: "1em", lg: "14em" }} bgcolor={{ xs: "#f8f8f8", md: "#daf2f8" }}>
@@ -97,8 +99,9 @@ const MainPage = () => {
                     padding: '1.4rem 0 0 2rem',
                   }}
                 >
-                  <h3 style={{ paddingLeft: '.4rem' }}>{newData.fullName}</h3>
-                  <p style={{ paddingLeft: '.4rem' }}>{newData.email}</p>
+                  {/* <h3 style={{ paddingLeft: '.4rem' }}>{newData.fullName}</h3>
+                  <p style={{ paddingLeft: '.4rem' }}>{newData.email}</p> */}
+                  <Typography variant='h5' fontWeight={'800'}>Profile Details</Typography>
                   <Button onClick={toggleDrawer("right", true)}>Click here to edit</Button>
                 </Box>
               </Box>

@@ -127,7 +127,7 @@ function NavBar(props) {
         <Box my={"auto"}>
           {!userState.token && <Link to={"/login"} style={{ textDecoration: 'none', backgroundColor: "black", color: "white", padding: "8px", paddingRight: "24px", paddingLeft: "24px" }} > Login </Link>}
 
-          {userState.token && <Button onClick={()=>dispatch(logout())} style={{ textDecoration: 'none', backgroundColor: "black", color: "white", padding: "8px", paddingRight: "24px", paddingLeft: "24px" }} > Logout </Button>}
+          {userState.token && <Button onClick={()=>navigate('/home')} style={{ textDecoration: 'none', backgroundColor: "black", color: "white", padding: "8px", paddingRight: "24px", paddingLeft: "24px" }} > Profile </Button>}
         </Box>
       </Box>
 
