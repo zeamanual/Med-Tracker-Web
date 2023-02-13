@@ -9,7 +9,7 @@ const About = () => {
   let cyber_title = "Security & Privacy Regulation";
   let cyber_p1 =
     "WMC Technologies provides our customers with the highest level of security available for online data storage, including personal information and transactions. All sensitive information shared between your computer and our server is encrypted via extended SSL. Our Extended (Extended validation – EV) SSL-certificate is provided by GlobalSign. This certification ensures that all information transferred is safe and protected from third parties.  The World Medical Card® uses a technology called EV SSL (Extended Validation Secure Sockets Layer). SSL comprises a set of rules used by computers linked to the internet. These rules include:";
-  let cyber_p2 = "";
+  
   return (
     <>
       
@@ -24,7 +24,6 @@ const About = () => {
           color="white"
           width={"50%"}
           margin={"auto"}
-          //   fontWeight="400"
           mb="18px"
           fontSize={"26px"}
         >
