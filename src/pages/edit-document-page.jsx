@@ -21,16 +21,15 @@ const DocumentType = [
 const EditDocumentPage = (props) => {
   const [document, setDocument] = useState();
   const [documentTitle, setDocumentTitle] = useState('');
-  const item = props.item.catagory;
-  console.log(item);
-  if (props.item){
-
-    console.log(props.item.catagory);
-  }
+  // const item = props.item.catagory;
+  // console.log(item);
+  // if (props.item){
+  //   console.log(props.item.catagory);
+  // }
   // const item = useMemo(() => ({file:'file.pdf', documentTitle:'health', name:'max.pdf', description: 'me on the moon', documentType: 'Discharge Summary'}), []);
 
   const [formData, setFormData] = useState({});
-  const [documentType, setDocumentType] = useState('');
+  const [documentType, setDocumentType] = useState('Certificate');
   const [description, setDescription] = useState('');
   const [documentError, setDocumentError] = useState({
     documentErrorMessage: false,
@@ -42,11 +41,10 @@ const EditDocumentPage = (props) => {
 
   useEffect(() => {
     setFormData(props.item);
-    if (props.item){
-
+    // if (props.item){
       setDocumentType(props.item.catagory);
-    }
-  }, [props.item]);
+    // }
+  }, [props.item, props.item.catagory]);
 
 
   const handleDescription = (e) => {
@@ -116,7 +114,7 @@ const EditDocumentPage = (props) => {
   flexDirection: 'column',
   gap: '1em',
   width: '100%'}}>
-        <h2>Add New document</h2>
+        <h2>Edit your document</h2>
         <FileUpload name = {formData.title}
           updateFileCb={updateFileCb}
           maxFileSizeInBytes={9000000000}
@@ -138,7 +136,7 @@ const EditDocumentPage = (props) => {
           fullWidth
           select
           label="Document Type"
-          value={'Prescription'}
+          value={documentType}
           onChange={handleDocumentType}
         >
           {DocumentType.map((option) => (

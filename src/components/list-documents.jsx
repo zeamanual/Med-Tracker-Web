@@ -40,7 +40,6 @@ const ListDocuments = (props) => {
         return group;
     }, {});
     // console.log(newFiles);
-    console.log(groupedFiles);
     // DocumentType.forEach(eachType => {
     //         console.log(groupedFiles[eachType])
     // });
