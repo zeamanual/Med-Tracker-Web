@@ -45,10 +45,6 @@ const navItems = [
     path: "/faq"
   },
 
-  {
-    name: "FAQ",
-    path: "/faq",
-  },
 ];
 
 function NavBar(props) {
