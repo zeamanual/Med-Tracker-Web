@@ -3,7 +3,6 @@ import { Box } from "@mui/system";
 const ImageWithText2 = () => {
   return (
     <Box
-      //   p={6}
       py="9em"
       width={"100%"}
       mx={"auto"}
@@ -20,7 +19,8 @@ const ImageWithText2 = () => {
           fontWeight="bold"
           mb="20px"
           variant="h4"
-        >Safety in everyday life for your employees
+        >
+          Safety in everyday life for your employees
         </Typography>
         <Typography m="auto" textAlign={"start"} lineHeight="30px">
           Help your employee reduce the risk of injury and illness with The
@@ -28,19 +28,22 @@ const ImageWithText2 = () => {
           record is a great tool. If you have temporary employees in your
           company, it is important that they can communicate any illnesses,
           ailments and allergies with you, pharmacies and health personnel.
-          <br /><br />
+          <br />
+          <br />
           <b>SAFETY </b>
-          <br /><br />
+          <br />
+          <br />
           You never know when your employees will need critical medical
           information. The World Medical Card® ensures that it is available when
           it is needed most. Employees post what they think is important and
           relevant to their digital medical profile that they always have
-          available, both as an app on the phone and as a physical card. 
-          <br /><br />
-           The app also has a one-click call button with their map location that is sent
-          to their emergency contacts on record. The World Medical Card® is a
-          service that complements health insurance, travel/accident insurance,
-          local health and emergency apps.
+          available, both as an app on the phone and as a physical card.
+          <br />
+          <br />
+          The app also has a one-click call button with their map location that
+          is sent to their emergency contacts on record. The World Medical Card®
+          is a service that complements health insurance, travel/accident
+          insurance, local health and emergency apps.
         </Typography>
       </Box>
       <Box>

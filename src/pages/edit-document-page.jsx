@@ -1,13 +1,12 @@
-import React, { useState , useEffect, useMemo} from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import FileUpload from "../components/fileUpload";
 import { TextField, MenuItem, Button, Box } from "@mui/material";
-import {resetStatus, uploadData} from '../state/slices/new-document'
-import { useDispatch, useSelector } from 'react-redux';
-import { useSnackbar } from 'notistack';
-import { useParams } from 'react-router-dom';
+import { resetStatus, uploadData } from "../state/slices/new-document";
+import { useDispatch, useSelector } from "react-redux";
+import { useSnackbar } from "notistack";
 
 const DocumentType = [
-  'Certificate',
+  "Certificate",
   "Discharge Summary",
   "Insurance",
   "Living Will",
@@ -20,25 +19,24 @@ const DocumentType = [
 
 const EditDocumentPage = (props) => {
   const [document, setDocument] = useState();
-  const [documentTitle, setDocumentTitle] = useState('');
+  const [documentTitle, setDocumentTitle] = useState("");
   const [formData, setFormData] = useState({});
-  const [documentType, setDocumentType] = useState('Certificate');
-  const [description, setDescription] = useState('');
+  const [documentType, setDocumentType] = useState("Certificate");
+  const [description, setDescription] = useState("");
   const [documentError, setDocumentError] = useState({
     documentErrorMessage: false,
     documentTitleErrorMessage: false,
   });
   const dispatch = useDispatch();
-  const data = useSelector(state => state.addDocument);
+  const data = useSelector((state) => state.addDocument);
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     setFormData(props.item);
     // if (props.item){
-      setDocumentType(props.item.catagory);
+    setDocumentType(props.item.catagory);
     // }
   }, [props.item, props.item.catagory]);
-
 
   const handleDescription = (e) => {
     setDescription(e.target.value);
@@ -78,37 +76,44 @@ const EditDocumentPage = (props) => {
       documentError.documentTitleErrorMessage === false
     ) {
       dispatch(uploadData(document, documentTitle, documentType, description));
-      if (data.uploadData.successUploads){
-        const variant = 'success';
-        enqueueSnackbar('Document Successfully Added!', {variant} );
+      if (data.uploadData.successUploads) {
+        const variant = "success";
+        enqueueSnackbar("Document Successfully Added!", { variant });
         dispatch(resetStatus());
-
+      } else if (data.uploadData.errorMessage.length !== 0) {
+        const variant = "error";
+        enqueueSnackbar("Failed to upload document !", { variant });
       }
-      else if (data.uploadData.errorMessage.length !== 0) {
-        const variant = 'error'
-        enqueueSnackbar('Failed to upload document !', {variant} );
-      }
-      
     }
   };
   return (
-    <Box component="form" onSubmit={handleAddNewDocument} sx={{ width: '36em !important',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  height: '100vh',
-  margin: '0 auto',
-  padding: '2em',
-  }}>
-      <Box sx={{display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexDirection: 'column',
-  gap: '1em',
-  width: '100%'}}>
+    <Box
+      component="form"
+      onSubmit={handleAddNewDocument}
+      sx={{
+        width: "36em !important",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center",
+        height: "100vh",
+        margin: "0 auto",
+        padding: "2em",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          gap: "1em",
+          width: "100%",
+        }}
+      >
         <h2>Edit your document</h2>
-        <FileUpload name = {formData.title}
+        <FileUpload
+          name={formData.title}
           updateFileCb={updateFileCb}
           maxFileSizeInBytes={9000000000}
           isProvided={documentError.documentErrorMessage}
@@ -140,7 +145,7 @@ const EditDocumentPage = (props) => {
         </TextField>
 
         <TextField
-        value={formData.description}
+          value={formData.description}
           onChange={(e) => handleDescription(e)}
           multiline
           maxRows={9}
@@ -149,10 +154,16 @@ const EditDocumentPage = (props) => {
           placeholder="Description(Optional)"
         />
       </Box>
-      <Button type="submit" variant="contained" sx={{ marginBottom: '2em !important',
-  width: '100%',
-  height: '4em',
-  borderRadius: '6px'}}>
+      <Button
+        type="submit"
+        variant="contained"
+        sx={{
+          marginBottom: "2em !important",
+          width: "100%",
+          height: "4em",
+          borderRadius: "6px",
+        }}
+      >
         {" "}
         UPDATE DOCUMENT
       </Button>

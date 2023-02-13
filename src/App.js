@@ -1,10 +1,7 @@
-
 import React from "react";
 import PageRouter from "./router/router";
 function App() {
-  return (
-        <PageRouter/>
-  );
+  return <PageRouter />;
 }
 
 export default App;
