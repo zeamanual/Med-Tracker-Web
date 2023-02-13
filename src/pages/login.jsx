@@ -17,7 +17,7 @@ function Login() {
 
     React.useEffect(() => {
         dispatch(resetLoginFormStatus())
-    },)
+    },[])
 
     let formSubmitHandler = (e) => {
         e.preventDefault();

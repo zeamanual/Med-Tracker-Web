@@ -19,7 +19,7 @@ function ProfileUpdate() {
         dispatch(resetProfileUpdateFormStatus())
         dispatch(resetGetProfileStatus())
         dispatch(getProfile())
-    }, )
+    }, [])
 
     let handleFirstNameChange = (e) => {
         let value = e.target.value
@@ -470,7 +470,7 @@ function ProfileUpdate() {
 
             <Box width={{ xs: '100vw', md: '60vw', lg: '50vw' }}>
                 <Box display='flex' justifycontent='start' pt={2} >
-                    <Button onClick={() => navigate('/')}>
+                    <Button onClick={() => navigate('/home')}>
                         <ArrowBack ></ArrowBack>
                     </Button>
                 </Box>

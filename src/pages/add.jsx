@@ -87,7 +87,7 @@ function Add() {
             navigate('/login')
         }
         resetAllStateStatus()
-    })
+    },[])
     let loading = vaccine.loading || medicine.loading || diagnoses.loading || allergy.loading
     let errorMsg = vaccine.errorMsg || medicine.errorMsg || diagnoses.errorMsg || allergy.errorMsg
     let successMsg = vaccine.successMsg || medicine.successMsg || diagnoses.successMsg || allergy.successMsg

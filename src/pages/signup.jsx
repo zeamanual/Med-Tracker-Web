@@ -26,7 +26,7 @@ function Signup() {
 
     React.useEffect(() => {
         dispatch(resetSignupFormStatus())
-    }, )
+    },[] )
 
     let formSubmitHandler = (e) => {
         e.preventDefault();
