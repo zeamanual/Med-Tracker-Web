@@ -1,6 +1,5 @@
 import React from "react";
 import Add from "../pages/add";
-import Login from "../pages/login";
 import SignUp from "../pages/signup";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MainPage from "../pages/main-page";
@@ -23,7 +22,6 @@ const PageRouter = () => {
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<MainPage />} />
           <Route path="/add" element={<Add />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/profile" element={<ProfileUpdate />}></Route>
           <Route path="/about" element={<About />} />
