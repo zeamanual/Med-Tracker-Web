@@ -15,7 +15,8 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { deleteFileById } from "../state/slices/delete-document";
 import { useSnackbar } from 'notistack';
 import { fetchFilesSuccess } from "../state/slices/list-documents";
-import { useNavigate } from 'react-router-dom';
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
+import EditDocumentPage from "../pages/edit-document-page";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -70,19 +71,38 @@ const DocumentLists = (props) => {
   const deleteError = useSelector( state => state.deleteDocument.errorMessage);
   const { enqueueSnackbar } = useSnackbar();
   const files = useSelector( state => state.files);
-  const history = useNavigate();
+  // const history = useNavigate();
+  const [drawerState, setDrawerState] = useState(false);
+  const [item, setItem] = useState({});
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+  const toggleDrawer = (anchor, open, eachFile) => (event) => {
+    handleClose();
+    if (open){
+
+      setItem(eachFile);
+    }
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+
+    setDrawerState(open);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
   const handleEdit = (item) => {
-    history.push({
-      pathname: `/edit/document/${item.id}`,
-      state: { item }
-    });
+    toggleDrawer('right', true);
+    // history.push({
+    //   pathname: `/edit/document/${item.id}`,
+    //   state: { item }
+    // });
   };
   const handleDelete = (Id) => {
     dispatch(deleteFileById(Id))
@@ -106,16 +126,17 @@ const DocumentLists = (props) => {
   return (
     <>
     <List
-      sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+      sx={{ width: "100%", bgcolor: "background.paper" }}
       subheader={<ListSubheader>{title}</ListSubheader>}
     >
       {file ? file.map((eachFile) => { return (
-        <ListItem key={file.id}>
+        <ListItem key={eachFile.documentId}>
           <ListItemIcon>
             <FileCopyIcon />
           </ListItemIcon>
-          <ListItemText id={eachFile.name} primary={eachFile.name} />
+          <ListItemText id={eachFile.title} primary={eachFile.title} />
           <Button
+          sx={{float: 'right'}}
         id="demo-customized-button"
         aria-controls={open ? 'demo-customized-menu' : undefined}
         aria-haspopup="true"
@@ -134,17 +155,25 @@ const DocumentLists = (props) => {
             open={open}
             onClose={handleClose}
           >
-            <MenuItem onClick={() => handleEdit(eachFile)} >
+            <MenuItem onClick={toggleDrawer('right', true, eachFile)} >
               <EditIcon />
               Edit
             </MenuItem>
-            <MenuItem onClick={() => handleDelete(eachFile.id)} >
+            <MenuItem onClick={() => handleDelete(eachFile.documentId)} >
               <DeleteForeverIcon />
               Delete
             </MenuItem> 
             </StyledMenu>
         </ListItem>);
       }) : null}
+      <SwipeableDrawer
+        anchor={"right"}
+        open={drawerState}
+        onClose={toggleDrawer("right", false)}
+        onOpen={toggleDrawer("right", true)}
+      >
+            {<EditDocumentPage item={item}/>}
+          </SwipeableDrawer>
     </List>
     </>
   );

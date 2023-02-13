@@ -57,7 +57,7 @@ function Login() {
 
     let passwordChangeHandler = (e) => {
         setLoginDetails({ ...loginDetails, password: e.target.value })
-        if (e.target.value.length < 8) {
+        if (e.target.value.length < 5) {
             setErrorDetails({
                 ...errorDetails,
                 password: {
