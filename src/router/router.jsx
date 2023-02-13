@@ -15,6 +15,7 @@ import Info from "../pages/ShareYourInfo";
 import NavBar from "../components/navbar";
 import Footer from "../components/footer";
 import NotFound from "../pages/404";
+import FaqPage from "../pages/faq-page";
 
 
 
@@ -37,6 +38,7 @@ const PageRouter = () => {
             <Route path="/medicalcard" element={<MedicalCard/>}/>
             <Route path="/worryFree" element={<WorryFree/>}/>
             <Route path="/info" element={<Info/>}/> 
+            <Route path="/faq" element={<FaqPage/>}/> 
             <Route path="/professionals" element={<Professionals/>}/>
             <Route path="*" element={ <NotFound/>}/>
         </Routes>
