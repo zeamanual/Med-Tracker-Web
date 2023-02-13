@@ -1,11 +1,11 @@
-import React, { useState , useEffect, useMemo} from "react";
+import React, { useState , useEffect} from "react";
 import FileUpload from "../components/fileUpload";
-import { TextField, MenuItem, Button, Box } from "@mui/material";
-import {resetStatus, uploadData} from '../state/slices/new-document'
+import { TextField, MenuItem, Button, Box,ListItem,ListItemText,Typography } from "@mui/material";
+import {resetStatus} from '../state/slices/new-document'
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
-import { useParams } from 'react-router-dom';
 import { editFileById } from "../state/slices/edit-document";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const DocumentType = [
   'Certificate',
@@ -85,7 +85,7 @@ const EditDocumentPage = (props) => {
       documentError.documentErrorMessage === false &&
       documentError.documentTitleErrorMessage === false
     ) {
-      dispatch(editFileById(document, documentTitle, documentType, description));
+      dispatch(editFileById(document, documentTitle, documentType, description, formData.documentId));
       if (data.uploadData.successUploads){
         const variant = 'success';
         enqueueSnackbar('Document Successfully Added!', {variant} );
@@ -115,7 +115,17 @@ const EditDocumentPage = (props) => {
   flexDirection: 'column',
   gap: '1em',
   width: '100%'}}>
-        <h2>Edit your document</h2>
+        <ListItem>
+          <Button onClick={props.handleAdd(false)}>
+            <ArrowBackIcon />
+          </Button>
+          <ListItemText
+            sx={{ marginLeft: "1rem" }}
+            primary={
+              <Typography style={{ fontWeight: "700" }}>Edit Your Document</Typography>
+            }
+          />
+        </ListItem>
         <FileUpload name = {formData.title}
           updateFileCb={updateFileCb}
           maxFileSizeInBytes={9000000000}

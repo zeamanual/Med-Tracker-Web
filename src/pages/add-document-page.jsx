@@ -123,7 +123,7 @@ const AddDocumentPage = (props) => {
           <ListItemText
             sx={{ marginLeft: "1rem" }}
             primary={
-              <Typography style={{ fontWeight: "700" }}>Add New document</Typography>
+              <Typography style={{ fontWeight: "700" }}>Add New Document</Typography>
             }
           />
         </ListItem>

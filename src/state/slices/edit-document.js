@@ -9,9 +9,9 @@ const initialState = {
 
 export const editFileById = createAsyncThunk(
     'editFileById',
-    async (Id,thunkApi) => {
+    async (document,documentTitle,documentType,description,documentId,thunkApi) => {
         try {
-            const response = await editFile(Id)
+            const response = await editFile(document,documentTitle,documentType,description,documentId)
             return response;
 
         } catch (error) {
