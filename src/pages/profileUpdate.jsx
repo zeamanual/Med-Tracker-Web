@@ -19,7 +19,7 @@ function ProfileUpdate() {
         dispatch(resetProfileUpdateFormStatus())
         dispatch(resetGetProfileStatus())
         dispatch(getProfile())
-    }, [])
+    }, )
 
     let handleFirstNameChange = (e) => {
         let value = e.target.value
@@ -157,22 +157,6 @@ function ProfileUpdate() {
             return true
         }
     }
-
-
-
-
-
-    // ///////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
 
 
     let handlePostnrChange = (e) => {
