@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { persistAuth, removeAuth } from "../../helpers/authPersistence"
-import { getProfileAPI, loginAPI, profileUpdateAPI, SignupAPI } from "../../service/user"
+import { getProfileAPI, getUserDataAPI, loginAPI, profileUpdateAPI, SignupAPI } from "../../service/user"
 
 let initialState = {
     loading: false,
@@ -33,7 +33,12 @@ let initialState = {
         loading: false,
         errorMsg: '',
         successMsg: '',
-        profileObj:''
+        profileObj: ''
+    },
+    getUserData: {
+        loading: false,
+        errorMsg: '',
+        successMsg: '',
     }
 }
 
@@ -73,12 +78,28 @@ export let getProfile = createAsyncThunk(
         try {
             console.log('before running***')
             let response = await getProfileAPI()
-            console.log('after running***',response)
+            console.log('after running***', response)
 
             return response.data
 
         } catch (error) {
-            console.log('error running***',error)
+            console.log('error running***', error)
+
+            let errorMsg = error.response.data?.message
+            return thunkApi.rejectWithValue(errorMsg ? errorMsg : error.message)
+        }
+    }
+)
+
+export let getUserData = createAsyncThunk(
+    'user/getUserData',
+    async (_ = '', thunkApi) => {
+        try {
+            let response = await getUserDataAPI()
+
+            return response.data
+
+        } catch (error) {
 
             let errorMsg = error.response.data?.message
             return thunkApi.rejectWithValue(errorMsg ? errorMsg : error.message)
@@ -138,6 +159,15 @@ let userSlice = createSlice({
             state.userId = ''
             state.currentUserObjectRaw = ''
             state.token = ''
+        },
+        resetUserData:(state)=>{
+            state.allergies = []
+            state.diagnoses = []
+            state.documents = []
+            state.vaccines = []
+            state.medicines = []
+            state.email = ''
+            state.fullName = ''
         }
     },
 
@@ -193,6 +223,35 @@ let userSlice = createSlice({
             state.userLogIn.successMsg = ''
         })
 
+        // get user data in reducer
+        builder.addCase(getUserData.pending, (state) => {
+            state.getUserData.loading = true
+            state.getUserData.errorMsg = ''
+            state.getUserData.successMsg = ''
+        })
+
+        builder.addCase(getUserData.fulfilled, (state, action) => {
+            state.getUserData.loading = false
+            state.currentUserObjectRaw = { user: action.payload }
+            state.allergies = action.payload.allergies
+            state.vaccines = action.payload.vaccines
+            state.diagnoses = action.payload.diagnoses
+            state.medicines = action.payload.medicines
+            state.documents = action.payload.documents
+            state.email = action.payload.email
+            state.fullName = action.payload.fullName
+            state.userId = action.payload.userId
+            state.getUserData.successMsg = "User Data Fetched in Successfully"
+            state.getUserData.errorMsg = ''
+        })
+
+        builder.addCase(getUserData.rejected, (state, action) => {
+            console.log('get user data in faillded', action)
+            state.getUserData.loading = false
+            state.getUserData.errorMsg = action.payload
+            state.getUserData.successMsg = ''
+        })
+
         // profile update reducer
         builder.addCase(userProfileUpdate.pending, (state) => {
             state.profileUpdate.loading = true
@@ -219,11 +278,11 @@ let userSlice = createSlice({
         })
 
         builder.addCase(getProfile.fulfilled, (state, action) => {
-            console.log('profile fetched succwe',action)
+            console.log('profile fetched succwe', action)
             state.getProfile.loading = false
             state.getProfile.errorMsg = ''
             state.getProfile.successMsg = 'Profile Fetched Successfuly'
-            state.getProfile.profileObj=action.payload
+            state.getProfile.profileObj = action.payload
         })
         builder.addCase(getProfile.rejected, (state, action) => {
             state.getProfile.loading = false
@@ -235,6 +294,6 @@ let userSlice = createSlice({
 
 
 let userReducer = userSlice.reducer
-export let { resetLoginFormStatus, logout, resetGetProfileStatus, resetSignupFormStatus, resetProfileUpdateFormStatus } = userSlice.actions
+export let { resetLoginFormStatus, logout,resetUserData, resetGetProfileStatus, resetSignupFormStatus, resetProfileUpdateFormStatus } = userSlice.actions
 
 export default userReducer

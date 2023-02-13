@@ -25,3 +25,7 @@ export const getProfileAPI = async () => {
     return clientInstance.get('/api/Profile/get')
 
 }
+
+export const getUserDataAPI = async () => {
+    return clientInstance.get('/api/Profile/userData')
+}
