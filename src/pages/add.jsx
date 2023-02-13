@@ -1,5 +1,5 @@
-import {ArrowBack, SearchRounded } from '@mui/icons-material'
-import { Alert, Box, Card, CircularProgress, InputAdornment, MenuItem, Modal, TextField, Typography } from '@mui/material'
+import { ArrowBack, SearchRounded,  } from '@mui/icons-material'
+import { Alert, Box, Card, CircularProgress, InputAdornment, MenuItem, Modal,  TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
@@ -87,12 +87,12 @@ function Add() {
             navigate('/login')
         }
         resetAllStateStatus()
-    })
+    }, [])
     let loading = vaccine.loading || medicine.loading || diagnoses.loading || allergy.loading
     let errorMsg = vaccine.errorMsg || medicine.errorMsg || diagnoses.errorMsg || allergy.errorMsg
     let successMsg = vaccine.successMsg || medicine.successMsg || diagnoses.successMsg || allergy.successMsg
 
-    if (successMsg === 'Added') {
+    if (successMsg == 'Added') {
         navigate('/home')
     }
 
