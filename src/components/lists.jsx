@@ -15,7 +15,6 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { deleteFileById } from "../state/slices/delete-document";
 import { useSnackbar } from 'notistack';
 import { fetchFilesSuccess } from "../state/slices/list-documents";
-import { useNavigate } from 'react-router-dom';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import EditDocumentPage from "../pages/edit-document-page";
 
@@ -80,6 +79,7 @@ const DocumentLists = (props) => {
     setAnchorEl(event.currentTarget);
   };
   const toggleDrawer = (anchor, open, eachFile) => (event) => {
+    handleClose();
     if (open){
 
       setItem(eachFile);
