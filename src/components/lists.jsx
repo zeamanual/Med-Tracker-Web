@@ -127,7 +127,7 @@ const DocumentLists = (props) => {
     <>
     <List
       sx={{ width: "100%", bgcolor: "background.paper" }}
-      subheader={<ListSubheader>{title}</ListSubheader>}
+      subheader={<ListSubheader sx={{fontWeight:'1000'}}>{title}</ListSubheader>}
     >
       {file ? file.map((eachFile) => { return (
         <ListItem key={eachFile.documentId}>
