@@ -7,8 +7,6 @@ import MainPageCard from '../components/main-page-card';
 import newData from "../service/new-json"
 import { useEffect, useState } from 'react';
 import {SnackBarModal} from '../components/snackbar-modal';
-
-
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
@@ -80,13 +78,12 @@ const MainPage = () => {
         <Box sx={{ mb: 4 ,}}>
       <Box sx={{ backgroundColor: "white", borderRadius: "1.5em" }}>
         <Box 
-        // borderRadius={{xs:'0.5em',md:"1.5em"}}
-        // boxShadow={{xs:"1px 1px 7px  #a3a3a3",md:"0px 1px 2px  lightGray"}}
+        
         
           sx={{
              width: '20rem', height: '7rem',
             padding: '1.4rem 0 0 2rem',
-            // boxShadow: "1px 1px 7px  gray",
+            
           }}
         >
           <h3 style={{paddingLeft:'.4rem'}}>Gemechis Urgessa</h3>
