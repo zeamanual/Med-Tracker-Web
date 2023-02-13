@@ -25,7 +25,6 @@ const MedicalCard = () => {
            />
           </ImageList> 
       </Box>
-     
       </Grid>
       </Container> 
       <main>
@@ -55,9 +54,9 @@ const MedicalCard = () => {
           </Container>
         </div>
         <Grid Container spacing={2} align = "center">
-          <Grid item>
+          
           <Button variant="contained">LOGIN</Button>
-          </Grid>
+          
 
         </Grid>
       </main>
