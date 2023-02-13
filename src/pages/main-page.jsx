@@ -135,6 +135,9 @@ const MainPage = () => {
     dispatch(resetAllAllegyStatus())
     dispatch(resetAllDiagnosesStatus())
     dispatch(resetAllMedicineStatus())
+    errorMsg=''
+    successMsg=''
+    loading=false
     dispatch(getUserData())
   }
 
