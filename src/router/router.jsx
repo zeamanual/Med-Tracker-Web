@@ -9,9 +9,6 @@ import Landing from "../pages/landing";
 import About from "../pages/about";
 import Business from "../pages/business";
 import Professionals from "../pages/professionals";
-import MedicalCard from "../pages/WorldMedicalCard";
-import WorryFree from "../pages/TravelWorryFree";
-import Info from "../pages/ShareYourInfo";
 import NavBar from "../components/navbar";
 import Footer from "../components/footer";
 import NotFound from "../pages/404";
@@ -31,9 +28,6 @@ const PageRouter = () => {
           <Route path="/profile" element={<ProfileUpdate />}></Route>
           <Route path="/about" element={<About />} />
           <Route path="/business" element={<Business />} />
-          <Route path="/medicalcard" element={<MedicalCard />} />
-          <Route path="/worryFree" element={<WorryFree />} />
-          <Route path="/info" element={<Info />} />
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/professionals" element={<Professionals />} />
           <Route path="*" element={<NotFound />} />

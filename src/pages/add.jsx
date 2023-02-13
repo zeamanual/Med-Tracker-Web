@@ -194,9 +194,11 @@ function Add() {
 
               {searchKey.length > 0 &&
               storedListsIndex[selectedKey].list.length > 0 ? (
-                storedListsIndex[selectedKey].list.map((item) => {
+                storedListsIndex[selectedKey].list.map((item,index) => {
+                let id = index.toString()
                   return (
                     <MenuItem
+                      key={id}
                       onClick={() =>
                         addHandler(item[storedListsIndex[selectedKey].idName])
                       }

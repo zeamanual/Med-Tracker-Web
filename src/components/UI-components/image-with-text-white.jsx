@@ -6,11 +6,10 @@ const ImageWithTextWhite = ({ title, paragraph, image, paragraph2 }) => {
       p={6}
       py="9em"
       mx={"auto"}
-      bgcolor={"#lightGray"}
       color="black"
       display={"flex"}
       justifyContent="space-between"
-      flexDirection={{ xs: "column", md: "row" }}
+      flexDirection={{ xs: "column", lg: "row" }}
       my={"20px"}
     >
       <Box width={"20%"} marginLeft="5em">

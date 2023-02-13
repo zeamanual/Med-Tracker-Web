@@ -75,7 +75,7 @@ function Login() {
           msg: "",
         },
         isFormValid: Boolean(
-          true && !errorDetails.password.hasError && loginDetails.password
+          !errorDetails.password.hasError && loginDetails.password
         ),
       });
     }
@@ -100,7 +100,7 @@ function Login() {
           msg: "",
         },
         isFormValid: Boolean(
-          true && !errorDetails.email.hasError && loginDetails.email
+        !errorDetails.email.hasError && loginDetails.email
         ),
       });
     }

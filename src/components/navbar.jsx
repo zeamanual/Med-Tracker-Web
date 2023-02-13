@@ -23,15 +23,15 @@ const navItems = [
     name: "Business",
     path: "/business",
   },
-
-  {
-    name: "About",
-    path: "/about",
-  },
   {
     name: "Professionals",
     path: "/professionals",
   },
+  {
+    name: "About",
+    path: "/about",
+  },
+
   {
     name: "FAQ",
     path: "/faq",
@@ -56,8 +56,10 @@ function NavBar(props) {
       </Typography>
       <Divider />
       <Box>
-        {navItems.map((item) => (
-          <Button
+        {navItems.map((item,index) => (
+          
+           <Button
+            key={item.name}
             onClick={(e) => {
               navigate(item.path);
             }}
@@ -108,6 +110,7 @@ function NavBar(props) {
         <Box sx={{ display: { xs: "none", sm: "flex" } }}>
           {navItems.map((item) => (
             <Button
+              key={item.name}
               onClick={(e) => {
                 navigate(item.path);
               }}

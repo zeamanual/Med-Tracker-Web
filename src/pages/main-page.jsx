@@ -102,7 +102,8 @@ const MainPage = () => {
             </Box>
 
             {data.map((singleData, index) => {
-              return <MainPageCard key={index} index={index} titles={titles} singleData={singleData} />
+              let id = index.toString()
+              return <MainPageCard key={id} index={index} titles={titles} singleData={singleData} />
             })}
 
           </Box>

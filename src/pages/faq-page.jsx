@@ -7,14 +7,6 @@ import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
 import faq_data from "../service/faq-data.json";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
-
 export default function FaqPage() {
   return (
     <>
@@ -29,14 +21,18 @@ export default function FaqPage() {
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 4, sm: 8, md: 12 }}
         >
-          {faq_data.map((accordion, index) => (
-            <Grid item xs={4} sm={8} md={6} key={index}>
+          {faq_data.map((accordion, index) => {
+            let id = index.toString()
+            return(
+            <Grid key={id} item xs={4} sm={8} md={6}>
               <CustomizedAccordions
                 title={accordion.title}
                 detail={accordion.detail}
               />
             </Grid>
-          ))}
+            )
+
+            })}
         </Grid>
       </Box>
     </>
