@@ -4,14 +4,12 @@ import Typography from '@mui/material/Typography';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/IconButton';
 import MainPageCard from '../components/main-page-card';
-import data from "../service/json-data"
 import newData from "../service/new-json"
 import { useEffect, useState } from 'react';
 import {SnackBarModal} from '../components/snackbar-modal';
 
-import DocumentLists from '../components/lists';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
