@@ -148,10 +148,11 @@ export default function MainPageCard({ singleData, index, titles,handler }) {
 
                   {index === 4 ? <ListDocuments data={singleData} /> :
                     singleData.map((each, index) => {
-                      console.log('each each *********',each,handler.name,each[handler.name])
+                      console.log(singleData, "this is the data")
+                      let id = index.toString()
 
                       return (
-                        <Box key={index} display={'flex'} justifyContent='space-between' my={1}>
+                        <Box key={id} display={'flex'} justifyContent='space-between' my={1}>
                           <Box>
                             <Typography>{each.name}</Typography>
                             <Typography sx={{ fontSize: "10px" }}>
@@ -227,7 +228,7 @@ export default function MainPageCard({ singleData, index, titles,handler }) {
         onClose={toggleDrawer("right", false)}
         onOpen={toggleDrawer("right", true)}
       >
-        {<Translate />
+        {<Translate  data ={singleData} />
         }
       </SwipeableDrawer>
     </>

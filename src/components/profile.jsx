@@ -22,16 +22,16 @@ const Profile = (props) => {
   let navigate = useNavigate()
 
   React.useEffect(() => {
-    resetGetProfileStatus()
-    dispatch(getProfile())
-  }, [])
+    resetGetProfileStatus();
+    dispatch(getProfile());
+  }, []);
 
   if (profileState.loading) {
     return (
       <Box display={'flex'} justifyContent='center' alignItems={'center'} height='100%' minWidth={{ xs: '80vw', md: '40vw' }}>
         <CircularProgress></CircularProgress>
       </Box>
-    )
+    );
   } else if (profileState.errorMsg) {
     return (
       <Box display={'flex'} justifyContent='center' alignItems={'center'} height='100%' minWidth={{ xs: '80vw', md: '40vw' }}>
