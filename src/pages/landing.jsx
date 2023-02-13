@@ -1,12 +1,8 @@
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { Link, useNavigate } from 'react-router-dom';
-import Grid from '@mui/material/Unstable_Grid2';
-import Footer from "../components/footer";
-import NavBar from "../components/navbar";
+import { Link} from 'react-router-dom';
 import * as React from 'react';
 import Modal from '@mui/material/Modal';
-// npm install react-animation-on-scroll --save
 
 const style = {
   backgroundColor:"white",

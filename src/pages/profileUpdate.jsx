@@ -1,10 +1,10 @@
-import { ArrowBack, Expand, Visibility, VisibilityOff } from '@mui/icons-material'
-import { Alert, Box, Button, CircularProgress, IconButton, InputAdornment, MenuItem, Modal, TextField, Typography } from '@mui/material'
+import { ArrowBack } from '@mui/icons-material'
+import { Alert, Box, Button, CircularProgress, MenuItem, Modal, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { getDateObject } from '../helpers/dateManipulate'
-import { getProfile, resetGetProfileStatus, resetLoginFormStatus, resetProfileUpdateFormStatus, userLogin, userProfileUpdate } from '../state/slices/user'
+import { getProfile, resetGetProfileStatus,  resetProfileUpdateFormStatus,  userProfileUpdate } from '../state/slices/user'
 
 function ProfileUpdate() {
 
@@ -157,22 +157,6 @@ function ProfileUpdate() {
             return true
         }
     }
-
-
-
-
-
-    // ///////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
 
 
     let handlePostnrChange = (e) => {
@@ -438,9 +422,7 @@ function ProfileUpdate() {
                 relationship: fieldsValue.emergencyContact1relation.value,
                 other: fieldsValue.other.value
             }
-            // Object.keys(fieldsValue).forEach((fieldName) => {
-            //     profileInformation[fieldName] = fieldsValue[fieldName].value
-            // })
+            
             console.log('form submitted', profileInformation)
             dispatch(userProfileUpdate(profileInformation))
         } else {

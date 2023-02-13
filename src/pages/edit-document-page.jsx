@@ -21,13 +21,6 @@ const DocumentType = [
 const EditDocumentPage = (props) => {
   const [document, setDocument] = useState();
   const [documentTitle, setDocumentTitle] = useState('');
-  // const item = props.item.catagory;
-  // console.log(item);
-  // if (props.item){
-  //   console.log(props.item.catagory);
-  // }
-  // const item = useMemo(() => ({file:'file.pdf', documentTitle:'health', name:'max.pdf', description: 'me on the moon', documentType: 'Discharge Summary'}), []);
-
   const [formData, setFormData] = useState({});
   const [documentType, setDocumentType] = useState('Certificate');
   const [description, setDescription] = useState('');
