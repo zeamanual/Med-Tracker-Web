@@ -24,7 +24,6 @@ import Translate from "./translate";
 import html2canvas from "html2canvas";
 
 export default function MainPageCard({ singleData, index, titles }) {
-  console.log(singleData.length, "single data in his home", titles);
 
   const style = {
     fontWeight: 900,
@@ -243,7 +242,7 @@ export default function MainPageCard({ singleData, index, titles }) {
         onClose={toggleDrawer("right", false)}
         onOpen={toggleDrawer("right", true)}
       >
-        {<Translate />}
+        {<Translate data={singleData} />}
       </SwipeableDrawer>
     </>
   );
