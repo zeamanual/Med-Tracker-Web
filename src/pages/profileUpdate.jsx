@@ -412,7 +412,7 @@ function ProfileUpdate() {
         tlfNumber: Number(fieldsValue.tlf.value),
         nationality: fieldsValue.nationality.value,
         telephoneNumber: fieldsValue.tlf.value,
-        organDonor: fieldsValue.organDonor.value == 'Yes' ? true : false,
+        organDonor: fieldsValue.organDonor.value === 'Yes' ? true : false,
         zip: fieldsValue.ssn.value,
         city: fieldsValue.city.value,
         country: fieldsValue.land.value,
