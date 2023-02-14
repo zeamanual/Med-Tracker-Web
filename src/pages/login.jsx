@@ -3,7 +3,6 @@ import { Alert, Box, Button, CircularProgress, IconButton, InputAdornment, Modal
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { validateEmail } from '../helpers/emailValidatte'
 import { resetLoginFormStatus, userLogin } from '../state/slices/user'
 
 function Login() {
@@ -18,11 +17,7 @@ function Login() {
 
     React.useEffect(() => {
         dispatch(resetLoginFormStatus())
-<<<<<<< HEAD
     }, [dispatch])
-=======
-    },[])
->>>>>>> main
 
     let formSubmitHandler = (e) => {
         e.preventDefault();
@@ -34,11 +29,12 @@ function Login() {
             console.log('not submitted')
         }
     }
-    
 
     let emailChangeHandler = (e) => {
+        let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        let isValid = regex.test(e.target.value)
         setLoginDetails({ ...loginDetails, email: e.target.value })
-        if (!validateEmail(e.target.value)) {
+        if (!isValid) {
             setErrorDetails({
                 ...errorDetails,
                 email: {
