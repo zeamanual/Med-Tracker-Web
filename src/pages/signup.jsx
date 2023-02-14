@@ -236,11 +236,11 @@ function Signup() {
             borderRadius={3}
           >
             <Typography p={1} variant="body1">
-              Sign-up with Google
+              {/* Sign-up with Google */}
             </Typography>
           </Box>
           <Box mt={6} display={"flex"} justifyContent="center">
-            <Typography color={"lightGray"}>
+            {/* <Typography color={"lightGray"}>
               {" "}
               _______________{" "}
               <Typography
@@ -251,7 +251,7 @@ function Signup() {
                 OR
               </Typography>{" "}
               _______________
-            </Typography>
+            </Typography> */}
           </Box>
 
           <Box
