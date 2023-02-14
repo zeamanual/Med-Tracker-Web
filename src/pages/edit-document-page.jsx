@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import { editFileById } from "../state/slices/edit-document";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { getUserData } from "../state/slices/user";
 
 const DocumentType = [
   'Certificate',
@@ -85,14 +86,15 @@ const EditDocumentPage = (props) => {
     ) {
       dispatch(editFileById({document, documentTitle, documentType, description, documentId, enqueueSnackbar}));
       if (data.isEdited){
+        // dispatch(getUserData());
         dispatch(resetStatus());
-        props.toggleDrawer("right", false)(e);
-
+        
       }
       else if (data.errorMessage.length !== 0) {
         const variant = 'error'
         enqueueSnackbar('Failed to upload document !', {variant} );
       }
+      props.toggleDrawer("right", false)(e);
       
     }
   };

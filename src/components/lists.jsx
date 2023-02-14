@@ -14,10 +14,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { deleteFileById } from "../state/slices/delete-document";
 import { useSnackbar } from 'notistack';
-import { fetchFilesSuccess } from "../state/slices/list-documents";
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import EditDocumentPage from "../pages/edit-document-page";
 import DownloadIcon from '@mui/icons-material/Download';
+import { getUserData } from "../state/slices/user";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -69,10 +69,7 @@ const DocumentLists = (props) => {
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
   const isDeleted = useSelector( state => state.deleteDocument.isDeleted);
-  const deleteError = useSelector( state => state.deleteDocument.errorMessage);
   const { enqueueSnackbar } = useSnackbar();
-  const files = useSelector( state => state.files);
-  // const history = useNavigate();
   const [drawerState, setDrawerState] = useState(false);
   let [item, setItem] = useState({});
 
@@ -95,6 +92,11 @@ const DocumentLists = (props) => {
 
     setDrawerState(open);
   };
+  const checkClose =(e) => {
+  toggleDrawer("right",false)(e)
+  console.log("me1")
+  dispatch(getUserData());
+}
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -110,22 +112,14 @@ const DocumentLists = (props) => {
 
   const handleDelete = (Id) => {
     dispatch(deleteFileById({Id, enqueueSnackbar}))
-    if (isDeleted) {
-      // const newFile = files.map(file => file.id !== Id);
-      // dispatch(fetchFilesSuccess(newFile));
-      const variant = 'success';
-      enqueueSnackbar('Document Successfully Deleted!', {variant} );
-    }
-    else {
-      const variant = 'error';
-      enqueueSnackbar(`${deleteError} Error! Please try again`, {variant} );
-    }
+    dispatch(getUserData())
+   
   };
 
   useEffect(() => {
     setFile(props.data);
     setTitle(props.title);
-  }, [props.data, props.title]);
+  }, [props.data, props.title, isDeleted]);
 
   return (
     <>
@@ -169,7 +163,7 @@ const DocumentLists = (props) => {
             </MenuItem>
             <MenuItem onClick={() => handleDownload(eachFile.filePath, eachFile.title)} >
               <DownloadIcon />
-              Delete
+              Download
             </MenuItem> 
             </StyledMenu>
         </ListItem>);
@@ -178,7 +172,7 @@ const DocumentLists = (props) => {
       <SwipeableDrawer
         anchor={"right"}
         open={drawerState}
-        onClose={toggleDrawer("right", false)}
+        onClose={(e)=> checkClose(e)}
         onOpen={toggleDrawer("right", true)}
       >
             {<EditDocumentPage item={item} toggleDrawer={toggleDrawer}/>}

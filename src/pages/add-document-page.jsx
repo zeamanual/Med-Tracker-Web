@@ -5,6 +5,7 @@ import {resetStatus, uploadData} from '../state/slices/new-document'
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { getUserData } from "../state/slices/user";
 
 
 const DocumentType = [
@@ -78,9 +79,11 @@ const AddDocumentPage = (props) => {
           enqueueSnackbar('Failed to upload document !', {variant} );
         }
         else if (data.uploadData.successUploads) {
+
           loading = true;
           setLoading(true);
           dispatch(resetStatus());
+          dispatch(getUserData());
         }
         props.handleAdd(false)(e);
         setDocument();

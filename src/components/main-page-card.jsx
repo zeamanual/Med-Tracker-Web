@@ -6,7 +6,7 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Button, Divider } from "@mui/material";
+import { Button, Divider, IconButton } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import LanguageIcon from '@mui/icons-material/Language';
 import AddIcon from '@mui/icons-material/Add';
@@ -24,8 +24,11 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Translate from "./translate";
 import html2canvas from 'html2canvas';
 import AddDocumentPage from "../pages/add-document-page";
+import { Delete } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
+import { getUserData } from "../state/slices/user";
 
-export default function MainPageCard({ singleData,index,titles }) {
+export default function MainPageCard({ singleData,index,titles, handler }) {
 
   console.log(singleData.length,"single data in his home",titles);
 
@@ -57,6 +60,7 @@ export default function MainPageCard({ singleData,index,titles }) {
   const [drawerState, setDrawerState] = useState(false);
   const [drawerState2, setDrawerState2] = useState(false);
   const image = React.useRef(null)
+  const dispatch = useDispatch()
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -84,9 +88,14 @@ export default function MainPageCard({ singleData,index,titles }) {
       return;
     }
 
-    setDrawerState2(open);
-  };
+      setDrawerState2(open);
 
+  };
+const checkClose =(e) => {
+  handleAdd(false)(e)
+  console.log("me")
+  dispatch(getUserData());
+}
   const generateImage = () => {
   html2canvas(image.current).then(canvas => {
     const imgData = canvas.toDataURL('image/png');
@@ -146,7 +155,7 @@ export default function MainPageCard({ singleData,index,titles }) {
                   >
                     {singleData.length === 0
                       ? `No ${ titles[index].toLowerCase()} listed`
-                      : `${singleData.length} ${singleData.length === 1?"item":"items"}: ${ index==4? singleData[0].title: singleData[0].name}`}
+                      : `${singleData.length} ${singleData.length === 1?"item":"items"}: ${ index=== 4? singleData[0].title: singleData[0].name}`}
                   </Typography>
                 </Box>
               </Box>
@@ -160,14 +169,19 @@ export default function MainPageCard({ singleData,index,titles }) {
                 {index ===4? <ListDocuments data={singleData} />:
                 singleData.map((each,index) => {
 
-        
+         let id = index.toString()
                   return (
-                    <Box key={index}>
-                      <Typography>{each.name}</Typography>
-                      <Typography sx={{ fontSize: "10px" }}>
-                        {each.code}
-                      </Typography>
-                    </Box>
+                <Box key={id} display={'flex'} justifyContent='space-between' my={1}>
+                          <Box>
+                            <Typography>{each.name}</Typography>
+                            <Typography sx={{ fontSize: "10px" }}>
+                              {each.code}
+                            </Typography>
+                          </Box>
+                          <IconButton onClick={()=>{dispatch(handler.handler(each[handler.name]))}}>
+                            <Delete></Delete>
+                          </IconButton>
+                        </Box>
                   );
                 })}
               </Box>
@@ -246,7 +260,7 @@ export default function MainPageCard({ singleData,index,titles }) {
       <SwipeableDrawer
         anchor={"right"}
         open={drawerState2}
-        onClose={handleAdd(false)}
+        onClose={(e) => checkClose(e)}
         onOpen={handleAdd(true)}
       >
             {<AddDocumentPage handleAdd={handleAdd}/>
