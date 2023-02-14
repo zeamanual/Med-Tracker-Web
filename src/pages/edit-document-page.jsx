@@ -1,12 +1,15 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState , useEffect} from "react";
 import FileUpload from "../components/fileUpload";
-import { TextField, MenuItem, Button, Box } from "@mui/material";
-import { resetStatus, uploadData } from "../state/slices/new-document";
-import { useDispatch, useSelector } from "react-redux";
-import { useSnackbar } from "notistack";
+import { TextField, MenuItem, Button, Box,ListItem,ListItemText,Typography } from "@mui/material";
+import {resetStatus} from '../state/slices/new-document'
+import { useDispatch, useSelector } from 'react-redux';
+import { useSnackbar } from 'notistack';
+import { editFileById } from "../state/slices/edit-document";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { getUserData } from "../state/slices/user";
 
 const DocumentType = [
-  "Certificate",
+  'Certificate',
   "Discharge Summary",
   "Insurance",
   "Living Will",
@@ -18,25 +21,31 @@ const DocumentType = [
 ];
 
 const EditDocumentPage = (props) => {
+
+  const [formData, setFormData] = useState(props.item);
+  const [documentId, setDocumentId] = useState(formData.documentId)
   const [document, setDocument] = useState();
-  const [documentTitle, setDocumentTitle] = useState("");
-  const [formData, setFormData] = useState({});
-  const [documentType, setDocumentType] = useState("Certificate");
-  const [description, setDescription] = useState("");
+  const [documentTitle, setDocumentTitle] = useState(formData.title);
+
+  const [documentType, setDocumentType] = useState(formData.catagory);
+  const [description, setDescription] = useState(formData.description);
   const [documentError, setDocumentError] = useState({
     documentErrorMessage: false,
     documentTitleErrorMessage: false,
   });
+
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.addDocument);
+  const data = useSelector(state => state.editDocument);
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     setFormData(props.item);
-    // if (props.item){
-    setDocumentType(props.item.catagory);
-    // }
-  }, [props.item, props.item.catagory]);
+    setDescription(formData.description)
+    setDocumentTitle(formData.title)
+    setDocumentType(formData.catagory)
+    setDocumentId(formData.documentId)
+  }, [props.item, formData]);
+
 
   const handleDescription = (e) => {
     setDescription(e.target.value);
@@ -62,7 +71,7 @@ const EditDocumentPage = (props) => {
     }
     setDocument(file);
   };
-  const handleAddNewDocument = (e) => {
+  const handleUpdateDocument = (e) => {
     e.preventDefault();
     if (documentTitle.length === 0) {
       documentError.documentTitleErrorMessage = true;
@@ -75,51 +84,57 @@ const EditDocumentPage = (props) => {
       documentError.documentErrorMessage === false &&
       documentError.documentTitleErrorMessage === false
     ) {
-      dispatch(uploadData(document, documentTitle, documentType, description));
-      if (data.uploadData.successUploads) {
-        const variant = "success";
-        enqueueSnackbar("Document Successfully Added!", { variant });
+      dispatch(editFileById({document, documentTitle, documentType, description, documentId, enqueueSnackbar}));
+      if (data.isEdited){
+        // dispatch(getUserData());
         dispatch(resetStatus());
-      } else if (data.uploadData.errorMessage.length !== 0) {
-        const variant = "error";
-        enqueueSnackbar("Failed to upload document !", { variant });
+        
       }
+      else if (data.errorMessage.length !== 0) {
+        const variant = 'error'
+        enqueueSnackbar('Failed to upload document !', {variant} );
+      }
+      props.toggleDrawer("right", false)(e);
+      
     }
   };
   return (
-    <Box
-      component="form"
-      onSubmit={handleAddNewDocument}
-      sx={{
-        width: "36em !important",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        alignItems: "center",
-        height: "100vh",
-        margin: "0 auto",
-        padding: "2em",
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          gap: "1em",
-          width: "100%",
-        }}
-      >
-        <h2>Edit your document</h2>
-        <FileUpload
-          name={formData.title}
+    <Box component="form" onSubmit={handleUpdateDocument} sx={{ width: '36em !important',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  height: '100vh',
+  margin: '0 auto',
+  padding: '2em',
+  }}>
+      <Box sx={{display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  gap: '1em',
+  width: '100%'}}>
+        <ListItem>
+          <Button 
+          onClick={props.toggleDrawer("right",false)}
+          >
+            <ArrowBackIcon />
+          </Button>
+          <ListItemText
+            sx={{ marginLeft: "1rem" }}
+            primary={
+              <Typography style={{ fontWeight: "700" }}>Edit Your Document</Typography>
+            }
+          />
+        </ListItem>
+        <FileUpload 
+        name = {''}
           updateFileCb={updateFileCb}
           maxFileSizeInBytes={9000000000}
           isProvided={documentError.documentErrorMessage}
         />
         <TextField
-          value={formData.title}
+          value={documentTitle}
           onChange={handleDocumentTitle}
           error={documentError.documentTitleErrorMessage}
           fullWidth
@@ -145,7 +160,7 @@ const EditDocumentPage = (props) => {
         </TextField>
 
         <TextField
-          value={formData.description}
+        value={description}
           onChange={(e) => handleDescription(e)}
           multiline
           maxRows={9}
@@ -154,16 +169,10 @@ const EditDocumentPage = (props) => {
           placeholder="Description(Optional)"
         />
       </Box>
-      <Button
-        type="submit"
-        variant="contained"
-        sx={{
-          marginBottom: "2em !important",
-          width: "100%",
-          height: "4em",
-          borderRadius: "6px",
-        }}
-      >
+      <Button type="submit" variant="contained" sx={{ marginBottom: '2em !important',
+  width: '100%',
+  height: '4em',
+  borderRadius: '6px'}}>
         {" "}
         UPDATE DOCUMENT
       </Button>

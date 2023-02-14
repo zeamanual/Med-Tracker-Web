@@ -75,7 +75,6 @@ const MainPage = () => {
 
 
 
-
   let allergyDeleteHandler = (allergyId) => {
     dispatch(deleteAllergy({ id: allergyId }))
   }
