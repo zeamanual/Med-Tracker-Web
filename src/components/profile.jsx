@@ -5,12 +5,50 @@ import {
   Button,
   Typography,
   Divider,
+  CircularProgress,
+  Alert,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import EditIcon from "@mui/icons-material/Edit";
+import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { getProfile, resetGetProfileStatus } from "../state/slices/user";
+import { useNavigate } from "react-router-dom";
 const Profile = (props) => {
+
+  let profileState = useSelector(state => state.user.getProfile)
+  let profileObj = useSelector(state => state.user.getProfile.profileObj)
+  let dispatch = useDispatch()
+  let navigate = useNavigate()
+
+  React.useEffect(() => {
+    resetGetProfileStatus();
+    dispatch(getProfile());
+  }, []);
+
+  if (profileState.loading) {
+    return (
+      <Box display={'flex'} justifyContent='center' alignItems={'center'} height='100%' minWidth={{ xs: '80vw', md: '40vw' }}>
+        <CircularProgress></CircularProgress>
+      </Box>
+    );
+  } else if (profileState.errorMsg) {
+    return (
+      <Box display={'flex'} justifyContent='center' alignItems={'center'} height='100%' minWidth={{ xs: '80vw', md: '40vw' }}>
+        <Alert severity="error">Something Went Wrong Try Again!</Alert>
+      </Box>
+    )
+  } else if (Boolean(profileState.successMsg) && !Boolean(profileObj)) {
+    return (
+      <Box display={'flex'} justifyContent='center' flexDirection={'column'} alignItems={'center'} height='100%' minWidth={{ xs: '80vw', md: '40vw' }}>
+        <Typography>Looks Like You Haven't Fillied Your Profile Info</Typography>
+        <Button sx={{m:2}} onClick={()=>navigate('/profile')}  variant="outlined">Setup Profile Now</Button>
+      </Box>
+    )
+  } else if (profileObj)
+    console.log(profileObj, 'i am the prfile obj')
   return (
-    <Box sx={{ width: "500px" }}>
+    <Box minWidth={{ xs: '80vw', md: "40vw" }}>
       <Box sx={{ margin: "1rem 2rem 0 2rem" }}>
         <ListItem>
           <Button onClick={props.toggleDrawer("right", false)}>
@@ -26,7 +64,7 @@ const Profile = (props) => {
         <ListItem
           sx={{ padding: "0 !important" }}
           secondaryAction={
-            <Button variant="outlined" edge="end" aria-label="delete">
+            <Button onClick={() => navigate('/profile')} variant="outlined" edge="end" aria-label="delete">
               <EditIcon />
               Edit
             </Button>
@@ -34,11 +72,10 @@ const Profile = (props) => {
         >
           <ListItemText
             primary={
-              <Typography style={{ fontWeight: "700" }}>
-                Gemechis Urgessa
+              <Typography style={{ fontWeight: "700", padding: '10px' }}>
+                {profileObj.firstName + ' ' + profileObj.lastName}
               </Typography>
             }
-            secondary="Membership since 2020"
           />
         </ListItem>
         <Divider />
@@ -55,19 +92,19 @@ const Profile = (props) => {
             primary={
               <Typography style={{ fontWeight: "700" }}>Birth Date</Typography>
             }
-            secondary="1999"
+            secondary={profileObj.dateOfBirth?.substr(0, 10)}
           />
           <ListItemText
             primary={
               <Typography style={{ fontWeight: "700" }}>Gender</Typography>
             }
-            secondary="Male"
+            secondary={profileObj.gender}
           />
           <ListItemText
             primary={
               <Typography style={{ fontWeight: "700" }}>Organ Donor</Typography>
             }
-            secondary="No"
+            secondary={profileObj.organDonor ? "Yes" : "No"}
           />
         </Box>
         <ListItemText
@@ -77,28 +114,28 @@ const Profile = (props) => {
               Social Security Number
             </Typography>
           }
-          secondary="111111"
+          secondary={profileObj.zip}
         />
         <ListItemText
           sx={{ marginLeft: "0 !important" }}
           primary={
             <Typography style={{ fontWeight: "700" }}>Nationality</Typography>
           }
-          secondary="Ethiopia"
+          secondary={profileObj.nationality}
         />
         <ListItemText
           sx={{ marginLeft: "0 !important" }}
           primary={
             <Typography style={{ fontWeight: "700" }}>TelePhone</Typography>
           }
-          secondary="092323123"
+          secondary={profileObj.telephoneNumber}
         />
         <ListItemText
           sx={{ marginLeft: "0 !important", marginBottom: "1rem" }}
           primary={
             <Typography style={{ fontWeight: "700" }}>Post Address</Typography>
           }
-          secondary="new york manmn"
+          secondary={profileObj.streetAddress}
         />
         <Divider />
         <Box
@@ -113,10 +150,10 @@ const Profile = (props) => {
             sx={{ marginLeft: "0 !important" }}
             primary={
               <Typography style={{ fontWeight: "700" }}>
-                Travel Insurance
+                {profileObj.insuranceType + ' Insurance'}
               </Typography>
             }
-            secondary="Travel"
+            secondary={profileObj.insuranceCompany}
           />
           <ListItemText
             primary={
@@ -124,7 +161,7 @@ const Profile = (props) => {
                 Policy Number
               </Typography>
             }
-            secondary="jack pot"
+            secondary={profileObj.policyNumber}
           />
         </Box>
         <ListItemText
@@ -134,7 +171,7 @@ const Profile = (props) => {
               Emergency Phone
             </Typography>
           }
-          secondary="911"
+          secondary={profileObj.emergencyPhone}
         />
         <Divider />
         <ListItemText
@@ -150,8 +187,8 @@ const Profile = (props) => {
           }
           secondary={
             <Typography sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography>Name</Typography>
-              <Typography>Phone</Typography>
+              <Typography>{profileObj.emergencyContactName}</Typography>
+              <Typography>{profileObj.emergencyContactPhoneNo}</Typography>
             </Typography>
           }
         />
@@ -169,8 +206,7 @@ const Profile = (props) => {
           }
           secondary={
             <Typography sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography>Allergies</Typography>
-              <Typography>Medications</Typography>
+              {profileObj.other}
             </Typography>
           }
         />

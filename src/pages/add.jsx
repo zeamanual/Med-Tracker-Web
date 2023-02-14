@@ -1,5 +1,7 @@
-import { AccountCircle, ArrowBack, SearchRounded, Expand, Visibility, VisibilityOff } from '@mui/icons-material'
-import { Alert, Box, Card, CircularProgress, InputAdornment, MenuItem, Modal, Stack, TextField, Typography } from '@mui/material'
+
+
+import { ArrowBack, SearchRounded } from '@mui/icons-material'
+import { Alert, Box, Card, CircularProgress, InputAdornment, MenuItem, Modal, TextField, Typography } from '@mui/material'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
@@ -24,7 +26,7 @@ function Add() {
 
     let storedListsIndex = [
         {
-            name:'Allergy',
+            name: 'Allergy',
             fetch: fetchAllergies,
             add: addAllergy,
             list: allergy.allergiesList,
@@ -32,7 +34,7 @@ function Add() {
             idName: 'id'
         },
         {
-            name:'Medicine',
+            name: 'Medicine',
             fetch: fetchMedicines,
             add: addMedicine,
             list: medicine.medicinesList,
@@ -41,7 +43,7 @@ function Add() {
 
         },
         {
-            name:'Diagnoses',
+            name: 'Diagnoses',
             fetch: fetchDiagnoses,
             add: addDiagnoses,
             list: diagnoses.diagnosesList,
@@ -50,7 +52,7 @@ function Add() {
 
         },
         {
-            name:'Vaccine',
+            name: 'Vaccine',
             fetch: fetchVaccines,
             add: addVaccine,
             list: vaccine.vaccinesList,
@@ -79,9 +81,9 @@ function Add() {
     let handleModalClose = () => {
         navigate('/home')
     }
- 
 
-    
+
+
     React.useEffect(() => {
         if (!user.token) {
             navigate('/login')
@@ -92,7 +94,11 @@ function Add() {
     let errorMsg = vaccine.errorMsg || medicine.errorMsg || diagnoses.errorMsg || allergy.errorMsg
     let successMsg = vaccine.successMsg || medicine.successMsg || diagnoses.successMsg || allergy.successMsg
 
-    if (successMsg == 'Added') {
+    if (successMsg === 'Added') {
+        dispatch(resetAllAllegyStatus())
+        dispatch(resetAllDiagnosesStatus())
+        dispatch(resetAllMedicineStatus())
+        dispatch(resetAllVaccineStatus())
         navigate('/home')
     }
 

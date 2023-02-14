@@ -1,6 +1,6 @@
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ImageWithText from "../components/UI-components/image-with-text";
 import ImageWithTextWhite from "../components/UI-components/image-with-text-white";
 
@@ -51,7 +51,7 @@ const Professionals = () => {
               paddingLeft: "30px",
             }}
           >
-            {" "}
+           
             Emergancy Code Access{" "}
           </Link>
         </Box>

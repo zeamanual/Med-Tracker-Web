@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState , useEffect} from "react";
 import FileUpload from "../components/fileUpload";
 import { TextField, MenuItem, Button, Box,ListItem,ListItemText,Typography } from "@mui/material";
@@ -6,9 +7,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import { editFileById } from "../state/slices/edit-document";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+=======
+import React, { useState, useEffect, useMemo } from "react";
+import FileUpload from "../components/fileUpload";
+import { TextField, MenuItem, Button, Box } from "@mui/material";
+import { resetStatus, uploadData } from "../state/slices/new-document";
+import { useDispatch, useSelector } from "react-redux";
+import { useSnackbar } from "notistack";
+>>>>>>> main
 
 const DocumentType = [
-  'Certificate',
+  "Certificate",
   "Discharge Summary",
   "Insurance",
   "Living Will",
@@ -20,6 +29,7 @@ const DocumentType = [
 ];
 
 const EditDocumentPage = (props) => {
+<<<<<<< HEAD
 
   const [formData, setFormData] = useState(props.item);
   const [documentId, setDocumentId] = useState(formData.documentId)
@@ -28,23 +38,40 @@ const EditDocumentPage = (props) => {
 
   const [documentType, setDocumentType] = useState(formData.catagory);
   const [description, setDescription] = useState(formData.description);
+=======
+  const [document, setDocument] = useState();
+  const [documentTitle, setDocumentTitle] = useState("");
+  const [formData, setFormData] = useState({});
+  const [documentType, setDocumentType] = useState("Certificate");
+  const [description, setDescription] = useState("");
+>>>>>>> main
   const [documentError, setDocumentError] = useState({
     documentErrorMessage: false,
     documentTitleErrorMessage: false,
   });
 
   const dispatch = useDispatch();
+<<<<<<< HEAD
   const data = useSelector(state => state.editDocument);
+=======
+  const data = useSelector((state) => state.addDocument);
+>>>>>>> main
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     setFormData(props.item);
+<<<<<<< HEAD
     setDescription(formData.description)
     setDocumentTitle(formData.title)
     setDocumentType(formData.catagory)
     setDocumentId(formData.documentId)
   }, [props.item, formData]);
-
+=======
+    // if (props.item){
+    setDocumentType(props.item.catagory);
+    // }
+  }, [props.item, props.item.catagory]);
+>>>>>>> main
 
   const handleDescription = (e) => {
     setDescription(e.target.value);
@@ -83,6 +110,7 @@ const EditDocumentPage = (props) => {
       documentError.documentErrorMessage === false &&
       documentError.documentTitleErrorMessage === false
     ) {
+<<<<<<< HEAD
       dispatch(editFileById({document, documentTitle, documentType, description, documentId, enqueueSnackbar}));
       if (data.isEdited){
         dispatch(resetStatus());
@@ -127,6 +155,47 @@ const EditDocumentPage = (props) => {
         </ListItem>
         <FileUpload 
         name = {''}
+=======
+      dispatch(uploadData(document, documentTitle, documentType, description));
+      if (data.uploadData.successUploads) {
+        const variant = "success";
+        enqueueSnackbar("Document Successfully Added!", { variant });
+        dispatch(resetStatus());
+      } else if (data.uploadData.errorMessage.length !== 0) {
+        const variant = "error";
+        enqueueSnackbar("Failed to upload document !", { variant });
+      }
+    }
+  };
+  return (
+    <Box
+      component="form"
+      onSubmit={handleAddNewDocument}
+      sx={{
+        width: "36em !important",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center",
+        height: "100vh",
+        margin: "0 auto",
+        padding: "2em",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          gap: "1em",
+          width: "100%",
+        }}
+      >
+        <h2>Edit your document</h2>
+        <FileUpload
+          name={formData.title}
+>>>>>>> main
           updateFileCb={updateFileCb}
           maxFileSizeInBytes={9000000000}
           isProvided={documentError.documentErrorMessage}
@@ -158,7 +227,11 @@ const EditDocumentPage = (props) => {
         </TextField>
 
         <TextField
+<<<<<<< HEAD
         value={description}
+=======
+          value={formData.description}
+>>>>>>> main
           onChange={(e) => handleDescription(e)}
           multiline
           maxRows={9}
@@ -167,10 +240,16 @@ const EditDocumentPage = (props) => {
           placeholder="Description(Optional)"
         />
       </Box>
-      <Button type="submit" variant="contained" sx={{ marginBottom: '2em !important',
-  width: '100%',
-  height: '4em',
-  borderRadius: '6px'}}>
+      <Button
+        type="submit"
+        variant="contained"
+        sx={{
+          marginBottom: "2em !important",
+          width: "100%",
+          height: "4em",
+          borderRadius: "6px",
+        }}
+      >
         {" "}
         UPDATE DOCUMENT
       </Button>

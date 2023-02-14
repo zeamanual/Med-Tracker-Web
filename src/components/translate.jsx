@@ -51,7 +51,11 @@ const randomStringAsi = (length) => {
   let result = '';
   const characters = '是在不了有和人这中大为上个国我以要他时来用们生到作地于出就0123456789';
   const charactersLength = characters.length;
+<<<<<<< HEAD
   const crypto = window.crypto || window.msCrypto;
+=======
+  const crypto = window.crypto ||  window.msCrypto;
+>>>>>>> main
   const randomValues = new Uint32Array(1);
 
   for (let i = 0; i < length; i++) {

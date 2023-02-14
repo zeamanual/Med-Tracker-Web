@@ -1,5 +1,6 @@
 import { clientInstance } from "../config/config";
 
+<<<<<<< HEAD
 const editFile = (document,documentTitle,documentType,description, documentId) => {
     let formData = new FormData();
     console.log("update");
@@ -19,3 +20,10 @@ const editFile = (document,documentTitle,documentType,description, documentId) =
 }
 
 export default editFile;
+=======
+const editFile = (id) => {
+  return clientInstance.post(`/api/Document/Update/${id}`);
+};
+
+export default editFile;
+>>>>>>> main

@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import FileUpload from "../components/fileUpload";
+<<<<<<< HEAD
 import { TextField, MenuItem, Button, Box, CircularProgress, ListItem, ListItemText, Typography } from "@mui/material";
 import {resetStatus, uploadData} from '../state/slices/new-document'
 import { useDispatch, useSelector } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
+=======
+import { TextField, MenuItem, Button, Box } from "@mui/material";
+import { resetStatus, uploadData } from "../state/slices/new-document";
+import { useDispatch, useSelector } from "react-redux";
+import { useSnackbar } from "notistack";
+>>>>>>> main
 
 const DocumentType = [
   "Certificate",
@@ -21,16 +28,16 @@ const DocumentType = [
 
 const AddDocumentPage = (props) => {
   const [document, setDocument] = useState();
-  const [documentTitle, setDocumentTitle] = useState('');
+  const [documentTitle, setDocumentTitle] = useState("");
   const [documentType, setDocumentType] = useState("Certificate");
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState("");
   const [documentError, setDocumentError] = useState({
     documentErrorMessage: false,
     documentTitleErrorMessage: false,
   });
   let [loading , setLoading] = useState(false);
   const dispatch = useDispatch();
-  const data = useSelector(state => state.addDocument);
+  const data = useSelector((state) => state.addDocument);
   const { enqueueSnackbar } = useSnackbar();
 
   const handleDescription = (e) => {
@@ -70,6 +77,7 @@ const AddDocumentPage = (props) => {
     } else if (
       documentError.documentErrorMessage === false &&
       documentError.documentTitleErrorMessage === false
+<<<<<<< HEAD
       ) {
         dispatch(uploadData({document, documentTitle, documentType, description, enqueueSnackbar}));
         
@@ -89,6 +97,18 @@ const AddDocumentPage = (props) => {
         setDescription('');
         setDocumentError({ documentErrorMessage: false, documentTitleErrorMessage: false });
         
+=======
+    ) {
+      dispatch(uploadData(document, documentTitle, documentType, description));
+      if (data.uploadData.successUploads) {
+        const variant = "success";
+        enqueueSnackbar("Document Successfully Added!", { variant });
+        dispatch(resetStatus());
+      } else if (data.uploadData.errorMessage.length !== 0) {
+        const variant = "error";
+        enqueueSnackbar("Failed to upload document !", { variant });
+      }
+>>>>>>> main
     }
   };
   useEffect(() => {
@@ -102,6 +122,7 @@ const AddDocumentPage = (props) => {
 
     },[loading])
   return (
+<<<<<<< HEAD
     <Box component="form" onSubmit={handleAddNewDocument} sx={{ width: '36em !important',
   display: 'flex',
   flexDirection: 'column',
@@ -128,6 +149,32 @@ const AddDocumentPage = (props) => {
           />
         </ListItem>
         
+=======
+    <Box
+      component="form"
+      onSubmit={handleAddNewDocument}
+      sx={{
+        maxWidth: "34em !important",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center",
+        height: "100vh",
+        margin: "0 auto",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          gap: "1em",
+          width: "100%",
+        }}
+      >
+        <h2>Add New document</h2>
+>>>>>>> main
         <FileUpload
           updateFileCb={updateFileCb}
           maxFileSizeInBytes={9000000000}
@@ -172,12 +219,25 @@ const AddDocumentPage = (props) => {
           placeholder="Description(Optional)"
         />
       </Box>
+<<<<<<< HEAD
        <Box sx={{ m: 1, position: 'relative' }}>
       <Button disabled={loading} 
       type="submit" variant="contained" sx={{ marginBottom: '2em !important',
   width: '100%',
   height: '4em',
   borderRadius: '6px'}}>
+=======
+      <Button
+        type="submit"
+        variant="contained"
+        sx={{
+          marginBottom: "2em !important",
+          width: "100%",
+          height: "4em",
+          borderRadius: "6px",
+        }}
+      >
+>>>>>>> main
         {" "}
         UPLOAD NEW DOCUMENT
       </Button>
