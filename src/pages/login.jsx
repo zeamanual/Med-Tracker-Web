@@ -3,6 +3,7 @@ import { Alert, Box, Button, CircularProgress, IconButton, InputAdornment, Modal
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import { validateEmail } from '../helpers/emailValidatte'
 import { resetLoginFormStatus, userLogin } from '../state/slices/user'
 
 function Login() {
@@ -17,7 +18,7 @@ function Login() {
 
     React.useEffect(() => {
         dispatch(resetLoginFormStatus())
-    }, [dispatch])
+    },[])
 
     let formSubmitHandler = (e) => {
         e.preventDefault();
@@ -29,12 +30,11 @@ function Login() {
             console.log('not submitted')
         }
     }
+    
 
     let emailChangeHandler = (e) => {
-        let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-        let isValid = regex.test(e.target.value)
         setLoginDetails({ ...loginDetails, email: e.target.value })
-        if (!isValid) {
+        if (!validateEmail(e.target.value)) {
             setErrorDetails({
                 ...errorDetails,
                 email: {
@@ -125,10 +125,10 @@ function Login() {
                         <Typography my={2} variant='body1' color='gray' >How would you like to sign-in?</Typography>
                     </Box>
                     <Box m={1} display='flex' justifyContent={'center'} padding={1} bgcolor='white' borderRadius={3}  >
-                        <Typography p={1} variant='body1'>Sign-in with Google</Typography>
+                        {/* <Typography p={1} variant='body1'>Sign-in with Google</Typography> */}
                     </Box>
                     <Box mt={6} display={'flex'} justifyContent='center'>
-                        <Typography color={'lightGray'} > _______________ <Typography px={2} sx={{ display: 'inline', fontWeight: '600' }} color='gray'>OR</Typography> _______________</Typography>
+                        {/* <Typography color={'lightGray'} > _______________ <Typography px={2} sx={{ display: 'inline', fontWeight: '600' }} color='gray'>OR</Typography> _______________</Typography> */}
                     </Box>
 
                     <Box justifyContent={'space-between'} display={'flex'} flexDirection='column'>
