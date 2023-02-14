@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const BASE_URL = "https://5933-2a0d-5600-41-9000-00-5421.ngrok.io/";
+export const BASE_URL = "http://0776-2a0d-5600-41-9000-00-5421.ngrok.io/";
 
 let token = localStorage.getItem("token");
 
