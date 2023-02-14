@@ -110,11 +110,11 @@ let DiagnosesSlice = createSlice({
       state.successMsg = "";
     });
 
-    builder.addCase(deleteDiagnoses.fulfilled, (state, action) => {
-      state.loading = false;
-      state.errorMsg = "";
-      state.successMsg = "Medicine deleted";
-    });
+        builder.addCase(deleteDiagnoses.fulfilled, (state, action) => {
+            state.loading = false
+            state.errorMsg = ''
+            state.successMsg = 'Diagnoses deleted'
+        })
 
     builder.addCase(deleteDiagnoses.rejected, (state, action) => {
       state.loading = false;

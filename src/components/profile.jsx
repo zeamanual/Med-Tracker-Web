@@ -15,10 +15,11 @@ import React from "react";
 import { getProfile, resetGetProfileStatus } from "../state/slices/user";
 import { useNavigate } from "react-router-dom";
 const Profile = (props) => {
-  let profileState = useSelector((state) => state.user.getProfile);
-  let profileObj = useSelector((state) => state.user.getProfile.profileObj);
-  let dispatch = useDispatch();
-  let navigate = useNavigate();
+
+  let profileState = useSelector(state => state.user.getProfile)
+  let profileObj = useSelector(state => state.user.getProfile.profileObj)
+  let dispatch = useDispatch()
+  let navigate = useNavigate()
 
   React.useEffect(() => {
     resetGetProfileStatus();
@@ -27,31 +28,27 @@ const Profile = (props) => {
 
   if (profileState.loading) {
     return (
-      <Box
-        display={"flex"}
-        justifyContent="center"
-        alignItems={"center"}
-        height="100%"
-        minWidth={{ xs: "80vw", md: "40vw" }}
-      >
+      <Box display={'flex'} justifyContent='center' alignItems={'center'} height='100%' minWidth={{ xs: '80vw', md: '40vw' }}>
         <CircularProgress></CircularProgress>
       </Box>
     );
   } else if (profileState.errorMsg) {
     return (
-      <Box
-        display={"flex"}
-        justifyContent="center"
-        alignItems={"center"}
-        height="100%"
-        minWidth={{ xs: "80vw", md: "40vw" }}
-      >
+      <Box display={'flex'} justifyContent='center' alignItems={'center'} height='100%' minWidth={{ xs: '80vw', md: '40vw' }}>
         <Alert severity="error">Something Went Wrong Try Again!</Alert>
       </Box>
-    );
-  } else if (profileObj) console.log(profileObj, "i am the prfile obj");
+    )
+  } else if (Boolean(profileState.successMsg) && !Boolean(profileObj)) {
+    return (
+      <Box display={'flex'} justifyContent='center' flexDirection={'column'} alignItems={'center'} height='100%' minWidth={{ xs: '80vw', md: '40vw' }}>
+        <Typography>Looks Like You Haven't Fillied Your Profile Info</Typography>
+        <Button sx={{m:2}} onClick={()=>navigate('/profile')}  variant="outlined">Setup Profile Now</Button>
+      </Box>
+    )
+  } else if (profileObj)
+    console.log(profileObj, 'i am the prfile obj')
   return (
-    <Box minWidth={{ xs: "80vw", md: "40vw" }}>
+    <Box minWidth={{ xs: '80vw', md: "40vw" }}>
       <Box sx={{ margin: "1rem 2rem 0 2rem" }}>
         <ListItem>
           <Button onClick={props.toggleDrawer("right", false)}>
@@ -67,12 +64,7 @@ const Profile = (props) => {
         <ListItem
           sx={{ padding: "0 !important" }}
           secondaryAction={
-            <Button
-              onClick={() => navigate("/profile")}
-              variant="outlined"
-              edge="end"
-              aria-label="delete"
-            >
+            <Button onClick={() => navigate('/profile')} variant="outlined" edge="end" aria-label="delete">
               <EditIcon />
               Edit
             </Button>
@@ -80,8 +72,8 @@ const Profile = (props) => {
         >
           <ListItemText
             primary={
-              <Typography style={{ fontWeight: "700", padding: "10px" }}>
-                {profileObj.firstName + " " + profileObj.lastName}
+              <Typography style={{ fontWeight: "700", padding: '10px' }}>
+                {profileObj.firstName + ' ' + profileObj.lastName}
               </Typography>
             }
           />
@@ -158,7 +150,7 @@ const Profile = (props) => {
             sx={{ marginLeft: "0 !important" }}
             primary={
               <Typography style={{ fontWeight: "700" }}>
-                {profileObj.insuranceType + " Insurance"}
+                {profileObj.insuranceType + ' Insurance'}
               </Typography>
             }
             secondary={profileObj.insuranceCompany}

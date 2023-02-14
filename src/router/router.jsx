@@ -6,6 +6,7 @@ import MainPage from "../pages/main-page";
 import ProfileUpdate from "../pages/profileUpdate";
 import Landing from "../pages/landing";
 import About from "../pages/about";
+import Login from "../pages/login";
 import Business from "../pages/business";
 import Professionals from "../pages/professionals";
 import NavBar from "../components/navbar";
@@ -23,6 +24,7 @@ const PageRouter = () => {
           <Route path="/home" element={<MainPage />} />
           <Route path="/add" element={<Add />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/profile" element={<ProfileUpdate />}></Route>
           <Route path="/about" element={<About />} />
           <Route path="/business" element={<Business />} />
