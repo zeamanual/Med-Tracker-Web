@@ -13,6 +13,7 @@ import {
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { validateEmail } from "../helpers/emailValidatte";
 import { resetSignupFormStatus, userSignup } from "../state/slices/user";
 
 function Signup() {
@@ -93,10 +94,8 @@ function Signup() {
   };
 
   let emailChangeHandler = (e) => {
-    let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    let isValid = regex.test(e.target.value);
     setSignupDetails({ ...signupDetails, email: e.target.value });
-    if (!isValid) {
+    if (!validateEmail(e.target.value)) {
       setErrorDetails({
         ...errorDetails,
         email: {
@@ -217,7 +216,7 @@ function Signup() {
       >
         <Box>
           <Box display="flex" justifycontent="start">
-            <Button onClick={()=>navigate('/login')}>
+            <Button onClick={() => navigate('/login')}>
               <ArrowBack></ArrowBack>
             </Button>
           </Box>

@@ -67,7 +67,7 @@ export let userSignup = createAsyncThunk(
       return response.data
 
     } catch (error) {
-      let errorMsg = error.response.data?.message
+      let errorMsg = error?.response?.data
       return thunkApi.rejectWithValue(errorMsg ? errorMsg : error.message)
     }
   }
