@@ -82,7 +82,7 @@ const AddDocumentPage = (props) => {
           setLoading(true);
           dispatch(resetStatus());
         }
-        props.handleAdd(false);
+        props.handleAdd(false)(e);
         setDocument();
         setDocumentTitle('');
         setDocumentType("Certificate");

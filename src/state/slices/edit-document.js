@@ -8,13 +8,20 @@ const initialState = {
 }
 
 export const editFileById = createAsyncThunk(
-    'editFileById',
-    async (document,documentTitle,documentType,description,documentId,thunkApi) => {
+    'edit-file/editFileById',
+    async ({document,documentTitle,documentType,description,documentId, enqueueSnackbar},thunkApi) => {
         try {
+            console.log(documentTitle, "klkk")
             const response = await editFile(document,documentTitle,documentType,description,documentId)
-            return response;
+            const variant = 'success';
+            enqueueSnackbar('Document Successfully Updated!', {variant} );
+        
+            return response.data;
 
         } catch (error) {
+            const variant = 'error';
+            enqueueSnackbar('Failed to update document!', {variant} );
+        
             return thunkApi.rejectWithValue(error.message);
         }
     }

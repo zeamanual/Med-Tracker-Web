@@ -20,32 +20,30 @@ const DocumentType = [
 ];
 
 const EditDocumentPage = (props) => {
-  const [document, setDocument] = useState();
-  const [documentTitle, setDocumentTitle] = useState('');
-  // const item = props.item.catagory;
-  // console.log(item);
-  // if (props.item){
-  //   console.log(props.item.catagory);
-  // }
-  // const item = useMemo(() => ({file:'file.pdf', documentTitle:'health', name:'max.pdf', description: 'me on the moon', documentType: 'Discharge Summary'}), []);
 
-  const [formData, setFormData] = useState({});
-  const [documentType, setDocumentType] = useState('Certificate');
-  const [description, setDescription] = useState('');
+  const [formData, setFormData] = useState(props.item);
+  const [documentId, setDocumentId] = useState(formData.documentId)
+  const [document, setDocument] = useState();
+  const [documentTitle, setDocumentTitle] = useState(formData.title);
+
+  const [documentType, setDocumentType] = useState(formData.catagory);
+  const [description, setDescription] = useState(formData.description);
   const [documentError, setDocumentError] = useState({
     documentErrorMessage: false,
     documentTitleErrorMessage: false,
   });
+
   const dispatch = useDispatch();
-  const data = useSelector(state => state.addDocument);
+  const data = useSelector(state => state.editDocument);
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     setFormData(props.item);
-    // if (props.item){
-      setDocumentType(props.item.catagory);
-    // }
-  }, [props.item, props.item.catagory]);
+    setDescription(formData.description)
+    setDocumentTitle(formData.title)
+    setDocumentType(formData.catagory)
+    setDocumentId(formData.documentId)
+  }, [props.item, formData]);
 
 
   const handleDescription = (e) => {
@@ -72,7 +70,7 @@ const EditDocumentPage = (props) => {
     }
     setDocument(file);
   };
-  const handleAddNewDocument = (e) => {
+  const handleUpdateDocument = (e) => {
     e.preventDefault();
     if (documentTitle.length === 0) {
       documentError.documentTitleErrorMessage = true;
@@ -85,14 +83,13 @@ const EditDocumentPage = (props) => {
       documentError.documentErrorMessage === false &&
       documentError.documentTitleErrorMessage === false
     ) {
-      dispatch(editFileById(document, documentTitle, documentType, description, formData.documentId));
-      if (data.uploadData.successUploads){
-        const variant = 'success';
-        enqueueSnackbar('Document Successfully Added!', {variant} );
+      dispatch(editFileById({document, documentTitle, documentType, description, documentId, enqueueSnackbar}));
+      if (data.isEdited){
         dispatch(resetStatus());
+        props.toggleDrawer("right", false)(e);
 
       }
-      else if (data.uploadData.errorMessage.length !== 0) {
+      else if (data.errorMessage.length !== 0) {
         const variant = 'error'
         enqueueSnackbar('Failed to upload document !', {variant} );
       }
@@ -100,7 +97,7 @@ const EditDocumentPage = (props) => {
     }
   };
   return (
-    <Box component="form" onSubmit={handleAddNewDocument} sx={{ width: '36em !important',
+    <Box component="form" onSubmit={handleUpdateDocument} sx={{ width: '36em !important',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
@@ -116,7 +113,9 @@ const EditDocumentPage = (props) => {
   gap: '1em',
   width: '100%'}}>
         <ListItem>
-          <Button onClick={props.handleAdd(false)}>
+          <Button 
+          onClick={props.toggleDrawer("right",false)}
+          >
             <ArrowBackIcon />
           </Button>
           <ListItemText
@@ -126,13 +125,14 @@ const EditDocumentPage = (props) => {
             }
           />
         </ListItem>
-        <FileUpload name = {formData.title}
+        <FileUpload 
+        name = {''}
           updateFileCb={updateFileCb}
           maxFileSizeInBytes={9000000000}
           isProvided={documentError.documentErrorMessage}
         />
         <TextField
-          value={formData.title}
+          value={documentTitle}
           onChange={handleDocumentTitle}
           error={documentError.documentTitleErrorMessage}
           fullWidth
@@ -158,7 +158,7 @@ const EditDocumentPage = (props) => {
         </TextField>
 
         <TextField
-        value={formData.description}
+        value={description}
           onChange={(e) => handleDescription(e)}
           multiline
           maxRows={9}

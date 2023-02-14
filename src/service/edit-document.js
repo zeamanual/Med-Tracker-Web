@@ -1,11 +1,12 @@
 import { clientInstance } from "../config/config";
 
-const editFile = (document,documentTitle,documentType,documentId) => {
+const editFile = (document,documentTitle,documentType,description, documentId) => {
     let formData = new FormData();
-    console.log("update")
+    console.log("update");
     formData.append("File", document);
     formData.append("Title", documentTitle);
     formData.append("Catagory", documentType);
+    formData.append('Description', description);
 
     return clientInstance.put(`/api/Document/Update/${documentId}`, formData, {
         headers: {

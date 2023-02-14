@@ -9,12 +9,18 @@ const initialState = {
 
 export const deleteFileById = createAsyncThunk(
     'deleteFileById',
-    async (Id,thunkApi) => {
+    async ({Id, enqueueSnackbar},thunkApi) => {
         try {
             const response = await deleteFile(Id)
-            return response;
+            const variant = 'success';
+            enqueueSnackbar('Document Successfully Deleted!', {variant} );
+   
+            return response.data;
 
         } catch (error) {
+            const variant = 'error';
+            enqueueSnackbar('Document not Successfully Deleted!', {variant} );
+   
             return thunkApi.rejectWithValue(error.message);
         }
     }

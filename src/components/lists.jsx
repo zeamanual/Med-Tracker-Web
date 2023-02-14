@@ -17,6 +17,7 @@ import { useSnackbar } from 'notistack';
 import { fetchFilesSuccess } from "../state/slices/list-documents";
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import EditDocumentPage from "../pages/edit-document-page";
+import DownloadIcon from '@mui/icons-material/Download';
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -73,7 +74,7 @@ const DocumentLists = (props) => {
   const files = useSelector( state => state.files);
   // const history = useNavigate();
   const [drawerState, setDrawerState] = useState(false);
-  const [item, setItem] = useState({});
+  let [item, setItem] = useState({});
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -81,7 +82,7 @@ const DocumentLists = (props) => {
   const toggleDrawer = (anchor, open, eachFile) => (event) => {
     handleClose();
     if (open){
-
+      item = eachFile;
       setItem(eachFile);
     }
     if (
@@ -97,18 +98,21 @@ const DocumentLists = (props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleEdit = (item) => {
-    toggleDrawer('right', true);
-    // history.push({
-    //   pathname: `/edit/document/${item.id}`,
-    //   state: { item }
-    // });
-  };
+  const handleDownload = (path, title) => {
+    console.log(path);
+   const link = document.createElement("a");
+  link.href = path;
+  link.download = title;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  }
+
   const handleDelete = (Id) => {
-    dispatch(deleteFileById(Id))
+    dispatch(deleteFileById({Id, enqueueSnackbar}))
     if (isDeleted) {
-      const newFile = files.map(file => file.id !== Id);
-      dispatch(fetchFilesSuccess(newFile));
+      // const newFile = files.map(file => file.id !== Id);
+      // dispatch(fetchFilesSuccess(newFile));
       const variant = 'success';
       enqueueSnackbar('Document Successfully Deleted!', {variant} );
     }
@@ -129,7 +133,7 @@ const DocumentLists = (props) => {
       sx={{ width: "100%", bgcolor: "background.paper" }}
       subheader={<ListSubheader sx={{fontWeight:'1000'}}>{title}</ListSubheader>}
     >
-      {file ? file.map((eachFile) => { return (
+      {file ? file.map((eachFile, index) => { return (
         <ListItem key={eachFile.documentId}>
           <ListItemIcon>
             <FileCopyIcon />
@@ -162,19 +166,23 @@ const DocumentLists = (props) => {
             <MenuItem onClick={() => handleDelete(eachFile.documentId)} >
               <DeleteForeverIcon />
               Delete
+            </MenuItem>
+            <MenuItem onClick={() => handleDownload(eachFile.filePath, eachFile.title)} >
+              <DownloadIcon />
+              Delete
             </MenuItem> 
             </StyledMenu>
         </ListItem>);
       }) : null}
+    </List>
       <SwipeableDrawer
         anchor={"right"}
         open={drawerState}
         onClose={toggleDrawer("right", false)}
         onOpen={toggleDrawer("right", true)}
       >
-            {<EditDocumentPage item={item}/>}
+            {<EditDocumentPage item={item} toggleDrawer={toggleDrawer}/>}
           </SwipeableDrawer>
-    </List>
     </>
   );
 };

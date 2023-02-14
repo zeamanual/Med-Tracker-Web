@@ -7,6 +7,7 @@ const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
   maxFileSizeInBytes = DEFAULT_MAX_FILE_SIZE_IN_BYTES, isProvided , name}) => {
   // const [file, setFile] = useState();
   let [Name, setName] = useState(name);
+  console.log(name);
   const [error, setError] = useState(false);
   const handleNewFileUpload = (e) => {
     const newFile= e.target.files[0];
@@ -16,14 +17,14 @@ const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
 
 
     else{
-      // setFile(newFile);
+      Name = newFile;
       setName(newFile.name);
       updateFileCb(newFile)
     }
     
   };
-  // useEffect(() => {
-  // }, [name]);
+  useEffect(() => {
+  }, [Name]);
   //
 
     return (<>
@@ -37,7 +38,7 @@ const DEFAULT_MAX_FILE_SIZE_IN_BYTES = 500000;
   alignItems: 'center',
   backgroundColor: 'white'}}
        className={(error || isProvided) && 'error-msg'}>
-        { Name === undefined ?  <Button variant='contained' sx={{margin: '.2em !important'}}> <DriveFolderUploadIcon /> Add</Button> : name ? <span style={{margin: 'auto auto'}}>{name}</span> : <Button variant='contained' sx={{margin: '.2em !important'}}> <DriveFolderUploadIcon /> Add</Button>}
+        { Name? <span style={{margin: 'auto auto'}}>{Name}</span>: <Button variant='contained' sx={{margin: '.2em !important'}}> <DriveFolderUploadIcon /> Add</Button> }
         <Input
         sx={{fontSize: '18px',
   display: 'block',
