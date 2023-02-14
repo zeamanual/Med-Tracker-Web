@@ -125,10 +125,10 @@ function Login() {
                         <Typography my={2} variant='body1' color='gray' >How would you like to sign-in?</Typography>
                     </Box>
                     <Box m={1} display='flex' justifyContent={'center'} padding={1} bgcolor='white' borderRadius={3}  >
-                        <Typography p={1} variant='body1'>Sign-in with Google</Typography>
+                        {/* <Typography p={1} variant='body1'>Sign-in with Google</Typography> */}
                     </Box>
                     <Box mt={6} display={'flex'} justifyContent='center'>
-                        <Typography color={'lightGray'} > _______________ <Typography px={2} sx={{ display: 'inline', fontWeight: '600' }} color='gray'>OR</Typography> _______________</Typography>
+                        {/* <Typography color={'lightGray'} > _______________ <Typography px={2} sx={{ display: 'inline', fontWeight: '600' }} color='gray'>OR</Typography> _______________</Typography> */}
                     </Box>
 
                     <Box justifyContent={'space-between'} display={'flex'} flexDirection='column'>

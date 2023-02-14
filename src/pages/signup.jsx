@@ -217,7 +217,9 @@ function Signup() {
       >
         <Box>
           <Box display="flex" justifycontent="start">
-            <ArrowBack></ArrowBack>
+            <Button onClick={()=>navigate('/login')}>
+              <ArrowBack></ArrowBack>
+            </Button>
           </Box>
           <Box display={"flex"} flexDirection="column" p={2}>
             <Typography my={0} sx={{ fontWeight: "800" }} variant="h6">
@@ -236,11 +238,11 @@ function Signup() {
             borderRadius={3}
           >
             <Typography p={1} variant="body1">
-              Sign-up with Google
+              {/* Sign-up with Google */}
             </Typography>
           </Box>
           <Box mt={6} display={"flex"} justifyContent="center">
-            <Typography color={"lightGray"}>
+            {/* <Typography color={"lightGray"}>
               {" "}
               _______________{" "}
               <Typography
@@ -251,7 +253,7 @@ function Signup() {
                 OR
               </Typography>{" "}
               _______________
-            </Typography>
+            </Typography> */}
           </Box>
 
           <Box
