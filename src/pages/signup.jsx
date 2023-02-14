@@ -217,7 +217,9 @@ function Signup() {
       >
         <Box>
           <Box display="flex" justifycontent="start">
-            <ArrowBack></ArrowBack>
+            <Button onClick={()=>navigate('/login')}>
+              <ArrowBack></ArrowBack>
+            </Button>
           </Box>
           <Box display={"flex"} flexDirection="column" p={2}>
             <Typography my={0} sx={{ fontWeight: "800" }} variant="h6">
