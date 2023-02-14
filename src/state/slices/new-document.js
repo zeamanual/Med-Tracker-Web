@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import  upload from '../../service/new-document';
+import { getUserData } from "./user";
 
 const initialState = {
     uploadData: {
@@ -11,7 +12,7 @@ const initialState = {
 
 export const uploadData = createAsyncThunk(
     'newDocument/upload',
-    async ({document, documentTitle, documentType, description, enqueueSnackbar}, thunkApi) => {
+    async ({document, documentTitle, documentType, description, enqueueSnackbar, dispatch}, thunkApi) => {
         try {
             console.log(document, documentTitle, documentType, description)
             let response = await upload(document, documentTitle, documentType, description)
@@ -19,6 +20,7 @@ export const uploadData = createAsyncThunk(
             console.log("2upload")
             const variant = 'success'
             enqueueSnackbar('Document Successfully Added!', {variant})
+            dispatch(getUserData());
             return response.data;
 
         } catch (error) {

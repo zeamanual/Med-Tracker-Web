@@ -72,7 +72,7 @@ const AddDocumentPage = (props) => {
       documentError.documentErrorMessage === false &&
       documentError.documentTitleErrorMessage === false
       ) {
-        dispatch(uploadData({document, documentTitle, documentType, description, enqueueSnackbar}));
+        dispatch(uploadData({document, documentTitle, documentType, description, enqueueSnackbar, dispatch}));
         
         if (data.uploadData.errorMessage.length !== 0) {
           const variant = 'error'
@@ -83,7 +83,7 @@ const AddDocumentPage = (props) => {
           loading = true;
           setLoading(true);
           dispatch(resetStatus());
-          dispatch(getUserData());
+          // dispatch(getUserData());
         }
         props.handleAdd(false)(e);
         setDocument();

@@ -92,9 +92,9 @@ export default function MainPageCard({ singleData,index,titles, handler }) {
 
   };
 const checkClose =(e) => {
+  // dispatch(getUserData());
   handleAdd(false)(e)
   console.log("me")
-  dispatch(getUserData());
 }
   const generateImage = () => {
   html2canvas(image.current).then(canvas => {

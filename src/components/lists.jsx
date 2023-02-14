@@ -95,7 +95,7 @@ const DocumentLists = (props) => {
   const checkClose =(e) => {
   toggleDrawer("right",false)(e)
   console.log("me1")
-  dispatch(getUserData());
+  // dispatch(getUserData());
 }
   const handleClose = () => {
     setAnchorEl(null);
@@ -111,8 +111,8 @@ const DocumentLists = (props) => {
   }
 
   const handleDelete = (Id) => {
-    dispatch(deleteFileById({Id, enqueueSnackbar}))
-    dispatch(getUserData())
+    dispatch(deleteFileById({Id, enqueueSnackbar, dispatch}))
+    
    
   };
 
