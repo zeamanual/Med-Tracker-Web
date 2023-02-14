@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import editFile from '../../service/edit-document';
+import { getUserData } from "./user";
 
 
 const initialState = {
@@ -9,13 +10,13 @@ const initialState = {
 
 export const editFileById = createAsyncThunk(
     'edit-file/editFileById',
-    async ({document,documentTitle,documentType,description,documentId, enqueueSnackbar},thunkApi) => {
+    async ({document,documentTitle,documentType,description,documentId, enqueueSnackbar, dispatch},thunkApi) => {
         try {
             console.log(documentTitle, "klkk")
             const response = await editFile(document,documentTitle,documentType,description,documentId)
             const variant = 'success';
             enqueueSnackbar('Document Successfully Updated!', {variant} );
-        
+            dispatch(getUserData());
             return response.data;
 
         } catch (error) {

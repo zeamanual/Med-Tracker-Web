@@ -84,7 +84,7 @@ const EditDocumentPage = (props) => {
       documentError.documentErrorMessage === false &&
       documentError.documentTitleErrorMessage === false
     ) {
-      dispatch(editFileById({document, documentTitle, documentType, description, documentId, enqueueSnackbar}));
+      dispatch(editFileById({document, documentTitle, documentType, description, documentId, enqueueSnackbar, dispatch}));
       if (data.isEdited){
         // dispatch(getUserData());
         dispatch(resetStatus());

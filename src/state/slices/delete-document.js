@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import deleteFile from '../../service/delete-document';
+import { getUserData } from "./user";
 
 
 const initialState = {
@@ -9,12 +10,12 @@ const initialState = {
 
 export const deleteFileById = createAsyncThunk(
     'deleteFileById',
-    async ({Id, enqueueSnackbar},thunkApi) => {
+    async ({Id, enqueueSnackbar, dispatch},thunkApi) => {
         try {
             const response = await deleteFile(Id)
             const variant = 'success';
             enqueueSnackbar('Document Successfully Deleted!', {variant} );
-   
+            dispatch(getUserData())
             return response.data;
 
         } catch (error) {
