@@ -6,6 +6,13 @@ export const loginAPI = async (email, password) => {
     password,
   });
 };
+
+export const googleLoginAPI = async (token) => {
+  return clientInstance.post("/api/user/Auth/logIn/google", {
+    accessToken:token
+  });
+};
+
 export const SignupAPI = async (firstName, lastName, email, password) => {
   return clientInstance.post("/api/user/Auth/register", {
     firstName,

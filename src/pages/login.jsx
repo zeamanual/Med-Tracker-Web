@@ -4,7 +4,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { validateEmail } from '../helpers/emailValidatte'
-import { resetLoginFormStatus, userLogin } from '../state/slices/user'
+import { googleLogin, googleLoginError, resetLoginFormStatus, userLogin } from '../state/slices/user'
+import { GoogleLogin,googleLogout } from '@react-oauth/google';
 
 function Login() {
 
@@ -18,7 +19,7 @@ function Login() {
 
     React.useEffect(() => {
         dispatch(resetLoginFormStatus())
-    },[])
+    }, [])
 
     let formSubmitHandler = (e) => {
         e.preventDefault();
@@ -30,7 +31,7 @@ function Login() {
             console.log('not submitted')
         }
     }
-    
+
 
     let emailChangeHandler = (e) => {
         setLoginDetails({ ...loginDetails, email: e.target.value })
@@ -86,8 +87,18 @@ function Login() {
         dispatch(resetLoginFormStatus())
     }
 
-    if(userState.userLogIn.successMsg){
+    if (userState.userLogIn.successMsg) {
         navigate('/home')
+    }
+
+    let loginSuccessHandler = (response)=>{
+        dispatch(googleLogin({token:response.credential}))
+        console.log(response,'response of google log in successful')
+    }
+
+
+    let loginFailHandler = (error)=>{
+        dispatch(googleLoginError())
     }
     return (
         <Box py={5} bgcolor='#f8f8f8' height={'100vh'} display='flex' justifyContent='center' >
@@ -117,8 +128,8 @@ function Login() {
             <Box display={'flex'} flexDirection={'column'} justifyContent='space-between' width={{ xs: '100vw', md: '60vw', lg: '50vw' }}>
                 <Box>
                     <Box display='flex' justifycontent='start' >
-                    <Link to={-1}> <ArrowBack  /> </Link>
-                    
+                        <Link to={-1}> <ArrowBack /> </Link>
+
                     </Box>
                     <Box display={'flex'} flexDirection='column' p={2}>
                         <Typography my={0} sx={{ fontWeight: '800' }} variant='h6'>Login to World Medical Card </Typography>
@@ -126,9 +137,13 @@ function Login() {
                     </Box>
                     <Box m={1} display='flex' justifyContent={'center'} padding={1} bgcolor='white' borderRadius={3}  >
                         {/* <Typography p={1} variant='body1'>Sign-in with Google</Typography> */}
+                        <GoogleLogin
+                        onSuccess={loginSuccessHandler}
+                        onError={loginFailHandler}
+                        ></GoogleLogin>
                     </Box>
                     <Box mt={6} display={'flex'} justifyContent='center'>
-                        {/* <Typography color={'lightGray'} > _______________ <Typography px={2} sx={{ display: 'inline', fontWeight: '600' }} color='gray'>OR</Typography> _______________</Typography> */}
+                        <Typography color={'lightGray'} > _______________ <Typography px={2} sx={{ display: 'inline', fontWeight: '600' }} color='gray'>OR</Typography> _______________</Typography>
                     </Box>
 
                     <Box justifyContent={'space-between'} display={'flex'} flexDirection='column'>
