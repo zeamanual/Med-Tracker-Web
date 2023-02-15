@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { clientInstance } from "../../config/config"
 import { persistAuth, removeAuth } from "../../helpers/authPersistence"
-import { getProfileAPI, getUserDataAPI, loginAPI, profileUpdateAPI, SignupAPI } from "../../service/user"
+import { getProfileAPI, getUserDataAPI, googleLoginAPI, loginAPI, profileUpdateAPI, SignupAPI } from "../../service/user"
 
 let initialState = {
   loading: false,
@@ -49,6 +49,20 @@ export let userLogin = createAsyncThunk(
   async ({ email, password }, thunkApi) => {
     try {
       let response = await loginAPI(email, password)
+      return response.data
+
+    } catch (error) {
+      let errorMsg = error?.response?.data
+      return thunkApi.rejectWithValue(errorMsg ? errorMsg : error.message)
+    }
+  }
+)
+
+export let googleLogin = createAsyncThunk(
+  'user/googlelogin',
+  async ({ token = '' }, thunkApi) => {
+    try {
+      let response = await googleLoginAPI(token)
       return response.data
 
     } catch (error) {
@@ -128,6 +142,10 @@ let userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+
+    googleLoginError: (state) => {
+      state.userLogIn.errorMsg = 'Google Log in Failled Tryi Again!'
+    },
     resetLoginFormStatus: (state) => {
       state.userLogIn.errorMsg = ''
       state.userLogIn.successMsg = ''
@@ -161,9 +179,12 @@ let userSlice = createSlice({
       state.currentUserObjectRaw = ''
       state.token = ''
       state.getProfile.profileObj = ''
-      // clientInstance.defaults.headers = {
-      //     "Authorization": ``,
-      // }
+      clientInstance.defaults.headers = {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
+        "Authorization": ``,
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+      }
     },
     resetUserData: (state) => {
       state.allergies = []
@@ -205,9 +226,15 @@ let userSlice = createSlice({
     })
 
     builder.addCase(userLogin.fulfilled, (state, action) => {
+      state.token = action.payload.token
+      clientInstance.defaults.headers = {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
+        "Authorization": `${state.token}`,
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+      }
       state.userLogIn.loading = false
       state.currentUserObjectRaw = action.payload.user
-      state.token = action.payload.token
       state.allergies = action.payload.user.allergies
       state.vaccines = action.payload.user.vaccines
       state.diagnoses = action.payload.user.diagnoses
@@ -219,9 +246,6 @@ let userSlice = createSlice({
       state.userId = action.payload.user.userId
       persistAuth({ token: state.token, userId: state.userId, email: state.email, fullName: state.fullName })
       state.userLogIn.successMsg = "User Logged in Successfully"
-      // clientInstance.defaults.headers = {
-      //     "Authorization": `${state.token}`,
-      // }
     })
 
     builder.addCase(userLogin.rejected, (state, action) => {
@@ -230,6 +254,44 @@ let userSlice = createSlice({
       state.userLogIn.errorMsg = action.payload
       state.userLogIn.successMsg = ''
     })
+
+
+    // google log in reducer
+    builder.addCase(googleLogin.pending, (state) => {
+      state.userLogIn.loading = true
+      state.userLogIn.errorMsg = ''
+      state.userLogIn.successMsg = ''
+    })
+
+    builder.addCase(googleLogin.fulfilled, (state, action) => {
+      state.token = action.payload.token
+      clientInstance.defaults.headers = {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
+        "Authorization": `${state.token}`,
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+      }
+      state.userLogIn.loading = false
+      state.currentUserObjectRaw = action.payload.user
+      state.allergies = action.payload.user.allergies
+      state.vaccines = action.payload.user.vaccines
+      state.diagnoses = action.payload.user.diagnoses
+      state.medicines = action.payload.user.medicines
+      state.documents = action.payload.user.documents
+      state.email = action.payload.user.email
+      state.fullName = action.payload.user.fullName
+      state.userLogIn.errorMsg = ''
+      state.userId = action.payload.user.userId
+      persistAuth({ token: state.token, userId: state.userId, email: state.email, fullName: state.fullName })
+      state.userLogIn.successMsg = "User Logged in Successfully"
+    })
+
+    builder.addCase(googleLogin.rejected, (state, action) => {
+      state.userLogIn.loading = false
+      state.userLogIn.errorMsg = action.payload
+      state.userLogIn.successMsg = ''
+    })
+
 
     // get user data in reducer
     builder.addCase(getUserData.pending, (state) => {
@@ -302,6 +364,6 @@ let userSlice = createSlice({
 
 
 let userReducer = userSlice.reducer
-export let { resetLoginFormStatus, logout, resetUserData, resetGetProfileStatus, resetSignupFormStatus, resetProfileUpdateFormStatus } = userSlice.actions
+export let { resetLoginFormStatus, logout, googleLoginError, resetUserData, resetGetProfileStatus, resetSignupFormStatus, resetProfileUpdateFormStatus } = userSlice.actions
 
 export default userReducer

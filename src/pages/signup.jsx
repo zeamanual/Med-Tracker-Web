@@ -224,11 +224,11 @@ function Signup() {
             <Typography my={0} sx={{ fontWeight: "800" }} variant="h6">
               Signup to World Medical Card{" "}
             </Typography>
-            <Typography my={2} variant="body1" color="gray">
+            {/* <Typography my={2} variant="body1" color="gray">
               How would you like to sign-up?
-            </Typography>
+            </Typography> */}
           </Box>
-          <Box
+          {/* <Box
             m={1}
             display="flex"
             justifyContent={"center"}
@@ -237,9 +237,9 @@ function Signup() {
             borderRadius={3}
           >
             <Typography p={1} variant="body1">
-              {/* Sign-up with Google */}
+              Sign-up with Google
             </Typography>
-          </Box>
+          </Box> */}
           <Box mt={6} display={"flex"} justifyContent="center">
             {/* <Typography color={"lightGray"}>
               {" "}
